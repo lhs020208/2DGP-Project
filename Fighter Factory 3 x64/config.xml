@@ -41,7 +41,7 @@
     <config name="onion_effect" value="1"/>
     <config name="onion_opacity" value="80"/>
     <config name="preset" value="Classic"/>
-    <config name="proj_path" value="C:/Users/lpet2/Documents/GitHub/2DGP-Project/Kamijo"/>
+    <config name="proj_path" value="C:/Users/lpet2/OneDrive/문서/GitHub/2DGP-Project/kfm"/>
     <config name="quicksearch_back" value="false"/>
     <config name="quicksearch_case" value="false"/>
     <config name="quicksearch_circular" value="false"/>
@@ -72,7 +72,7 @@
     <config name="show_trans_color" value="false"/>
     <config name="snd_path" value=""/>
     <config name="sort_file_names" value="true"/>
-    <config name="spr_path" value="C:/Users/lpet2/Documents/GitHub/2DGP-Project/kamijo_png"/>
+    <config name="spr_path" value="C:/Users/lpet2/OneDrive/문서/GitHub/2DGP-Project/kfm_png"/>
     <config name="sprite_over_guides" value="false"/>
     <config name="stylesheet" value=""/>
     <config name="switch_frame_spr" value="true"/>
@@ -84,7 +84,7 @@
     <config name="use_opengl" value="false"/>
     <config name="window_height" value="766"/>
     <config name="window_left" value="47"/>
-    <config name="window_state" value="0"/>
+    <config name="window_state" value="8"/>
     <config name="window_top" value="71"/>
     <config name="window_width" value="1424"/>
     <config name="zoom_center" value=""/>
