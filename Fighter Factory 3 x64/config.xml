@@ -72,7 +72,7 @@
     <config name="show_trans_color" value="false"/>
     <config name="snd_path" value=""/>
     <config name="sort_file_names" value="true"/>
-    <config name="spr_path" value="C:/Users/lpet2/OneDrive/문서/GitHub/2DGP-Project/kfm_png"/>
+    <config name="spr_path" value="C:/Users/lpet2/OneDrive/문서/GitHub/2DGP-Project/UI"/>
     <config name="sprite_over_guides" value="false"/>
     <config name="stylesheet" value=""/>
     <config name="switch_frame_spr" value="true"/>
