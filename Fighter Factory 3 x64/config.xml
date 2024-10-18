@@ -41,7 +41,7 @@
     <config name="onion_effect" value="1"/>
     <config name="onion_opacity" value="80"/>
     <config name="preset" value="Classic"/>
-    <config name="proj_path" value="C:/Users/lpet2/OneDrive/문서/GitHub/2DGP-Project/kfm"/>
+    <config name="proj_path" value="C:/Users/lpet2/OneDrive/문서/GitHub/2DGP-Project/Kamijo"/>
     <config name="quicksearch_back" value="false"/>
     <config name="quicksearch_case" value="false"/>
     <config name="quicksearch_circular" value="false"/>
