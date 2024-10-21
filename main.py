@@ -30,6 +30,9 @@ class Kamijo:
             self.frame_step += 1
             if self.frame_step == 10:
                 self.frame_step = 0
+        elif self.state == 'block':
+            self.image = load_image('kamijo_sheet/kamijo_block.png')
+
 
 
     def draw(self):
@@ -94,29 +97,40 @@ def handle_events():
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
         if event.type == SDL_KEYDOWN and event.key == SDLK_LEFT: #왼쪽키
-            reset_frame()
-            Player_x = Player_x - 10
-            player.state = 'walk'
-            player.direct = -1
+            if player.state == 'standing':
+                reset_frame()
+                Player_x = Player_x - 10
+                player.state = 'walk'
+                player.direct = -1
         if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT: #오른쪽키
-            reset_frame()
-            Player_x = Player_x + 10
-            player.state = 'walk'
-            player.direct = 1
+            if player.state == 'standing':
+                reset_frame()
+                Player_x = Player_x + 10
+                player.state = 'walk'
+                player.direct = 1
         if event.type == SDL_KEYDOWN and event.key == SDLK_UP: #위키
             reset_frame()
             Player_y = Player_y + 10
         if event.type == SDL_KEYDOWN and event.key == SDLK_DOWN: #아래키
             reset_frame()
             Player_y = Player_y - 10
+        if event.type == SDL_KEYDOWN and event.key == SDLK_z: #방어
+            player.state = 'block'
+            reset_frame()
 
         #ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
         if event.type == SDL_KEYUP and event.key == SDLK_LEFT:  # 왼쪽키
-            reset_frame()
-            player.state = 'standing'
+            if player.state == 'walk':
+                reset_frame()
+                player.state = 'standing'
         if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:  # 오른쪽키
-            reset_frame()
-            player.state = 'standing'
+            if player.state == 'walk':
+                reset_frame()
+                player.state = 'standing'
+        if event.type == SDL_KEYUP and event.key == SDLK_z:  #방어
+            if player.state == 'block':
+                reset_frame()
+                player.state = 'standing'
 
 def reset_world():
     global running
