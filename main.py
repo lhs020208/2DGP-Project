@@ -92,6 +92,12 @@ class Kamijo:
             if self.frame_step == 3:
                 reset_frame()
                 self.state = 'standing'
+        elif self.state == 'thrown':
+            self.image = load_image('kamijo_sheet/kamijo_thrown.png')
+            self.framex, self.framey = self.find_frame_position(self.frame_step, 2, 1, 2)
+            self.frame_step += 1
+            if self.frame_step == 2:
+                self.frame_step = 0
 
 
     def draw(self):
@@ -187,6 +193,9 @@ def handle_events():
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_a:  #공격받음 // 테스트용
             player.state = 'heat'
+            reset_frame()
+        if event.type == SDL_KEYDOWN and event.key == SDLK_s:  #날라감 // 테스트용
+            player.state = 'thrown'
             reset_frame()
 
         #ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
