@@ -7,6 +7,13 @@ Player_x = 400
 Player_y = 120
 
 
+def reset_frame():
+    global player
+
+    player.frame_step = 0
+    player.framex = 0
+    player.framey = 0
+
 class Kamijo:
     image = None
     state = 'standing'
@@ -32,8 +39,10 @@ class Kamijo:
     def update(self):
         if self.state == 'standing':
             self.image = load_image('kamijo_sheet/kamijo_stand.png')
-            self.framex = (self.framex + 1) % 6
-            self.framey = 0
+            self.framex, self.framey = self.find_frame_position(self.frame_step, 6, 1, 6)
+            self.frame_step += 1
+            if self.frame_step == 6:
+                self.frame_step = 0
         elif self.state == 'walk':
             self.image = load_image('kamijo_sheet/kamijo_walk.png')
             self.framex,self.framey = self.find_frame_position(self.frame_step,5,2,10 )
@@ -42,6 +51,8 @@ class Kamijo:
                 self.frame_step = 0
         elif self.state == 'block':
             self.image = load_image('kamijo_sheet/kamijo_block.png')
+            self.framex = 0
+            self.framey = 0
         elif self.state == 'run':
             self.image = load_image('kamijo_sheet/kamijo_run.png')
             self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 3, 13)
@@ -60,6 +71,13 @@ class Kamijo:
             self.frame_step += 1
             if self.frame_step == 10:
                 self.frame_step = 7
+        elif self.state == 'normal_attack':
+            self.image = load_image('kamijo_sheet/kamijo_normal_attack.png')
+            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 1, 5)
+            self.frame_step += 1
+            if self.frame_step == 5:
+                reset_frame()
+                self.state = 'standing'
 
 
     def draw(self):
@@ -107,13 +125,6 @@ class Sky_Grass:
     def update(self):
         pass
 
-def reset_frame():
-    global player
-
-    player.frame_step = 0
-    player.framex = 0
-    player.framey = 0
-
 def handle_events():
     global running, Player_x, Player_y
     global player
@@ -148,11 +159,14 @@ def handle_events():
             if player.state == 'standing' or player.state == 'run' or player.state == 'walk':
                 player.state = 'block'
                 reset_frame()
-        if event.type == SDL_KEYDOWN and event.key == SDLK_LSHIFT:  # 달리기
+        if event.type == SDL_KEYDOWN and event.key == SDLK_LSHIFT:  #달리기
             if player.state == 'walk':
                 player.state = 'run'
                 reset_frame()
-
+        if event.type == SDL_KEYDOWN and event.key == SDLK_x:  #약 공격
+            if player.state == 'standing' or player.state == 'run' or player.state == 'walk':
+                player.state = 'normal_attack'
+                reset_frame()
 
         #ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
         if event.type == SDL_KEYUP and event.key == SDLK_LEFT:  # 왼쪽키
