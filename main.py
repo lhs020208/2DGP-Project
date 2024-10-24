@@ -48,6 +48,18 @@ class Kamijo:
             self.frame_step += 1
             if self.frame_step == 13:
                 self.frame_step = 0
+        elif self.state == 'jump':
+            self.image = load_image('kamijo_sheet/kamijo_jump.png')
+            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 2, 10)
+            self.frame_step += 1
+            if self.frame_step == 10:
+                self.frame_step = 7
+        elif self.state == 'double jump':
+            self.image = load_image('kamijo_sheet/kamijo_jump.png')
+            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 2, 10)
+            self.frame_step += 1
+            if self.frame_step == 10:
+                self.frame_step = 7
 
 
     def draw(self):
@@ -124,14 +136,18 @@ def handle_events():
                 player.state = 'walk'
                 player.direct = 1
         if event.type == SDL_KEYDOWN and event.key == SDLK_UP: #위키
-            reset_frame()
-            Player_y = Player_y + 10
+            if player.state == 'standing' or player.state =='run' or player.state =='walk':
+                reset_frame()
+                player.state = 'jump'
+                Player_y = Player_y + 10
+
         if event.type == SDL_KEYDOWN and event.key == SDLK_DOWN: #아래키
             reset_frame()
             Player_y = Player_y - 10
         if event.type == SDL_KEYDOWN and event.key == SDLK_z: #방어
-            player.state = 'block'
-            reset_frame()
+            if player.state == 'standing' or player.state == 'run' or player.state == 'walk':
+                player.state = 'block'
+                reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_LSHIFT:  # 달리기
             if player.state == 'walk':
                 player.state = 'run'
@@ -140,11 +156,11 @@ def handle_events():
 
         #ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
         if event.type == SDL_KEYUP and event.key == SDLK_LEFT:  # 왼쪽키
-            if player.state == 'walk' or 'run':
+            if player.state == 'walk' or player.state == 'run':
                 reset_frame()
                 player.state = 'standing'
         if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:  # 오른쪽키
-            if player.state == 'walk' or 'run':
+            if player.state == 'walk' or player.state == 'run':
                 reset_frame()
                 player.state = 'standing'
         if event.type == SDL_KEYUP and event.key == SDLK_z:  #방어
