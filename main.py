@@ -18,20 +18,29 @@ class Kamijo:
         self.framey = 0
         self.direct = 1
 
+    def find_frame_position(self, frame_step, w, h, max_frame):
+        frame_index = frame_step
+
+        self.framex = frame_index % w
+        self.framey = frame_index // w
+
+        return self.framex, self.framey
+
     def update(self):
         if self.state == 'standing':
             self.image = load_image('kamijo_sheet/kamijo_stand.png')
             self.framex = (self.framex + 1) % 6
+            self.framey = 0
         elif self.state == 'walk':
             self.image = load_image('kamijo_sheet/kamijo_walk.png')
 
-            self.framex = (self.framex + 1) % 5
-            self.framey = self.frame_step // 5
+            self.framex,self.framey = self.find_frame_position(self.frame_step,5,2,10 )
             self.frame_step += 1
             if self.frame_step == 10:
                 self.frame_step = 0
         elif self.state == 'block':
             self.image = load_image('kamijo_sheet/kamijo_block.png')
+
 
 
 
