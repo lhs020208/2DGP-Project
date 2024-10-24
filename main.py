@@ -78,6 +78,13 @@ class Kamijo:
             if self.frame_step == 5:
                 reset_frame()
                 self.state = 'standing'
+        elif self.state == 'special_attack':
+            self.image = load_image('kamijo_sheet/kamijo_special_attack.png')
+            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 2, 10)
+            self.frame_step += 1
+            if self.frame_step == 10:
+                reset_frame()
+                self.state = 'standing'
 
 
     def draw(self):
@@ -166,6 +173,10 @@ def handle_events():
         if event.type == SDL_KEYDOWN and event.key == SDLK_x:  #약 공격
             if player.state == 'standing' or player.state == 'run' or player.state == 'walk':
                 player.state = 'normal_attack'
+                reset_frame()
+        if event.type == SDL_KEYDOWN and event.key == SDLK_c:  #강 공격
+            if player.state == 'standing' or player.state == 'run' or player.state == 'walk':
+                player.state = 'special_attack'
                 reset_frame()
 
         #ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
