@@ -3,6 +3,7 @@ from pico2d import *
 from grass import Grass
 from kamijo import Kamijo
 from kfm import KFM
+from sky_grass import Sky_Grass
 
 global Player_x
 global Player_y
@@ -16,29 +17,6 @@ def reset_frame():
     player.frame_step = 0
     player.framex = 0
     player.framey = 0
-
-
-class Sky_Grass:
-    def __init__(self, i):
-        self.image = load_image('UI/sky_ground.png')
-        if i == 0:
-            self.x = -100
-            self.y = 330
-        elif i == 1:
-            self.x = 900
-            self.y = 330
-        else:
-            self.x = 400
-            self.y = 530
-
-    def draw(self):
-        global Player_x, Player_y
-        offset_x = Player_x - 400
-        offset_y = Player_y - 120
-        self.image.draw(self.x - offset_x, self.y - offset_y)
-
-    def update(self):
-        pass
 
 def handle_events():
     global running, Player_x, Player_y
@@ -149,7 +127,7 @@ def update_world():
 def render_world():
     clear_canvas()
     for o in world:
-        if isinstance(o, (Grass, KFM)):
+        if isinstance(o, (Grass, Sky_Grass, KFM)):
             o.draw(Player_x, Player_y)
         else:
             o.draw()
