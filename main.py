@@ -1,4 +1,6 @@
 from pico2d import *
+
+from grass import Grass
 from kamijo import Kamijo
 from kfm import KFM
 
@@ -16,20 +18,6 @@ def reset_frame():
     player.framey = 0
 
 
-class Grass:
-    def __init__(self):
-        self.image = load_image('UI/ground.png')
-        self.x = 400
-        self.y = 30
-
-    def draw(self):
-        global Player_x, Player_y
-        offset_x = Player_x - 400
-        offset_y = Player_y - 120
-        self.image.draw(self.x - offset_x, self.y - offset_y)
-
-    def update(self):
-        pass
 class Sky_Grass:
     def __init__(self, i):
         self.image = load_image('UI/sky_ground.png')
@@ -92,11 +80,17 @@ def handle_events():
                 player.state = 'run'
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_x:  #약 공격
-            if player.state == 'standing' or player.state == 'run' or player.state == 'walk':
+            if (player.state == 'standing' or
+                    player.state == 'run' or
+                    player.state == 'walk' or
+                    player.state == 'block'):
                 player.state = 'normal_attack'
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_c:  #강 공격
-            if player.state == 'standing' or player.state == 'run' or player.state == 'walk':
+            if (player.state == 'standing' or
+                    player.state == 'run' or
+                    player.state == 'walk' or
+                    player.state == 'block'):
                 player.state = 'special_attack'
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_a:  #공격받음 // 테스트용
@@ -155,7 +149,7 @@ def update_world():
 def render_world():
     clear_canvas()
     for o in world:
-        if isinstance(o, KFM):
+        if isinstance(o, (Grass, KFM)):
             o.draw(Player_x, Player_y)
         else:
             o.draw()
