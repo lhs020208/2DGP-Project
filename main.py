@@ -140,7 +140,9 @@ def render_world():
     global enemy
     kfm_heatbox = [load_image('kamijo_heatbox.png') for i in range(2)]
     for i in range (2):
-        kfm_heatbox[i].draw(enemy[i].x, enemy[i].y - 15)
+        offset_x = Player_x - 400
+        offset_y = Player_y - 120
+        kfm_heatbox[i].draw(enemy[i].x - offset_x, enemy[i].y - 15 - offset_y)
     update_canvas()
 
 open_canvas()
