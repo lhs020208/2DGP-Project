@@ -134,9 +134,13 @@ def render_world():
 
     #히트박스 좌표 확인
     global player
-    heatbox = load_image('kamijo_heatbox.png')
-    heatbox.draw(player.x, player.y - 15)
+    kamijo_heatbox = load_image('kamijo_heatbox.png')
+    kamijo_heatbox.draw(player.x, player.y - 15)
 
+    global enemy
+    kfm_heatbox = [load_image('kamijo_heatbox.png') for i in range(2)]
+    for i in range (2):
+        kfm_heatbox[i].draw(enemy[i].x, enemy[i].y - 15)
     update_canvas()
 
 open_canvas()
