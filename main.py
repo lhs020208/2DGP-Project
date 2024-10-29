@@ -131,6 +131,12 @@ def render_world():
             o.draw(Player_x, Player_y)
         else:
             o.draw()
+
+    #히트박스 좌표 확인
+    global player
+    heatbox = load_image('kamijo_heatbox.png')
+    heatbox.draw(player.x, player.y - 15)
+
     update_canvas()
 
 open_canvas()
