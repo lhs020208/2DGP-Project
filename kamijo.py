@@ -64,6 +64,7 @@ class Kamijo:
             if self.frame_step == 5:
                 self.reset_frame()
                 self.state = 'standing'
+
         elif self.state == 'special_attack':
             self.image = load_image('kamijo_sheet/kamijo_special_attack.png')
             self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 2, 10)
@@ -97,3 +98,9 @@ class Kamijo:
         self.frame_step = 0
         self.framex = 0
         self.framey = 0
+
+    def get_normal_attack_hitbox(self):
+        if self.state == 'normal_attack' and self.frame_step in [1, 2, 3]:
+            return 1, 40, 80, 93, 77 # 공격 여부, L, R, T, B
+        else:
+            return 0,0,0,0,0

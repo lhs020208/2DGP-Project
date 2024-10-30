@@ -143,6 +143,13 @@ def update_world():
     player_left, player_right, player_top, player_bottom = calculate_player_hitbox(player, offset_x, offset_y)
     enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_hitbox(enemy, offset_x, offset_y)
 
+    global PNA, PNA_left, PNA_right, PNA_top, PNA_bottom
+    global PSA, PSA_left, PSA_right, PSA_top, PSA_bottom
+    if player.state == 'normal_attack':
+        hitbox = player.get_normal_attack_hitbox()
+        PNA, PNA_left, PNA_right, PNA_top, PNA_bottom = hitbox
+        print(player.frame_step)
+
 def render_world():
     clear_canvas()
 
