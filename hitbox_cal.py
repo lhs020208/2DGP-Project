@@ -1,4 +1,4 @@
-def calculate_player_heatbox(player, offset_x, offset_y):
+def calculate_player_hitbox(player, offset_x, offset_y):
     kamijo_box = 140
     kamijo_w = 48
     kamijo_h = 111
@@ -9,7 +9,7 @@ def calculate_player_heatbox(player, offset_x, offset_y):
     return player_left, player_right, player_top, player_bottom
 
 
-def calculate_enemy_heatbox(enemy_list, offset_x, offset_y):
+def calculate_enemy_hitbox(enemy_list, offset_x, offset_y):
     kfm_box = 140
     kfm_w = 47
     kfm_h = 106

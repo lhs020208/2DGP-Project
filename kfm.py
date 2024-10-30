@@ -72,8 +72,8 @@ class KFM:
                 self.framex = 0
                 self.framey = 0
                 self.state = 'standing'
-        elif self.state == 'heat':
-            self.image = load_image('kfm_sheet/kfm_heat.png')
+        elif self.state == 'hit':
+            self.image = load_image('kfm_sheet/kfm_hit.png')
             self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 1, 5)
             self.frame_step += 1
             if self.frame_step == 5:

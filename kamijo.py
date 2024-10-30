@@ -71,8 +71,8 @@ class Kamijo:
             if self.frame_step == 10:
                 self.reset_frame()
                 self.state = 'standing'
-        elif self.state == 'heat':
-            self.image = load_image('kamijo_sheet/kamijo_heat.png')
+        elif self.state == 'hit':
+            self.image = load_image('kamijo_sheet/kamijo_hit.png')
             self.framex, self.framey = self.find_frame_position(self.frame_step, 3, 1, 3)
             self.frame_step += 1
             if self.frame_step == 3:

@@ -1,7 +1,7 @@
 from pico2d import *
 
 from grass import Grass
-from heatbox_cal import calculate_player_heatbox, calculate_enemy_heatbox
+from hitbox_cal import calculate_player_hitbox, calculate_enemy_hitbox
 from kamijo import Kamijo
 from kfm import KFM
 from sky_grass import Sky_Grass
@@ -73,7 +73,7 @@ def handle_events():
                 player.state = 'special_attack'
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_a:  #공격받음 // 테스트용
-            player.state = 'heat'
+            player.state = 'hit'
             reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_s:  #날라감 // 테스트용
             player.state = 'thrown'
@@ -136,8 +136,8 @@ def render_world():
 
         offset_x = Player_x - 400
         offset_y = Player_y - 120
-        player_left, player_right, player_top, player_bottom = calculate_player_heatbox(player, offset_x, offset_y)
-        enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_heatbox(enemy, offset_x, offset_y)
+        player_left, player_right, player_top, player_bottom = calculate_player_hitbox(player, offset_x, offset_y)
+        enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_hitbox(enemy, offset_x, offset_y)
 
     update_canvas()
 
