@@ -154,8 +154,28 @@ def render_world():
     player_top = player.y - kamijo_box/2 + kamijo_h
     player_bottom = player.y - kamijo_box/2
 
-    for i in range(8):
-        heatbox_point[i].draw(player.x, player.y - 15)
+    kfm_box = 140
+    kfm_w = 47
+    kfm_h = 106
+    enemy_left = [0, 0]
+    enemy_right = [0, 0]
+    enemy_top = [0, 0]
+    enemy_bottom = [0, 0]
+    offset_x = Player_x - 400
+    offset_y = Player_y - 120
+    for i in range(2):
+        enemy_x = enemy[i].x - offset_x
+        enemy_y = enemy[i].y - offset_y
+        enemy_left[i] = enemy_x - kfm_w / 2
+        enemy_right[i] = enemy_x + kfm_w / 2
+        enemy_top[i] = enemy_y - kfm_box / 2 + kfm_h
+        enemy_bottom[i] = enemy_y - kfm_box / 2
+
+    for i in range(2):
+        heatbox_point[i].draw(enemy_left[i], enemy_bottom[i])
+        heatbox_point[i].draw(enemy_left[i], enemy_top[i])
+        heatbox_point[i].draw(enemy_right[i], enemy_bottom[i])
+        heatbox_point[i].draw(enemy_right[i], enemy_top[i])
 
     heatbox_point[8].draw(player_left,player_bottom)
     heatbox_point[9].draw(player_left, player_top)
