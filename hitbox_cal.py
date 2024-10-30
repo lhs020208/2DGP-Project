@@ -1,4 +1,4 @@
-def calculate_player_hitbox(player, offset_x, offset_y):
+def calculate_player_hitbox(player):
     kamijo_box = 140
     kamijo_w = 48
     kamijo_h = 111

@@ -103,10 +103,8 @@ class Kamijo:
         if self.state == 'normal_attack' and self.frame_step in [1, 2, 3]:
             kamijo_box = 140
             kamijo_w = 81
-            kamijo_h = 105
             player_left = self.x - kamijo_w / 2
             player_right = self.x + kamijo_w / 2
-            player_top = self.y - kamijo_box / 2 + kamijo_h
             player_bottom = self.y - kamijo_box / 2
 
             if self.direct == 1:

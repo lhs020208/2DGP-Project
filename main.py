@@ -27,6 +27,7 @@ def handle_events():
     global running, Player_x, Player_y
     global player
     global enemy
+    shift = 0
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -37,14 +38,30 @@ def handle_events():
             if player.state == 'standing':
                 reset_frame()
                 Player_x = Player_x - 10
-                player.state = 'walk'
+                if shift == 1:
+                    player.state = 'run'
+                    print("aa")
+                else:
+                    player.state = 'walk'
                 player.direct = -1
+            elif (player.state == 'walk' or player.state == 'run')  and player.direct == 1:
+                reset_frame()
+                player.state = 'standing'
+                player.direct = 1
         if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT: #오른쪽키
             if player.state == 'standing':
                 reset_frame()
                 Player_x = Player_x + 10
-                player.state = 'walk'
+                if shift == 1:
+                    player.state = 'run'
+                    print("aa")
+                else:
+                    player.state = 'walk'
                 player.direct = 1
+            elif (player.state == 'walk' or player.state == 'run') and player.direct == -1:
+                reset_frame()
+                player.state = 'standing'
+                player.direct = -1
         if event.type == SDL_KEYDOWN and event.key == SDLK_UP: #위키
             if player.state == 'standing' or player.state =='run' or player.state =='walk':
                 reset_frame()
@@ -59,8 +76,10 @@ def handle_events():
                 player.state = 'block'
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_LSHIFT:  #달리기
-            if player.state == 'walk':
-                player.state = 'run'
+            shift = 1
+            if player.state == 'walk' or player.state == 'standing':
+                if player.state == 'walk':
+                    player.state = 'run'
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_x:  #약 공격
             if (player.state == 'standing' or
@@ -88,18 +107,37 @@ def handle_events():
             if player.state == 'walk' or player.state == 'run':
                 reset_frame()
                 player.state = 'standing'
+            elif player.state == 'standing':
+                reset_frame()
+                Player_x = Player_x + 10
+                if shift:
+                    player.state = 'run'
+                else:
+                    player.state = 'walk'
+                player.direct = 1
+
         if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:  # 오른쪽키
             if player.state == 'walk' or player.state == 'run':
                 reset_frame()
                 player.state = 'standing'
+            elif player.state == 'standing':
+                reset_frame()
+                Player_x = Player_x - 10
+                if shift:
+                    player.state = 'run'
+                else:
+                    player.state = 'walk'
+                player.direct = -1
         if event.type == SDL_KEYUP and event.key == SDLK_z:  #방어
             if player.state == 'block':
                 reset_frame()
                 player.state = 'standing'
         if event.type == SDL_KEYUP and event.key == SDLK_LSHIFT:  # 달리기
-            if player.state == 'run':
+            shift = 0
+            if player.state == 'run' or player.state == 'standing':
+                if player.state == 'run':
+                    player.state = 'walk'
                 reset_frame()
-                player.state = 'walk'
 
 def reset_world():
     global running
@@ -140,7 +178,7 @@ def update_world():
     global enemy_left, enemy_right, enemy_top, enemy_bottom
     offset_x = Player_x - 400
     offset_y = Player_y - 120
-    player_left, player_right, player_top, player_bottom = calculate_player_hitbox(player, offset_x, offset_y)
+    player_left, player_right, player_top, player_bottom = calculate_player_hitbox(player)
     enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_hitbox(enemy, offset_x, offset_y)
 
     global PNA, PNA_left, PNA_right, PNA_top, PNA_bottom
