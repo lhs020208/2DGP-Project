@@ -11,6 +11,11 @@ global Player_y
 global player_left, player_right, player_top, player_bottom
 global enemy_left, enemy_right, enemy_top, enemy_bottom
 
+global PNA,PNA_left, PNA_right, PNA_top, PNA_bottom
+global PSA,PSA_left, PSA_right, PSA_top, PSA_bottom
+global ENA,ENA_left, ENA_right, ENA_toE, ENA_bottom
+global ESA,ESA_left, ESA_right, ESA_toE, ESA_bottom
+
 Player_x = 400
 Player_y = 120
 
