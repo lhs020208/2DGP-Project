@@ -58,23 +58,41 @@ def handle_events():
             walk -= 1
             if player.state in ['standing', 'walk', 'run']:
                 reset_frame()
-                Player_x -= 10
                 if walk == -1:
                     player.direct = -1
+                    Player_x -= 10
                 elif walk == 0:
-                    player.direct = 0
-                if walk == 0:
                     player.direct = 1
         if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT: #오른쪽키
             walk += 1
             if player.state in ['standing', 'walk', 'run']:
                 reset_frame()
-                Player_x += 10
                 if walk == 1:
                     player.direct = 1
+                    Player_x += 10
                 elif walk == 0:
                     player.direct = 0
 
+        if event.type == SDL_KEYUP and event.key == SDLK_LEFT:  # 왼쪽키
+            walk += 1
+            if player.state in ['standing', 'walk', 'run']:
+                reset_frame()
+                if walk == 1:
+                    player.direct = 1
+                    Player_x += 10
+                elif walk == 0:
+                    player.direct = 0
+
+        if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:  # 오른쪽키
+            walk -= 1
+            if player.state in ['standing', 'walk', 'run']:
+                reset_frame()
+                if walk == -1:
+                    player.direct = -1
+                    Player_x -= 10
+                elif walk == 0:
+                    player.direct = 1
+        # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
         if event.type == SDL_KEYDOWN and event.key == SDLK_UP: #위키
             if player.state == 'standing' or player.state =='run' or player.state =='walk':
                 reset_frame()
@@ -111,29 +129,7 @@ def handle_events():
         if event.type == SDL_KEYDOWN and event.key == SDLK_s:  #날라감 // 테스트용
             player.state = 'thrown'
             reset_frame()
-
         #ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-        if event.type == SDL_KEYUP and event.key == SDLK_LEFT:  # 왼쪽키
-            walk += 1
-            if player.state in ['standing', 'walk', 'run']:
-                reset_frame()
-                if walk == 1:
-                    player.direct = 1
-                    Player_x += 10
-                elif walk == 0:
-                    player.direct = 0
-
-        if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:  # 오른쪽키
-            walk -= 1
-            if player.state in ['standing', 'walk', 'run']:
-                reset_frame()
-                if walk == -1:
-                    player.direct = -1
-                    Player_x -= 10
-                elif walk == 0:
-                    player.direct = 0
-                if walk == 0:
-                    player.direct = 1
         if event.type == SDL_KEYUP and event.key == SDLK_z:  #방어
             if player.state == 'block':
                 reset_frame()
@@ -145,7 +141,6 @@ def handle_events():
         if event.type == SDL_KEYUP or event.type == SDL_KEYDOWN:
             player.state = decide_state(player.state, walk, shift)
             player.direct = decide_direct(player.state, player.direct ,walk)
-            print(player.state)
 
 def reset_world():
     global running
