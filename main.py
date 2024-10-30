@@ -16,9 +16,6 @@ global PSA,PSA_left, PSA_right, PSA_top, PSA_bottom
 global ENA,ENA_left, ENA_right, ENA_toE, ENA_bottom
 global ESA,ESA_left, ESA_right, ESA_toE, ESA_bottom
 
-Player_x = 400
-Player_y = 120
-
 def reset_frame():
     global player
 
@@ -111,6 +108,13 @@ def reset_world():
     global player
     global enemy
     global world
+
+    global Player_x
+    global Player_y
+    global PNA, PSA, ENA, ESA
+    Player_x = 400
+    Player_y = 120
+    PNA, PSA, ENA, ESA = 0,0,0,0
 
     running = True
     world = []
