@@ -183,6 +183,9 @@ def update_world():
     if player.state == 'normal_attack':
         hitbox = player.get_normal_attack_hitbox()
         PNA, PNA_left, PNA_right, PNA_top, PNA_bottom = hitbox
+    elif player.state == 'special_attack':
+        hitbox = player.get_special_attack_hitbox()
+        PSA, PSA_left, PSA_right, PSA_top, PSA_bottom = hitbox
 
 def render_world():
     clear_canvas()
@@ -194,12 +197,18 @@ def render_world():
             o.draw()
 
     global PNA, PNA_left, PNA_right, PNA_top, PNA_bottom
+    global PSA, PSA_left, PSA_right, PSA_top, PSA_bottom
+    hitbox_point = [load_image('heatbox_point.png') for _ in range(4)]
     if PNA == 1:
-        heatbox_point = [load_image('heatbox_point.png') for _ in range(4)]
-        heatbox_point[0].draw(PNA_left, PNA_bottom)
-        heatbox_point[1].draw(PNA_left, PNA_top)
-        heatbox_point[2].draw(PNA_right, PNA_bottom)
-        heatbox_point[3].draw(PNA_right, PNA_top)
+        hitbox_point[0].draw(PNA_left, PNA_bottom)
+        hitbox_point[1].draw(PNA_left, PNA_top)
+        hitbox_point[2].draw(PNA_right, PNA_bottom)
+        hitbox_point[3].draw(PNA_right, PNA_top)
+    elif PSA == 1:
+        hitbox_point[0].draw(PSA_left, PSA_bottom)
+        hitbox_point[1].draw(PSA_left, PSA_top)
+        hitbox_point[2].draw(PSA_right, PSA_bottom)
+        hitbox_point[3].draw(PSA_right, PSA_top)
 
     update_canvas()
 

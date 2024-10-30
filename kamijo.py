@@ -121,3 +121,26 @@ class Kamijo:
             return 1, PNA_left, PNA_right, PNA_top, PNA_bottom # 공격 여부, L, R, T, B
         else:
             return 0,0,0,0,0
+
+    def get_special_attack_hitbox(self):
+        if self.state == 'special_attack' and self.frame_step in [1, 2, 3, 4]:
+            kamijo_box = 140
+            kamijo_w = 109
+            player_left = self.x - kamijo_w / 2
+            player_right = self.x + kamijo_w / 2
+            player_bottom = self.y - kamijo_box / 2
+
+            if self.direct == 1:
+                PSA_left = player_left + 50
+                PSA_right = player_left + 109
+                PSA_top = player_bottom + 45
+                PSA_bottom = player_bottom + 64
+            else:
+                PSA_left = player_right - 50
+                PSA_right = player_right - 109
+                PSA_top = player_bottom + 45
+                PSA_bottom = player_bottom + 64
+
+            return 1, PSA_left, PSA_right, PSA_top, PSA_bottom # 공격 여부, L, R, T, B
+        else:
+            return 0,0,0,0,0
