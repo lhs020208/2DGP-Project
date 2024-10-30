@@ -23,11 +23,31 @@ def reset_frame():
     player.framex = 0
     player.framey = 0
 
+def decide_state(state, walk, shift):
+    state_result = state
+    if state in ['standing', 'walk', 'run']:
+        if walk != 0:
+            state_result = 'walk'
+            if shift == 1:
+                state_result = 'run'
+        else: state_result = 'standing'
+    return state_result
+def decide_direct(state,direct,walk):
+    direct_result = direct
+    if state in ['walk', 'run']:
+        if walk > 0:
+            direct_result = 1
+        elif walk < 0:
+            direct_result = -1
+    return direct_result
+
 def handle_events():
     global running, Player_x, Player_y
     global player
     global enemy
     global shift
+    global walk
+
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -35,33 +55,26 @@ def handle_events():
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
         if event.type == SDL_KEYDOWN and event.key == SDLK_LEFT: #왼쪽키
-            if player.state == 'standing':
+            walk -= 1
+            if player.state in ['standing', 'walk', 'run']:
                 reset_frame()
-                Player_x = Player_x - 10
-                if shift == 1:
-                    player.state = 'run'
-                    print("aa")
-                else:
-                    player.state = 'walk'
-                player.direct = -1
-            elif (player.state == 'walk' or player.state == 'run')  and player.direct == 1:
-                reset_frame()
-                player.state = 'standing'
-                player.direct = 1
+                Player_x -= 10
+                if walk == -1:
+                    player.direct = -1
+                elif walk == 0:
+                    player.direct = 0
+                if walk == 0:
+                    player.direct = 1
         if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT: #오른쪽키
-            if player.state == 'standing':
+            walk += 1
+            if player.state in ['standing', 'walk', 'run']:
                 reset_frame()
-                Player_x = Player_x + 10
-                if shift == 1:
-                    player.state = 'run'
-                    print("aa")
-                else:
-                    player.state = 'walk'
-                player.direct = 1
-            elif (player.state == 'walk' or player.state == 'run') and player.direct == -1:
-                reset_frame()
-                player.state = 'standing'
-                player.direct = -1
+                Player_x += 10
+                if walk == 1:
+                    player.direct = 1
+                elif walk == 0:
+                    player.direct = 0
+
         if event.type == SDL_KEYDOWN and event.key == SDLK_UP: #위키
             if player.state == 'standing' or player.state =='run' or player.state =='walk':
                 reset_frame()
@@ -77,10 +90,7 @@ def handle_events():
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_LSHIFT:  #달리기
             shift = 1
-            if player.state == 'walk' or player.state == 'standing':
-                if player.state == 'walk':
-                    player.state = 'run'
-                reset_frame()
+            reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_x:  #약 공격
             if (player.state == 'standing' or
                     player.state == 'run' or
@@ -104,40 +114,38 @@ def handle_events():
 
         #ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
         if event.type == SDL_KEYUP and event.key == SDLK_LEFT:  # 왼쪽키
-            if player.state == 'walk' or player.state == 'run':
+            walk += 1
+            if player.state in ['standing', 'walk', 'run']:
                 reset_frame()
-                player.state = 'standing'
-            elif player.state == 'standing':
-                reset_frame()
-                Player_x = Player_x + 10
-                if shift:
-                    player.state = 'run'
-                else:
-                    player.state = 'walk'
-                player.direct = 1
+                if walk == 1:
+                    player.direct = 1
+                    Player_x += 10
+                elif walk == 0:
+                    player.direct = 0
 
         if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:  # 오른쪽키
-            if player.state == 'walk' or player.state == 'run':
+            walk -= 1
+            if player.state in ['standing', 'walk', 'run']:
                 reset_frame()
-                player.state = 'standing'
-            elif player.state == 'standing':
-                reset_frame()
-                Player_x = Player_x - 10
-                if shift:
-                    player.state = 'run'
-                else:
-                    player.state = 'walk'
-                player.direct = -1
+                if walk == -1:
+                    player.direct = -1
+                    Player_x -= 10
+                elif walk == 0:
+                    player.direct = 0
+                if walk == 0:
+                    player.direct = 1
         if event.type == SDL_KEYUP and event.key == SDLK_z:  #방어
             if player.state == 'block':
                 reset_frame()
                 player.state = 'standing'
         if event.type == SDL_KEYUP and event.key == SDLK_LSHIFT:  # 달리기
             shift = 0
-            if player.state == 'run' or player.state == 'standing':
-                if player.state == 'run':
-                    player.state = 'walk'
-                reset_frame()
+            reset_frame()
+
+        if event.type == SDL_KEYUP or event.type == SDL_KEYDOWN:
+            player.state = decide_state(player.state, walk, shift)
+            player.direct = decide_direct(player.state, player.direct ,walk)
+            print(player.state)
 
 def reset_world():
     global running
