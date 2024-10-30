@@ -1,6 +1,7 @@
 from pico2d import *
 
 from grass import Grass
+from heatbox_cal import calculate_player_heatbox, calculate_enemy_heatbox
 from kamijo import Kamijo
 from kfm import KFM
 from sky_grass import Sky_Grass
@@ -124,6 +125,7 @@ def update_world():
     for o in world:
         o.update()
 
+
 def render_world():
     clear_canvas()
     for o in world:
@@ -132,55 +134,10 @@ def render_world():
         else:
             o.draw()
 
-    #히트박스 좌표 확인
-    global player
-    kamijo_heatbox = load_image('kamijo_heatbox.png')
-    kamijo_heatbox.draw(player.x, player.y - 15)
-
-    global enemy
-    kfm_heatbox = [load_image('kfm_heatbox.png') for _ in range(2)]
-    for i in range (2):
         offset_x = Player_x - 400
         offset_y = Player_y - 120
-        kfm_heatbox[i].draw(enemy[i].x - offset_x, enemy[i].y - 15 - offset_y)
-
-    heatbox_point = [load_image('heatbox_point.png') for _ in range(12)]
-
-    kamijo_box = 140
-    kamijo_w = 48
-    kamijo_h = 111
-    player_left = player.x - kamijo_w/2
-    player_right = player.x + kamijo_w / 2
-    player_top = player.y - kamijo_box/2 + kamijo_h
-    player_bottom = player.y - kamijo_box/2
-
-    kfm_box = 140
-    kfm_w = 47
-    kfm_h = 106
-    enemy_left = [0, 0]
-    enemy_right = [0, 0]
-    enemy_top = [0, 0]
-    enemy_bottom = [0, 0]
-    offset_x = Player_x - 400
-    offset_y = Player_y - 120
-    for i in range(2):
-        enemy_x = enemy[i].x - offset_x
-        enemy_y = enemy[i].y - offset_y
-        enemy_left[i] = enemy_x - kfm_w / 2
-        enemy_right[i] = enemy_x + kfm_w / 2
-        enemy_top[i] = enemy_y - kfm_box / 2 + kfm_h
-        enemy_bottom[i] = enemy_y - kfm_box / 2
-
-    for i in range(2):
-        heatbox_point[i].draw(enemy_left[i], enemy_bottom[i])
-        heatbox_point[i].draw(enemy_left[i], enemy_top[i])
-        heatbox_point[i].draw(enemy_right[i], enemy_bottom[i])
-        heatbox_point[i].draw(enemy_right[i], enemy_top[i])
-
-    heatbox_point[8].draw(player_left,player_bottom)
-    heatbox_point[9].draw(player_left, player_top)
-    heatbox_point[10].draw(player_right, player_bottom)
-    heatbox_point[11].draw(player_right, player_top)
+        player_left, player_right, player_top, player_bottom = calculate_player_heatbox(player, offset_x, offset_y)
+        enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_heatbox(enemy, offset_x, offset_y)
 
     update_canvas()
 
