@@ -27,7 +27,7 @@ def handle_events():
     global running, Player_x, Player_y
     global player
     global enemy
-    shift = 0
+    global shift
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -153,6 +153,11 @@ def reset_world():
     Player_x = 400
     Player_y = 120
     PNA, PSA, ENA, ESA = 0,0,0,0
+
+    global shift
+    global walk
+    shift = 0
+    walk = 0
 
     running = True
     world = []
