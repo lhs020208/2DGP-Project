@@ -141,7 +141,7 @@ def reset_world():
     global Player_y
     global PNA, PSA, ENA, ESA
     Player_x = 400
-    Player_y = 120
+    Player_y = 125
     PNA, PSA, ENA, ESA = 0,0,0,0
 
     global shift
@@ -161,12 +161,12 @@ def reset_world():
     sky_grass = [Sky_Grass(i) for i in range(3)]
     world += sky_grass
 
-    player = Kamijo()
-    world.append(player)
-
     enemy = [KFM() for i in range(2)]
     enemy[1].x -= 100
     world += enemy
+
+    player = Kamijo()
+    world.append(player)
 
 def update_world():
     for o in world:

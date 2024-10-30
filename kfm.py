@@ -6,7 +6,7 @@ class KFM:
     state = 'standing'
     def __init__(self):
         self.x = 450
-        self.y = 120
+        self.y = 125
         self.frame_step = 0
         self.framex = 0
         self.framey = 0
