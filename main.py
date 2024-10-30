@@ -1,5 +1,6 @@
 from pico2d import *
 
+from background import BGP
 from decide_states import decide_state, decide_direct
 from grass import Grass
 from hitbox_cal import calculate_player_hitbox, calculate_enemy_hitbox
@@ -16,6 +17,7 @@ global PNA,PNA_left, PNA_right, PNA_top, PNA_bottom
 global PSA,PSA_left, PSA_right, PSA_top, PSA_bottom
 global ENA,ENA_left, ENA_right, ENA_toE, ENA_bottom
 global ESA,ESA_left, ESA_right, ESA_toE, ESA_bottom
+
 
 def reset_frame():
     global player
@@ -133,6 +135,7 @@ def reset_world():
     global player
     global enemy
     global world
+    global background
 
     global Player_x
     global Player_y
@@ -148,6 +151,9 @@ def reset_world():
 
     running = True
     world = []
+
+    background = BGP()
+    world.append(background)
 
     grass = Grass()
     world.append(grass)
