@@ -136,19 +136,22 @@ def update_world():
     for o in world:
         o.update()
 
+    global player_left, player_right, player_top, player_bottom
+    global enemy_left, enemy_right, enemy_top, enemy_bottom
+    offset_x = Player_x - 400
+    offset_y = Player_y - 120
+    player_left, player_right, player_top, player_bottom = calculate_player_hitbox(player, offset_x, offset_y)
+    enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_hitbox(enemy, offset_x, offset_y)
 
 def render_world():
     clear_canvas()
+
     for o in world:
         if isinstance(o, (Grass, Sky_Grass, KFM)):
             o.draw(Player_x, Player_y)
         else:
             o.draw()
 
-        offset_x = Player_x - 400
-        offset_y = Player_y - 120
-        player_left, player_right, player_top, player_bottom = calculate_player_hitbox(player, offset_x, offset_y)
-        enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_hitbox(enemy, offset_x, offset_y)
 
     update_canvas()
 
