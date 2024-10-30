@@ -138,9 +138,9 @@ def handle_events():
             shift = 0
             reset_frame()
 
-        if event.type == SDL_KEYUP or event.type == SDL_KEYDOWN:
-            player.state = decide_state(player.state, walk, shift)
-            player.direct = decide_direct(player.state, player.direct ,walk)
+        #if event.type == SDL_KEYUP or event.type == SDL_KEYDOWN:
+        #    player.state = decide_state(player.state, walk, shift)
+        #    player.direct = decide_direct(player.state, player.direct ,walk)
 
 def reset_world():
     global running
@@ -181,6 +181,10 @@ def reset_world():
 def update_world():
     for o in world:
         o.update()
+
+    if player.state in ['standing', 'walk', 'run']:
+        player.state = decide_state(player.state, walk, shift)
+        player.direct = decide_direct(player.state, player.direct, walk)
 
     global player_left, player_right, player_top, player_bottom
     global enemy_left, enemy_right, enemy_top, enemy_bottom
