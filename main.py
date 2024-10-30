@@ -40,6 +40,14 @@ def decide_direct(state,direct,walk):
         elif walk < 0:
             direct_result = -1
     return direct_result
+def move_x(state, walk, shift):
+    global Player_x
+    if state in ['walk', 'run']:
+        step_size = 5
+        if shift: step_size = 10
+        if walk < 0:
+            step_size = step_size * -1
+        Player_x += step_size
 
 def handle_events():
     global running, Player_x, Player_y
@@ -60,7 +68,6 @@ def handle_events():
                 reset_frame()
                 if walk == -1:
                     player.direct = -1
-                    Player_x -= 10
                 elif walk == 0:
                     player.direct = 1
         if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT: #오른쪽키
@@ -69,7 +76,6 @@ def handle_events():
                 reset_frame()
                 if walk == 1:
                     player.direct = 1
-                    Player_x += 10
                 elif walk == 0:
                     player.direct = 0
 
@@ -79,7 +85,6 @@ def handle_events():
                 reset_frame()
                 if walk == 1:
                     player.direct = 1
-                    Player_x += 10
                 elif walk == 0:
                     player.direct = 0
 
@@ -89,7 +94,6 @@ def handle_events():
                 reset_frame()
                 if walk == -1:
                     player.direct = -1
-                    Player_x -= 10
                 elif walk == 0:
                     player.direct = 1
         # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -138,10 +142,6 @@ def handle_events():
             shift = 0
             reset_frame()
 
-        #if event.type == SDL_KEYUP or event.type == SDL_KEYDOWN:
-        #    player.state = decide_state(player.state, walk, shift)
-        #    player.direct = decide_direct(player.state, player.direct ,walk)
-
 def reset_world():
     global running
     global grass
@@ -185,6 +185,7 @@ def update_world():
     if player.state in ['standing', 'walk', 'run']:
         player.state = decide_state(player.state, walk, shift)
         player.direct = decide_direct(player.state, player.direct, walk)
+    move_x(player.state, walk, shift)
 
     global player_left, player_right, player_top, player_bottom
     global enemy_left, enemy_right, enemy_top, enemy_bottom
