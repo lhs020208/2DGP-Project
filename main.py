@@ -148,7 +148,6 @@ def update_world():
     if player.state == 'normal_attack':
         hitbox = player.get_normal_attack_hitbox()
         PNA, PNA_left, PNA_right, PNA_top, PNA_bottom = hitbox
-        print(player.frame_step)
 
 def render_world():
     clear_canvas()
@@ -159,6 +158,13 @@ def render_world():
         else:
             o.draw()
 
+    global PNA, PNA_left, PNA_right, PNA_top, PNA_bottom
+    if PNA == 1:
+        heatbox_point = [load_image('heatbox_point.png') for _ in range(4)]
+        heatbox_point[0].draw(PNA_left, PNA_bottom)
+        heatbox_point[1].draw(PNA_left, PNA_top)
+        heatbox_point[2].draw(PNA_right, PNA_bottom)
+        heatbox_point[3].draw(PNA_right, PNA_top)
 
     update_canvas()
 
