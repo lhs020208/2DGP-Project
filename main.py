@@ -8,9 +8,11 @@ from sky_grass import Sky_Grass
 
 global Player_x
 global Player_y
+global player_left, player_right, player_top, player_bottom
+global enemy_left, enemy_right, enemy_top, enemy_bottom
+
 Player_x = 400
 Player_y = 120
-
 
 def reset_frame():
     global player
