@@ -101,6 +101,25 @@ class Kamijo:
 
     def get_normal_attack_hitbox(self):
         if self.state == 'normal_attack' and self.frame_step in [1, 2, 3]:
-            return 1, 40, 80, 93, 77 # 공격 여부, L, R, T, B
+            kamijo_box = 140
+            kamijo_w = 81
+            kamijo_h = 105
+            player_left = self.x - kamijo_w / 2
+            player_right = self.x + kamijo_w / 2
+            player_top = self.y - kamijo_box / 2 + kamijo_h
+            player_bottom = self.y - kamijo_box / 2
+
+            if self.direct == 1:
+                PNA_left = player_left + 40
+                PNA_right = player_left + 80
+                PNA_top = player_bottom + 93
+                PNA_bottom = player_bottom + 77
+            else:
+                PNA_left = player_right - 40
+                PNA_right = player_right - 80
+                PNA_top = player_bottom + 93
+                PNA_bottom = player_bottom + 77
+
+            return 1, PNA_left, PNA_right, PNA_top, PNA_bottom # 공격 여부, L, R, T, B
         else:
             return 0,0,0,0,0
