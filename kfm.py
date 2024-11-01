@@ -96,3 +96,59 @@ class KFM:
             self.image.clip_draw(self.framex * 140, self.framey * 140, 140, 140, self.x- offset_x, self.y- offset_y,150, 150)
         else:
             self.image.clip_composite_draw(self.framex * 140, self.framey * 140, 140, 140, 0, 'h', self.x- offset_x, self.y- offset_y, 150, 150)
+
+    def get_normal_attack_hitbox(self, player_x, player_y):
+        offset_x = player_x - 400
+        offset_y = player_y - 120
+        pos_x = self.x - offset_x
+        pos_y = self.y - offset_y
+        if self.state == 'normal_attack' and self.frame_step in [3]:
+
+            kfm_box = 140
+            kfm_w = 95
+            kfm_left = pos_x - kfm_w / 2
+            kfm_right = pos_x + kfm_w / 2
+            kfm_bottom = pos_y - kfm_box / 2
+
+            if self.direct == 1:
+                ENA_left = kfm_left
+                ENA_right = kfm_left + 94
+                ENA_top = kfm_bottom + 61
+                ENA_bottom = kfm_bottom + 88
+            else:
+                ENA_left = kfm_right
+                ENA_right = kfm_right - 94
+                ENA_top = kfm_bottom + 61
+                ENA_bottom = kfm_bottom + 88
+
+            return 1, ENA_left, ENA_right, ENA_top, ENA_bottom # 공격 여부, L, R, T, B
+        else:
+            return 0,0,0,0,0
+
+    def get_special_attack_hitbox(self, player_x, player_y):
+        offset_x = player_x - 400
+        offset_y = player_y - 120
+        pos_x = self.x - offset_x
+        pos_y = self.y - offset_y
+        if self.state == 'special_attack' and self.frame_step in [2, 3]:
+
+            kfm_box = 140
+            kfm_w = 81
+            kfm_left = pos_x - kfm_w / 2
+            kfm_right = pos_x + kfm_w / 2
+            kfm_bottom = pos_y - kfm_box / 2
+
+            if self.direct == 1:
+                ENA_left = kfm_left + 50
+                ENA_right = kfm_left + 109
+                ENA_top = kfm_bottom + 45
+                ENA_bottom = kfm_bottom + 64
+            else:
+                ENA_left = kfm_right - 50
+                ENA_right = kfm_right - 109
+                ENA_top = kfm_bottom + 45
+                ENA_bottom = kfm_bottom + 64
+
+            return 1, ENA_left, ENA_right, ENA_top, ENA_bottom # 공격 여부, L, R, T, B
+        else:
+            return 0,0,0,0,0
