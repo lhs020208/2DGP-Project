@@ -115,6 +115,11 @@ def handle_events():
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_a:  #공격받음 // 테스트용
             player.state = 'hit'
+
+            for i in range(2):
+                enemy[i].state = 'normal_attack'
+                enemy[i].frame_step = 0
+
             reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_s:  #날라감 // 테스트용
             player.state = 'thrown'
