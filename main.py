@@ -15,8 +15,8 @@ global enemy_left, enemy_right, enemy_top, enemy_bottom
 
 global PNA,PNA_left, PNA_right, PNA_top, PNA_bottom
 global PSA,PSA_left, PSA_right, PSA_top, PSA_bottom
-global ENA,ENA_left, ENA_right, ENA_toE, ENA_bottom
-global ESA,ESA_left, ESA_right, ESA_toE, ESA_bottom
+global ENA, ENA_left, ENA_right, ENA_top, ENA_bottom
+global ESA,ESA_left, ESA_right, ESA_top, ESA_bottom
 
 
 def reset_frame():
@@ -197,6 +197,16 @@ def update_world():
     elif player.state == 'special_attack':
         hitbox = player.get_special_attack_hitbox()
         PSA, PSA_left, PSA_right, PSA_top, PSA_bottom = hitbox
+
+    global ENA, ENA_left, ENA_right, ENA_top, ENA_bottom
+    global ESA, ESA_left, ESA_right, ESA_top, ESA_bottom
+    for i in range(2):
+        if enemy[i].state == 'normal_attack':
+            hitbox = enemy[i].get_normal_attack_hitbox()
+            ENA[i], ENA_left[i], ENA_right[i], ENA_top[i], ENA_bottom[i] = hitbox
+        elif enemy[i].state == 'special_attack':
+            hitbox = enemy[i].get_special_attack_hitbox()
+            ENA[i], ENA_left[i], ENA_right[i], ENA_top[i], ENA_bottom[i] = hitbox
 
 def render_world():
     clear_canvas()
