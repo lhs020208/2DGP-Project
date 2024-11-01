@@ -133,21 +133,21 @@ class KFM:
         if self.state == 'special_attack' and self.frame_step in [2, 3]:
 
             kfm_box = 140
-            kfm_w = 81
+            kfm_w = 93
             kfm_left = pos_x - kfm_w / 2
             kfm_right = pos_x + kfm_w / 2
             kfm_bottom = pos_y - kfm_box / 2
 
             if self.direct == 1:
-                ENA_left = kfm_left + 50
-                ENA_right = kfm_left + 109
-                ENA_top = kfm_bottom + 45
-                ENA_bottom = kfm_bottom + 64
+                ENA_left = kfm_left + 31
+                ENA_right = kfm_left + 92
+                ENA_top = kfm_bottom + 52
+                ENA_bottom = kfm_bottom + 67
             else:
-                ENA_left = kfm_right - 50
-                ENA_right = kfm_right - 109
-                ENA_top = kfm_bottom + 45
-                ENA_bottom = kfm_bottom + 64
+                ENA_left = kfm_right - 31
+                ENA_right = kfm_right - 92
+                ENA_top = kfm_bottom + 52
+                ENA_bottom = kfm_bottom + 67
 
             return 1, ENA_left, ENA_right, ENA_top, ENA_bottom # 공격 여부, L, R, T, B
         else:
