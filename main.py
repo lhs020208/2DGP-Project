@@ -100,17 +100,11 @@ def handle_events():
             shift = 1
             reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_x:  #약 공격
-            if (player.state == 'standing' or
-                    player.state == 'run' or
-                    player.state == 'walk' or
-                    player.state == 'block'):
+            if player.state in ['standing', 'run' ,'walk','block', 'normal_attack']:
                 player.state = 'normal_attack'
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_c:  #강 공격
-            if (player.state == 'standing' or
-                    player.state == 'run' or
-                    player.state == 'walk' or
-                    player.state == 'block'):
+            if player.state in ['standing', 'run' ,'walk','block', 'normal_attack']:
                 player.state = 'special_attack'
                 reset_frame()
         if event.type == SDL_KEYDOWN and event.key == SDLK_a:  #공격받음 // 테스트용
