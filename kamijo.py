@@ -22,7 +22,7 @@ class Kamijo:
 
         return self.framex, self.framey
 
-    def update(self):
+    def update(self, speed_Y):
         if self.state == 'standing':
             self.image = load_image('kamijo_sheet/kamijo_stand.png')
             self.framex, self.framey = self.find_frame_position(self.frame_step, 6, 1, 6)
@@ -85,7 +85,15 @@ class Kamijo:
             self.frame_step += 1
             if self.frame_step == 2:
                 self.frame_step = 0
-
+        elif self.state == 'fall':
+            self.image = load_image('kamijo_sheet/kamijo_jump.png')
+            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 2, 10)
+            self.frame_step += 1
+            if self.frame_step == 10:
+                self.frame_step = 7
+        if self.state in ['standing', 'walk', 'run','block','normal_attack','special_attack'] and speed_Y < 0:
+            self.state = 'fall'
+            self.frame_step = 7
 
     def draw(self):
         if self.direct == 1:

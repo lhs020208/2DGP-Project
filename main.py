@@ -43,8 +43,15 @@ def move_x(state, walk, shift):
         elif speed > 0: speed -=1
 
     Player_x += speed
-def fall():
+def fall(player, enemy):
+    global speed_Y, E_speed_Y
 
+    speed_Y -= gravity
+    player.y += speed_Y
+
+    for i in range(2):
+        E_speed_Y[i] -= gravity
+        enemy[i].y += E_speed_Y[i]
 
 def handle_events():
     global running, Player_x, Player_y
@@ -79,7 +86,7 @@ def reset_world():
 
     global sky_floor_L, sky_floor_R, sky_floor_T
 
-    global normal_speed_max, run_speed_max,
+    global normal_speed_max, run_speed_max
     global gravity
     global speed, E_speed
     global speed_Y, E_speed_Y
@@ -97,7 +104,7 @@ def reset_world():
 
     normal_speed_max = 5
     run_speed_max = 10
-    gravity = 1
+    gravity = 2
     speed, speed_Y = 0, 0
     E_speed, E_speed_Y = [0,0], [0,0]
 
@@ -126,14 +133,25 @@ def reset_world():
     world.append(player)
 
 def update_world():
+    global player
+    global enemy
 
     for o in world:
-        o.update()
+        if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
+            o.update(speed_Y)  # player에 필요한 인자 전달
+        elif isinstance(o, KFM):  # KFM 클래스의 enemy 객체인 경우
+            if o == enemy[0]:
+                o.update(E_speed_Y[0])  # enemy[0]에 필요한 인자 전달
+            elif o == enemy[1]:
+                o.update(E_speed_Y[1])  # enemy[1]에 필요한 인자 전달
+        else:
+            o.update()  # 다른 객체는 인자 없이 호출
 
     if player.state in ['standing', 'walk', 'run']:
         player.state = decide_state(player.state, walk, shift)
         player.direct = decide_direct(player.state, player.direct, walk)
     move_x(player.state, walk, shift)
+    fall(player, enemy)
 
     global player_left, player_right, player_top, player_bottom
     global enemy_left, enemy_right, enemy_top, enemy_bottom

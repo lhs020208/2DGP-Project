@@ -23,7 +23,7 @@ class KFM:
 
         return self.framex, self.framey
 
-    def update(self):
+    def update(self, speed_Y):
         if self.state == 'standing':
             self.image = load_image('kfm_sheet/kfm_stand.png')
             self.framex, self.framey = self.find_frame_position(self.frame_step, 6, 1, 6)
@@ -87,7 +87,15 @@ class KFM:
             self.frame_step += 1
             if self.frame_step == 5:
                 self.frame_step = 3
-
+        elif self.state == 'fall':
+            self.image = load_image('kfm_sheet/kfm_jump.png')
+            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 1, 5)
+            self.frame_step += 1
+            if self.frame_step == 5:
+                self.frame_step = 4
+        if self.state in ['standing', 'walk', 'run','block','normal_attack','special_attack'] and speed_Y < 0:
+            self.state = 'fall'
+            self.frame_step = 4
 
     def draw(self, player_x, player_y):
         offset_x = player_x - 400
