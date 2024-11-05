@@ -19,12 +19,31 @@ def reset_frame():
 
 def move_x(state, walk, shift):
     global Player_x
+    global speed
     if state in ['walk', 'run']:
-        step_size = 5
-        if shift: step_size = 10
+        step_size = 2
+        if shift: step_size = 4
+
         if walk < 0:
             step_size = step_size * -1
-        Player_x += step_size
+
+        speed += step_size
+        max_speed = 5
+        if shift: max_speed = 100
+
+        if walk < 0:
+            if speed < -1 * max_speed:
+                speed = -1 * max_speed
+        elif walk > 0:
+            if speed > max_speed:
+                speed = max_speed
+
+        Player_x += speed
+    elif speed in ['standing']:
+        if speed < 0: speed += 1
+        elif speed > 0: speed -=1
+
+        Player_x += speed
 
 def handle_events():
     global running, Player_x, Player_y
@@ -59,6 +78,9 @@ def reset_world():
 
     global sky_floor_L, sky_floor_R, sky_floor_T
 
+    global normal_speed_max, run_speed_max
+    global speed, E_speed
+
     Player_x = 400
     Player_y = 125
     PNA, PSA= 0,0
@@ -69,6 +91,11 @@ def reset_world():
     sky_floor_L = [0, 0, 0]
     sky_floor_R = [0, 0, 0]
     sky_floor_T = [0, 0, 0]
+
+    normal_speed_max = 5
+    run_speed_max = 10
+    speed = 0
+    E_speed = [0,0]
 
     global shift
     global walk
