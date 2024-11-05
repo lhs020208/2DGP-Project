@@ -8,6 +8,8 @@ from kamijo import Kamijo
 from kfm import KFM
 from sky_grass import Sky_Grass
 
+from control import control
+
 def reset_frame():
     global player
 
@@ -37,85 +39,7 @@ def handle_events():
             running = False
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
-        control(enemy, event, player)
-
-
-def control(enemy, event, player):
-    global walk, Player_y, shift
-    if event.type == SDL_KEYDOWN and event.key == SDLK_LEFT:  # 왼쪽키
-        walk -= 1
-        if player.state in ['standing', 'walk', 'run']:
-            reset_frame()
-            if walk == -1:
-                player.direct = -1
-            elif walk == 0:
-                player.direct = 1
-    if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT:  # 오른쪽키
-        walk += 1
-        if player.state in ['standing', 'walk', 'run']:
-            reset_frame()
-            if walk == 1:
-                player.direct = 1
-            elif walk == 0:
-                player.direct = 0
-    if event.type == SDL_KEYDOWN and event.key == SDLK_UP:  # 위키
-        if player.state == 'standing' or player.state == 'run' or player.state == 'walk':
-            reset_frame()
-            player.state = 'jump'
-            Player_y = Player_y + 10
-    if event.type == SDL_KEYDOWN and event.key == SDLK_DOWN:  # 아래키
-        reset_frame()
-        Player_y = Player_y - 10
-    if event.type == SDL_KEYDOWN and event.key == SDLK_z:  # 방어
-        if player.state == 'standing' or player.state == 'run' or player.state == 'walk':
-            player.state = 'block'
-            reset_frame()
-    if event.type == SDL_KEYDOWN and event.key == SDLK_LSHIFT:  # 달리기
-        shift = 1
-        reset_frame()
-    if event.type == SDL_KEYDOWN and event.key == SDLK_x:  # 약 공격
-        if player.state in ['standing', 'run', 'walk', 'block', 'normal_attack']:
-            player.state = 'normal_attack'
-            reset_frame()
-    if event.type == SDL_KEYDOWN and event.key == SDLK_c:  # 강 공격
-        if player.state in ['standing', 'run', 'walk', 'block', 'normal_attack']:
-            player.state = 'special_attack'
-            reset_frame()
-    if event.type == SDL_KEYDOWN and event.key == SDLK_a:  # 공격받음 // 테스트용
-        player.state = 'hit'
-
-        for i in range(2):
-            enemy[i].state = 'special_attack'
-            enemy[i].frame_step = 0
-
-        reset_frame()
-    if event.type == SDL_KEYDOWN and event.key == SDLK_s:  # 날라감 // 테스트용
-        player.state = 'thrown'
-        reset_frame()
-    # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-    if event.type == SDL_KEYUP and event.key == SDLK_LEFT:  # 왼쪽키
-        walk += 1
-        if player.state in ['standing', 'walk', 'run']:
-            reset_frame()
-            if walk == 1:
-                player.direct = 1
-            elif walk == 0:
-                player.direct = 0
-    if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:  # 오른쪽키
-        walk -= 1
-        if player.state in ['standing', 'walk', 'run']:
-            reset_frame()
-            if walk == -1:
-                player.direct = -1
-            elif walk == 0:
-                player.direct = 1
-    if event.type == SDL_KEYUP and event.key == SDLK_z:  # 방어
-        if player.state == 'block':
-            reset_frame()
-            player.state = 'standing'
-    if event.type == SDL_KEYUP and event.key == SDLK_LSHIFT:  # 달리기
-        shift = 0
-        reset_frame()
+        walk, Player_y, shift = control(enemy, event, player, walk, Player_y, shift)
 
 
 def reset_world():
