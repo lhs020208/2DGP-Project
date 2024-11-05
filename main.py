@@ -38,12 +38,13 @@ def move_x(state, walk, shift):
             if speed > max_speed:
                 speed = max_speed
 
-        Player_x += speed
     elif state == 'standing':
         if speed < 0: speed += 1
         elif speed > 0: speed -=1
 
-        Player_x += speed
+    Player_x += speed
+def fall():
+
 
 def handle_events():
     global running, Player_x, Player_y
@@ -78,8 +79,10 @@ def reset_world():
 
     global sky_floor_L, sky_floor_R, sky_floor_T
 
-    global normal_speed_max, run_speed_max
+    global normal_speed_max, run_speed_max,
+    global gravity
     global speed, E_speed
+    global speed_Y, E_speed_Y
 
     Player_x = 400
     Player_y = 125
@@ -94,8 +97,9 @@ def reset_world():
 
     normal_speed_max = 5
     run_speed_max = 10
-    speed = 0
-    E_speed = [0,0]
+    gravity = 1
+    speed, speed_Y = 0, 0
+    E_speed, E_speed_Y = [0,0], [0,0]
 
     global shift
     global walk
