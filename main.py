@@ -8,17 +8,6 @@ from kamijo import Kamijo
 from kfm import KFM
 from sky_grass import Sky_Grass
 
-global Player_x
-global Player_y
-global player_left, player_right, player_top, player_bottom
-global enemy_left, enemy_right, enemy_top, enemy_bottom
-
-global PNA,PNA_left, PNA_right, PNA_top, PNA_bottom
-global PSA,PSA_left, PSA_right, PSA_top, PSA_bottom
-global ENA, ENA_left, ENA_right, ENA_top, ENA_bottom
-global ESA,ESA_left, ESA_right, ESA_top, ESA_bottom
-
-
 def reset_frame():
     global player
 
@@ -174,6 +163,7 @@ def reset_world():
     world.append(player)
 
 def update_world():
+
     for o in world:
         o.update()
 
@@ -181,6 +171,9 @@ def update_world():
         player.state = decide_state(player.state, walk, shift)
         player.direct = decide_direct(player.state, player.direct, walk)
     move_x(player.state, walk, shift)
+
+    global Player_x
+    global Player_y
 
     global player_left, player_right, player_top, player_bottom
     global enemy_left, enemy_right, enemy_top, enemy_bottom
@@ -211,6 +204,9 @@ def update_world():
 
 def render_world():
     clear_canvas()
+
+    global Player_x
+    global Player_y
 
     for o in world:
         if isinstance(o, (Grass, Sky_Grass, KFM)):
