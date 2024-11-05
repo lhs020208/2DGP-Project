@@ -57,12 +57,18 @@ def reset_world():
     global ENA_left, ENA_right, ENA_top, ENA_bottom
     global ESA_left, ESA_right, ESA_top, ESA_bottom
 
+    global sky_floor_L, sky_floor_R, sky_floor_T
+
     Player_x = 400
     Player_y = 125
     PNA, PSA= 0,0
     ENA, ESA = [0,0],[0,0]
     ENA_left, ENA_right, ENA_top, ENA_bottom = [0,0],[0,0],[0,0],[0,0]
     ESA_left, ESA_right, ESA_top, ESA_bottom = [0,0],[0,0],[0,0],[0,0]
+
+    sky_floor_L = [0, 0, 0]
+    sky_floor_R = [0, 0, 0]
+    sky_floor_T = [0, 0, 0]
 
     global shift
     global walk
@@ -125,6 +131,16 @@ def update_world():
             hitbox = enemy[i].get_special_attack_hitbox(Player_x,Player_y)
             ESA[i], ESA_left[i], ESA_right[i], ESA_top[i], ESA_bottom[i] = hitbox
 
+    global floor_L, floor_R, floor_T
+    global sky_floor_L, sky_floor_R, sky_floor_T
+
+    hitbox = grass.get_hitbox(Player_x,Player_y)
+    floor_L, floor_R, floor_T = hitbox
+    for i in range(3):
+        hitbox = sky_grass[i].get_hitbox(Player_x,Player_y)
+        sky_floor_L[i], sky_floor_L[i], sky_floor_L[i] = hitbox
+
+
 def render_world():
     clear_canvas()
 
@@ -135,17 +151,11 @@ def render_world():
             o.draw()
 
     hitbox_point = [load_image('heatbox_point.png') for _ in range(8)]
-    for i in range(2):
-        if ENA[i] == 1:
-            hitbox_point[4*i + 0].draw(ENA_left[i], ENA_bottom[i])
-            hitbox_point[4*i + 1].draw(ENA_left[i], ENA_top[i])
-            hitbox_point[4*i + 2].draw(ENA_right[i], ENA_bottom[i])
-            hitbox_point[4*i + 3].draw(ENA_right[i], ENA_top[i])
-        elif ESA[i] == 1:
-            hitbox_point[4*i + 0].draw(ESA_left[i], ESA_bottom[i])
-            hitbox_point[4*i + 1].draw(ESA_left[i], ESA_top[i])
-            hitbox_point[4*i + 2].draw(ESA_right[i], ESA_bottom[i])
-            hitbox_point[4*i + 3].draw(ESA_right[i], ESA_top[i])
+    for i in range(3):
+            hitbox_point[2*i + 0].draw(sky_floor_L[i], sky_floor_T[i])
+            hitbox_point[2*i + 1].draw(sky_floor_R[i], sky_floor_T[i])
+    hitbox_point[6].draw(floor_L, floor_T)
+    hitbox_point[7].draw(floor_R, floor_T)
 
     update_canvas()
 
