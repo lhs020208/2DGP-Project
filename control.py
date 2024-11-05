@@ -100,7 +100,7 @@ def control(enemy, event, player, walk, Player_y, shift):
             if walk == -1:
                 player.direct = -1
             elif walk == 0:
-                player.direct = 0
+                player.direct = 1
 
     if event.type == SDL_KEYUP and event.key == SDLK_z:  # 방어
         if player.state == 'block':
