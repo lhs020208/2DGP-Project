@@ -46,9 +46,10 @@ def control(enemy, event, player, walk, Player_y, shift):
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_LSHIFT:  # 달리기
         shift = 1
-        player.frame_step = 0
-        player.framex = 0
-        player.framey = 0
+        if player.state in ['standing', 'run', 'walk']:
+            player.frame_step = 0
+            player.framex = 0
+            player.framey = 0
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_x:  # 약 공격
         if player.state in ['standing', 'run', 'walk', 'block', 'normal_attack']:
@@ -111,8 +112,9 @@ def control(enemy, event, player, walk, Player_y, shift):
 
     if event.type == SDL_KEYUP and event.key == SDLK_LSHIFT:  # 달리기
         shift = 0
-        player.frame_step = 0
-        player.framex = 0
-        player.framey = 0
+        if player.state in ['standing', 'run', 'walk']:
+            player.frame_step = 0
+            player.framex = 0
+            player.framey = 0
 
     return walk, Player_y, shift
