@@ -138,7 +138,7 @@ def update_world():
     floor_L, floor_R, floor_T = hitbox
     for i in range(3):
         hitbox = sky_grass[i].get_hitbox(Player_x,Player_y)
-        sky_floor_L[i], sky_floor_L[i], sky_floor_L[i] = hitbox
+        sky_floor_L[i], sky_floor_R[i], sky_floor_T[i] = hitbox
 
 
 def render_world():
@@ -151,9 +151,10 @@ def render_world():
             o.draw()
 
     hitbox_point = [load_image('heatbox_point.png') for _ in range(8)]
+
     for i in range(3):
-            hitbox_point[2*i + 0].draw(sky_floor_L[i], sky_floor_T[i])
-            hitbox_point[2*i + 1].draw(sky_floor_R[i], sky_floor_T[i])
+        hitbox_point[2*i + 0].draw(sky_floor_L[i], sky_floor_T[i])
+        hitbox_point[2*i + 1].draw(sky_floor_R[i], sky_floor_T[i])
     hitbox_point[6].draw(floor_L, floor_T)
     hitbox_point[7].draw(floor_R, floor_T)
 
