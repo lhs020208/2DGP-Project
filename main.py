@@ -98,9 +98,6 @@ def update_world():
         player.direct = decide_direct(player.state, player.direct, walk)
     move_x(player.state, walk, shift)
 
-    global Player_x
-    global Player_y
-
     global player_left, player_right, player_top, player_bottom
     global enemy_left, enemy_right, enemy_top, enemy_bottom
     offset_x = Player_x - 400
@@ -131,17 +128,12 @@ def update_world():
 def render_world():
     clear_canvas()
 
-    global Player_x
-    global Player_y
-
     for o in world:
         if isinstance(o, (Grass, Sky_Grass, KFM)):
             o.draw(Player_x, Player_y)
         else:
             o.draw()
 
-    global ENA, ENA_left, ENA_right, ENA_top, ENA_bottom
-    global ESA, ESA_left, ESA_right, ESA_top, ESA_bottom
     hitbox_point = [load_image('heatbox_point.png') for _ in range(8)]
     for i in range(2):
         if ENA[i] == 1:
