@@ -45,6 +45,9 @@ def move_x(state, walk, shift):
     Player_x += speed
 
 def check_floor(pos_x, pos_y):
+    if pos_y - 60 >= floor_T and pos_y - 70 <= floor_T:
+        return 1
+
     pass
 
 
@@ -53,13 +56,13 @@ def fall(player, enemy):
 
     speed_Y -= gravity
 
-    if check_floor() and speed_Y < 0:
+    if check_floor(player.x, player.y) and speed_Y < 0:
         speed_Y = 0
     player.y += speed_Y
 
     for i in range(2):
         E_speed_Y[i] -= gravity
-        if check_floor() and speed_Y < 0:
+        if check_floor(enemy[i].x, enemy[i].y) and E_speed_Y[i] < 0:
             E_speed_Y[i] = 0
         enemy[i].y += E_speed_Y[i]
 
@@ -94,6 +97,7 @@ def reset_world():
     global ENA_left, ENA_right, ENA_top, ENA_bottom
     global ESA_left, ESA_right, ESA_top, ESA_bottom
 
+    global floor_L, floor_R, floor_T
     global sky_floor_L, sky_floor_R, sky_floor_T
 
     global normal_speed_max, run_speed_max
@@ -108,6 +112,7 @@ def reset_world():
     ENA_left, ENA_right, ENA_top, ENA_bottom = [0,0],[0,0],[0,0],[0,0]
     ESA_left, ESA_right, ESA_top, ESA_bottom = [0,0],[0,0],[0,0],[0,0]
 
+    floor_L, floor_R, floor_T = 0,0,0
     sky_floor_L = [0, 0, 0]
     sky_floor_R = [0, 0, 0]
     sky_floor_T = [0, 0, 0]
