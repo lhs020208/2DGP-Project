@@ -61,9 +61,9 @@ def check_floor(pos_x, pos_y, speed):
     fell_y = pos_y - speed
 
     # 발 구간 정의
-    current_foot_top = pos_y - 60
+    current_foot_top = pos_y - 50
     current_foot_bottom = pos_y - 70
-    next_foot_top = fell_y - 60
+    next_foot_top = fell_y - 50
     next_foot_bottom = fell_y - 70
 
     # floor_T와의 충돌 조건 강화

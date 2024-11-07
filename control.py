@@ -36,7 +36,7 @@ def control(enemy, event, player, walk, speed_Y, shift, moving):
             player.framey = 0
             player.state = 'jump'
             speed_Y += 30
-        elif player.state == 'jump':
+        elif player.state in ['jump', 'fall']:
             player.frame_step = 0
             player.framex = 0
             player.framey = 0
