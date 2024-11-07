@@ -68,16 +68,17 @@ def fall(player, enemy):
     # 플레이어 낙하 처리
     speed_Y -= gravity
 
-    if check_floor(player.x, player.y, speed_Y):
+    if check_floor(player.x, player.y, speed_Y) and speed_Y < 0:
         speed_Y = 0
         if player.state in ['fall', 'jump', 'double jump' ] :
             player.state = 'standing'
+            reset_frame()
     player.y += speed_Y
 
     # 적 낙하 처리
     for i in range(2):
         E_speed_Y[i] -= gravity
-        if check_floor(enemy[i].x, enemy[i].y, E_speed_Y[i]):
+        if check_floor(enemy[i].x, enemy[i].y, E_speed_Y[i]) and E_speed_Y[i] < 0:
             E_speed_Y[i] = 0
             if enemy[i].state in ['fall', 'jump', 'double jump' ] :
                 enemy[i].state = 'standing'
@@ -222,8 +223,6 @@ def update_world():
                 o.update(E_speed_Y[1])  # enemy[1]에 필요한 인자 전달
         else:
             o.update()  # 다른 객체는 인자 없이 호출
-
-    print(f'{player.y}, {floor_T}')
 
 
 def render_world():
