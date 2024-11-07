@@ -67,10 +67,11 @@ def check_floor(pos_x, pos_y, speed):
     next_foot_bottom = fell_y - 70
 
     # floor_T와의 충돌 조건 강화
-    if (floor_T >= next_foot_bottom and floor_T <= next_foot_top) or \
-       (floor_T >= current_foot_bottom and floor_T <= current_foot_top) or \
-       (current_foot_bottom > floor_T and next_foot_bottom <= floor_T):
-        return floor_T + 70
+    if pos_x < floor_R and pos_x > floor_L:
+        if (floor_T >= next_foot_bottom and floor_T <= next_foot_top) or \
+            (floor_T >= current_foot_bottom and floor_T <= current_foot_top) or \
+            (current_foot_bottom > floor_T and next_foot_bottom <= floor_T):
+            return floor_T + 70
 
     return -1
 
@@ -101,9 +102,8 @@ def fall(player, enemy):
         if E_speed_Y[i] <= -20: E_speed_Y[i] = -20
 
         # 충돌 감지
-        #stop_y = check_floor(enemy[i].x, enemy[i].y, E_speed_Y[i])
-        #if stop_y >= 0 and E_speed_Y[i] < 0:
-        if E_speed_Y[i] < 0:
+        stop_y = check_floor(enemy[i].x, enemy[i].y, E_speed_Y[i])
+        if stop_y >= 0 and E_speed_Y[i] < 0:
             # 충돌한 경우 속도를 0으로 설정하고 위치 수정
             E_speed_Y[i] = 0
             if enemy[i].state in ['fall', 'jump', 'double jump']:
