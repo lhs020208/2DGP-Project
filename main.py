@@ -44,8 +44,9 @@ def move_x(state, walk, shift):
 
     Player_x += speed
 
-def check_floor(pos_x, pos_y):
-    if pos_y - 60 >= floor_T and pos_y - 70 <= floor_T:
+def check_floor(pos_x, pos_y, speed):
+    fell_y = pos_y - speed
+    if (fell_y - 60 <= floor_T and pos_y - 70 >= floor_T) or (pos_y - 60 >= floor_T and pos_y - 70 <= floor_T):
         return 1
 
     pass
@@ -56,14 +57,18 @@ def fall(player, enemy):
 
     speed_Y -= gravity
 
-    if check_floor(player.x, player.y) and speed_Y < 0:
+    if check_floor(player.x, player.y, speed_Y) and speed_Y < 0:
         speed_Y = 0
+        if player.state == 'fall':
+            player.state = 'standing'
     player.y += speed_Y
 
     for i in range(2):
         E_speed_Y[i] -= gravity
-        if check_floor(enemy[i].x, enemy[i].y) and E_speed_Y[i] < 0:
+        if check_floor(enemy[i].x, enemy[i].y, E_speed_Y[i]) and E_speed_Y[i] < 0:
             E_speed_Y[i] = 0
+            if  enemy[i].state == 'fall':
+                enemy[i].state = 'standing'
         enemy[i].y += E_speed_Y[i]
 
 def handle_events():
@@ -151,17 +156,6 @@ def update_world():
     global player
     global enemy
 
-    for o in world:
-        if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
-            o.update(speed_Y)  # player에 필요한 인자 전달
-        elif isinstance(o, KFM):  # KFM 클래스의 enemy 객체인 경우
-            if o == enemy[0]:
-                o.update(E_speed_Y[0])  # enemy[0]에 필요한 인자 전달
-            elif o == enemy[1]:
-                o.update(E_speed_Y[1])  # enemy[1]에 필요한 인자 전달
-        else:
-            o.update()  # 다른 객체는 인자 없이 호출
-
     if player.state in ['standing', 'walk', 'run']:
         player.state = decide_state(player.state, walk, shift)
         player.direct = decide_direct(player.state, player.direct, walk)
@@ -203,6 +197,18 @@ def update_world():
     for i in range(3):
         hitbox = sky_grass[i].get_hitbox(Player_x,Player_y)
         sky_floor_L[i], sky_floor_R[i], sky_floor_T[i] = hitbox
+    print(f'{player.y}, {Player_y}')
+
+    for o in world:
+        if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
+            o.update(speed_Y)  # player에 필요한 인자 전달
+        elif isinstance(o, KFM):  # KFM 클래스의 enemy 객체인 경우
+            if o == enemy[0]:
+                o.update(E_speed_Y[0])  # enemy[0]에 필요한 인자 전달
+            elif o == enemy[1]:
+                o.update(E_speed_Y[1])  # enemy[1]에 필요한 인자 전달
+        else:
+            o.update()  # 다른 객체는 인자 없이 호출
 
 
 def render_world():

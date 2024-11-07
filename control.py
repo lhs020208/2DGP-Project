@@ -29,13 +29,13 @@ def control(enemy, event, player, walk, Player_y, shift):
             player.framex = 0
             player.framey = 0
             player.state = 'jump'
-            Player_y += 10
+            player.y += 100
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_DOWN:  # 아래키
         player.frame_step = 0
         player.framex = 0
         player.framey = 0
-        Player_y -= 10
+        player.y -= 30
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_z:  # 방어
         if player.state in ['standing', 'run', 'walk']:
