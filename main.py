@@ -73,6 +73,13 @@ def check_floor(pos_x, pos_y, speed):
             (current_foot_bottom > floor_T and next_foot_bottom <= floor_T):
             return floor_T + 70
 
+    for i in range(3):
+        if pos_x < sky_floor_R[i] and pos_x > sky_floor_L[i]:
+            if (sky_floor_T[i] >= next_foot_bottom and sky_floor_T[i] <= next_foot_top) or \
+                    (sky_floor_T[i] >= current_foot_bottom and sky_floor_T[i] <= current_foot_top) or \
+                    (current_foot_bottom > sky_floor_T[i] and next_foot_bottom <= sky_floor_T[i]):
+                return sky_floor_T[i] + 70
+
     return -1
 
 
