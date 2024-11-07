@@ -41,7 +41,7 @@ def control(enemy, event, player, walk, speed_Y, shift, moving):
             player.framex = 0
             player.framey = 0
             player.state = 'double jump'
-            speed_Y += 30
+            speed_Y = 25
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_DOWN:  # 아래키
         player.frame_step = 0

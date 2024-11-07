@@ -37,7 +37,7 @@ def move_x(state, walk, shift):
         elif walk > 0:
             if speed > max_speed:
                 speed = max_speed
-    elif state in ['jump', 'double jump']:
+    elif state in ['jump', 'double jump'] and moving:
         step_size = 1
         if walk < 0:
             step_size = step_size * -1
@@ -68,7 +68,7 @@ def check_floor(pos_x, pos_y, speed):
 
     # floor_T와의 충돌 조건
     if (floor_T >= current_foot_bottom and floor_T <= current_foot_top) or \
-       (current_foot_bottom > floor_T and next_foot_bottom <= floor_T):
+       (current_foot_bottom > floor_T and next_foot_top <= floor_T):
         return 1
 
     return 0
