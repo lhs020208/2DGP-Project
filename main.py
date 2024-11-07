@@ -85,24 +85,24 @@ def check_floor(pos_x, pos_y, speed):
 
 def fall(player, enemy):
     global speed_Y, E_speed_Y
+    global Player_x, Player_y
 
     # 플레이어 낙하 처리
     speed_Y -= gravity
     if speed_Y <= -20: speed_Y = -20
 
     # 충돌 감지
-    stop_y = check_floor(player.x, player.y, speed_Y)
+    stop_y = check_floor(Player_x, Player_y, speed_Y)
     if stop_y >= 0 and speed_Y < 0:
-        # 충돌한 경우 속도를 0으로 설정하고 위치 수정
         speed_Y = 0
         if player.state in ['fall', 'jump', 'double jump']:
-            player.y = stop_y
+            #player.y = stop_y
+            Player_y = stop_y  # Player_y 동기화
             player.state = 'standing'
             reset_frame()
     else:
-        # 충돌하지 않은 경우 계속 낙하
-        player.y += speed_Y
-
+        #player.y += speed_Y
+        Player_y += speed_Y  # Player_y 동기화
     # 적 낙하 처리
     for i in range(2):
         E_speed_Y[i] -= gravity
@@ -219,8 +219,8 @@ def update_world():
 
     global player_left, player_right, player_top, player_bottom
     global enemy_left, enemy_right, enemy_top, enemy_bottom
-    offset_x = Player_x - 400
-    offset_y = Player_y - 120
+    offset_x = player.x - 400
+    offset_y = player.y - 120
     player_left, player_right, player_top, player_bottom = calculate_player_hitbox(player)
     enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_hitbox(enemy, offset_x, offset_y)
 
@@ -238,19 +238,19 @@ def update_world():
 
     for i in range(2):
         if enemy[i].state == 'normal_attack':
-            hitbox = enemy[i].get_normal_attack_hitbox(Player_x,Player_y)
+            hitbox = enemy[i].get_normal_attack_hitbox(player.x,player.y)
             ENA[i], ENA_left[i], ENA_right[i], ENA_top[i], ENA_bottom[i] = hitbox
         elif enemy[i].state == 'special_attack':
-            hitbox = enemy[i].get_special_attack_hitbox(Player_x,Player_y)
+            hitbox = enemy[i].get_special_attack_hitbox(player.x,player.y)
             ESA[i], ESA_left[i], ESA_right[i], ESA_top[i], ESA_bottom[i] = hitbox
 
     global floor_L, floor_R, floor_T
     global sky_floor_L, sky_floor_R, sky_floor_T
 
-    hitbox = grass.get_hitbox(Player_x,Player_y)
+    hitbox = grass.get_hitbox(player.x,player.y)
     floor_L, floor_R, floor_T = hitbox
     for i in range(3):
-        hitbox = sky_grass[i].get_hitbox(Player_x,Player_y)
+        hitbox = sky_grass[i].get_hitbox(player.x,player.y)
         sky_floor_L[i], sky_floor_R[i], sky_floor_T[i] = hitbox
 
     for o in world:
