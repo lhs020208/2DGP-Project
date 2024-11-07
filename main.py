@@ -41,41 +41,55 @@ def move_x(state, walk, shift):
     elif state == 'standing':
         if speed < 0: speed += 1
         elif speed > 0: speed -=1
-
     Player_x += speed
 
 def check_floor(pos_x, pos_y, speed):
     fell_y = pos_y - speed
-    if (fell_y - 60 <= floor_T and pos_y - 70 >= floor_T) or (pos_y - 60 >= floor_T and pos_y - 70 <= floor_T):
+
+    # 발 구간 정의
+    current_foot_top = pos_y - 60
+    current_foot_bottom = pos_y - 70
+    next_foot_top = fell_y - 60
+    next_foot_bottom = fell_y - 70
+
+    # floor_T와의 충돌 조건
+    if (floor_T >= current_foot_bottom and floor_T <= current_foot_top) or \
+       (current_foot_bottom > floor_T and next_foot_bottom <= floor_T):
         return 1
 
-    pass
+    return 0
+
+
 
 
 def fall(player, enemy):
     global speed_Y, E_speed_Y
 
+    # 플레이어 낙하 처리
     speed_Y -= gravity
 
-    if check_floor(player.x, player.y, speed_Y) and speed_Y < 0:
+    if check_floor(player.x, player.y, speed_Y):
         speed_Y = 0
-        if player.state == 'fall':
+        if player.state in ['fall', 'jump', 'double jump' ] :
             player.state = 'standing'
     player.y += speed_Y
 
+    # 적 낙하 처리
     for i in range(2):
         E_speed_Y[i] -= gravity
-        if check_floor(enemy[i].x, enemy[i].y, E_speed_Y[i]) and E_speed_Y[i] < 0:
+        if check_floor(enemy[i].x, enemy[i].y, E_speed_Y[i]):
             E_speed_Y[i] = 0
-            if  enemy[i].state == 'fall':
+            if enemy[i].state in ['fall', 'jump', 'double jump' ] :
                 enemy[i].state = 'standing'
         enemy[i].y += E_speed_Y[i]
+
 
 def handle_events():
     global running, Player_x, Player_y
     global player
     global enemy
     global shift
+    global speed_Y
     global walk
 
     events = get_events()
@@ -84,7 +98,7 @@ def handle_events():
             running = False
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
-        walk, Player_y, shift = control(enemy, event, player, walk, Player_y, shift)
+        walk, speed_Y, shift = control(enemy, event, player, walk, speed_Y, shift)
 
 
 def reset_world():
@@ -197,7 +211,6 @@ def update_world():
     for i in range(3):
         hitbox = sky_grass[i].get_hitbox(Player_x,Player_y)
         sky_floor_L[i], sky_floor_R[i], sky_floor_T[i] = hitbox
-    print(f'{player.y}, {Player_y}')
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
@@ -209,6 +222,8 @@ def update_world():
                 o.update(E_speed_Y[1])  # enemy[1]에 필요한 인자 전달
         else:
             o.update()  # 다른 객체는 인자 없이 호출
+
+    print(f'{player.y}, {floor_T}')
 
 
 def render_world():

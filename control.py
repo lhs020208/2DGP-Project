@@ -1,6 +1,6 @@
 from pico2d import *
 
-def control(enemy, event, player, walk, Player_y, shift):
+def control(enemy, event, player, walk, speed_Y, shift):
     if event.type == SDL_KEYDOWN and event.key == SDLK_LEFT:  # 왼쪽키
         walk -= 1
         if player.state in ['standing', 'walk', 'run']:
@@ -29,7 +29,7 @@ def control(enemy, event, player, walk, Player_y, shift):
             player.framex = 0
             player.framey = 0
             player.state = 'jump'
-            player.y += 100
+            speed_Y += 200
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_DOWN:  # 아래키
         player.frame_step = 0
@@ -117,4 +117,4 @@ def control(enemy, event, player, walk, Player_y, shift):
             player.framex = 0
             player.framey = 0
 
-    return walk, Player_y, shift
+    return walk, speed_Y, shift
