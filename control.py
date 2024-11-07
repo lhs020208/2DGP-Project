@@ -1,27 +1,33 @@
 from pico2d import *
 
-def control(enemy, event, player, walk, speed_Y, shift):
+def control(enemy, event, player, walk, speed_Y, shift, moving):
     if event.type == SDL_KEYDOWN and event.key == SDLK_LEFT:  # 왼쪽키
         walk -= 1
-        if player.state in ['standing', 'walk', 'run']:
-            player.frame_step = 0
-            player.framex = 0
-            player.framey = 0
+        if player.state in ['standing', 'walk', 'run', 'jump', 'double jump']:
+            if player.state in ['standing', 'walk', 'run']:
+                player.frame_step = 0
+                player.framex = 0
+                player.framey = 0
             if walk == -1:
                 player.direct = -1
+                moving = 1
             elif walk == 0:
                 player.direct = 0
+                moving = 0
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT:  # 오른쪽키
         walk += 1
-        if player.state in ['standing', 'walk', 'run']:
-            player.frame_step = 0
-            player.framex = 0
-            player.framey = 0
+        if player.state in ['standing', 'walk', 'run', 'jump', 'double jump']:
+            if player.state in ['standing', 'walk', 'run']:
+                player.frame_step = 0
+                player.framex = 0
+                player.framey = 0
             if walk == 1:
                 player.direct = 1
+                moving = 1
             elif walk == 0:
                 player.direct = 0
+                moving = 0
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_UP:  # 위키
         if player.state in ['standing', 'run', 'walk']:
@@ -29,6 +35,12 @@ def control(enemy, event, player, walk, speed_Y, shift):
             player.framex = 0
             player.framey = 0
             player.state = 'jump'
+            speed_Y += 30
+        elif player.state == 'jump':
+            player.frame_step = 0
+            player.framex = 0
+            player.framey = 0
+            player.state = 'double jump'
             speed_Y += 30
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_DOWN:  # 아래키
@@ -83,25 +95,31 @@ def control(enemy, event, player, walk, speed_Y, shift):
     # 키를 뗐을 때 (KEYUP 이벤트)
     if event.type == SDL_KEYUP and event.key == SDLK_LEFT:  # 왼쪽키
         walk += 1
-        if player.state in ['standing', 'walk', 'run']:
-            player.frame_step = 0
-            player.framex = 0
-            player.framey = 0
+        if player.state in ['standing', 'walk', 'run', 'jump', 'double jump']:
+            if player.state in ['standing', 'walk', 'run']:
+                player.frame_step = 0
+                player.framex = 0
+                player.framey = 0
             if walk == 1:
                 player.direct = 1
+                moving = 1
             elif walk == 0:
                 player.direct = 0
+                moving = 0
 
     if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:  # 오른쪽키
         walk -= 1
-        if player.state in ['standing', 'walk', 'run']:
-            player.frame_step = 0
-            player.framex = 0
-            player.framey = 0
+        if player.state in ['standing', 'walk', 'run', 'jump', 'double jump']:
+            if player.state in ['standing', 'walk', 'run']:
+                player.frame_step = 0
+                player.framex = 0
+                player.framey = 0
             if walk == -1:
                 player.direct = -1
+                moving = 1
             elif walk == 0:
                 player.direct = 1
+                moving = 0
 
     if event.type == SDL_KEYUP and event.key == SDLK_z:  # 방어
         if player.state == 'block':
@@ -117,4 +135,4 @@ def control(enemy, event, player, walk, speed_Y, shift):
             player.framex = 0
             player.framey = 0
 
-    return walk, speed_Y, shift
+    return walk, speed_Y, shift, moving

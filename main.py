@@ -37,6 +37,20 @@ def move_x(state, walk, shift):
         elif walk > 0:
             if speed > max_speed:
                 speed = max_speed
+    elif state in ['jump', 'double jump']:
+        step_size = 1
+        if walk < 0:
+            step_size = step_size * -1
+
+        speed += step_size
+        max_speed = 5
+
+        if walk < 0:
+            if speed < -1 * max_speed:
+                speed = -1 * max_speed
+        elif walk > 0:
+            if speed > max_speed:
+                speed = max_speed
 
     elif state == 'standing':
         if speed < 0: speed += 1
@@ -58,9 +72,6 @@ def check_floor(pos_x, pos_y, speed):
         return 1
 
     return 0
-
-
-
 
 def fall(player, enemy):
     global speed_Y, E_speed_Y
@@ -92,6 +103,7 @@ def handle_events():
     global shift
     global speed_Y
     global walk
+    global moving
 
     events = get_events()
     for event in events:
@@ -99,7 +111,7 @@ def handle_events():
             running = False
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
-        walk, speed_Y, shift = control(enemy, event, player, walk, speed_Y, shift)
+        walk, speed_Y, shift, moving = control(enemy, event, player, walk, speed_Y, shift, moving)
 
 
 def reset_world():
@@ -124,6 +136,7 @@ def reset_world():
     global gravity
     global speed, E_speed
     global speed_Y, E_speed_Y
+    global moving
 
     Player_x = 400
     Player_y = 125
@@ -142,6 +155,7 @@ def reset_world():
     gravity = 2
     speed, speed_Y = 0, 0
     E_speed, E_speed_Y = [0,0], [0,0]
+    moving = 0
 
     global shift
     global walk
