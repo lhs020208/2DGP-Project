@@ -43,7 +43,7 @@ def move_x(state, walk, shift):
             step_size = step_size * -1
 
         speed += step_size
-        max_speed = 5
+        max_speed = 10
 
         if walk < 0:
             if speed < -1 * max_speed:
@@ -66,38 +66,51 @@ def check_floor(pos_x, pos_y, speed):
     next_foot_top = fell_y - 60
     next_foot_bottom = fell_y - 70
 
-    # floor_T와의 충돌 조건
+    # floor_T와의 충돌 조건 강화
     if (floor_T >= next_foot_bottom and floor_T <= next_foot_top) or \
-       (floor_T >= current_foot_bottom and floor_T <= current_foot_top) or \
-       (current_foot_bottom > floor_T and next_foot_bottom <= floor_T):
+        (floor_T >= current_foot_bottom and floor_T <= current_foot_top) or \
+        (next_foot_top <= floor_T and current_foot_bottom > floor_T):
         return floor_T + 70
 
     return -1
-
 
 def fall(player, enemy):
     global speed_Y, E_speed_Y
 
     # 플레이어 낙하 처리
     speed_Y -= gravity
+    if speed_Y <= -20: speed_Y = -20
 
+    # 충돌 감지
     stop_y = check_floor(player.x, player.y, speed_Y)
     if stop_y >= 0 and speed_Y < 0:
+        # 충돌한 경우 속도를 0으로 설정하고 위치 수정
         speed_Y = 0
-        if player.state in ['fall', 'jump', 'double jump' ] :
+        if player.state in ['fall', 'jump', 'double jump']:
             player.y = stop_y
             player.state = 'standing'
             reset_frame()
-    player.y += speed_Y
+    else:
+        # 충돌하지 않은 경우 계속 낙하
+        player.y += speed_Y
 
     # 적 낙하 처리
     for i in range(2):
         E_speed_Y[i] -= gravity
-        if check_floor(enemy[i].x, enemy[i].y, E_speed_Y[i]) and E_speed_Y[i] < 0:
+        if E_speed_Y[i] <= -20: E_speed_Y[i] = -20
+
+        # 충돌 감지
+        stop_y = check_floor(enemy[i].x, enemy[i].y, E_speed_Y[i])
+        if stop_y >= 0 and E_speed_Y[i] < 0:
+            # 충돌한 경우 속도를 0으로 설정하고 위치 수정
             E_speed_Y[i] = 0
-            if enemy[i].state in ['fall', 'jump', 'double jump' ] :
+            if enemy[i].state in ['fall', 'jump', 'double jump']:
+                enemy[i].y = stop_y
                 enemy[i].state = 'standing'
-        enemy[i].y += E_speed_Y[i]
+        else:
+            # 충돌하지 않은 경우 계속 낙하
+            enemy[i].y += E_speed_Y[i]
+
 
 
 def handle_events():
@@ -241,6 +254,7 @@ def update_world():
                 o.update(E_speed_Y[1])  # enemy[1]에 필요한 인자 전달
         else:
             o.update()  # 다른 객체는 인자 없이 호출
+    print(f'{player.y}, {floor_T}')
 
 
 def render_world():
