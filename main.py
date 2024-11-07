@@ -67,11 +67,13 @@ def check_floor(pos_x, pos_y, speed):
     next_foot_bottom = fell_y - 70
 
     # floor_T와의 충돌 조건
-    if (floor_T >= current_foot_bottom and floor_T <= current_foot_top) or \
-       (current_foot_bottom > floor_T and next_foot_top <= floor_T):
-        return 1
+    if (floor_T >= next_foot_bottom and floor_T <= next_foot_top) or \
+       (floor_T >= current_foot_bottom and floor_T <= current_foot_top) or \
+       (current_foot_bottom > floor_T and next_foot_bottom <= floor_T):
+        return floor_T + 70
 
-    return 0
+    return -1
+
 
 def fall(player, enemy):
     global speed_Y, E_speed_Y
@@ -79,9 +81,11 @@ def fall(player, enemy):
     # 플레이어 낙하 처리
     speed_Y -= gravity
 
-    if check_floor(player.x, player.y, speed_Y) and speed_Y < 0:
+    stop_y = check_floor(player.x, player.y, speed_Y)
+    if stop_y >= 0 and speed_Y < 0:
         speed_Y = 0
         if player.state in ['fall', 'jump', 'double jump' ] :
+            player.y = stop_y
             player.state = 'standing'
             reset_frame()
     player.y += speed_Y
