@@ -43,14 +43,24 @@ def move_x(state, walk, shift):
         elif speed > 0: speed -=1
 
     Player_x += speed
+
+def check_floor(pos_x, pos_y):
+    pass
+
+
 def fall(player, enemy):
     global speed_Y, E_speed_Y
 
     speed_Y -= gravity
+
+    if check_floor() and speed_Y < 0:
+        speed_Y = 0
     player.y += speed_Y
 
     for i in range(2):
         E_speed_Y[i] -= gravity
+        if check_floor() and speed_Y < 0:
+            E_speed_Y[i] = 0
         enemy[i].y += E_speed_Y[i]
 
 def handle_events():
