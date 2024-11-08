@@ -37,7 +37,7 @@ def move_x(state, walk, shift):
         elif walk > 0:
             if speed > max_speed:
                 speed = max_speed
-    elif state in ['jump', 'double jump'] and moving:
+    elif state in ['jump', 'double jump', 'fall'] and moving:
         step_size = 1
         if walk < 0:
             step_size = step_size * -1
@@ -52,7 +52,7 @@ def move_x(state, walk, shift):
             if speed > max_speed:
                 speed = max_speed
 
-    elif state == 'standing':
+    else:
         if speed < 0: speed += 1
         elif speed > 0: speed -=1
     Player_x += speed
