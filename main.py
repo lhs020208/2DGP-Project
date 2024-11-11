@@ -41,6 +41,8 @@ def move_x(state, walk, shift):
         step_size = 1
         if walk < 0:
             step_size = step_size * -1
+        elif walk == 0:
+            step_size = 0
 
         speed += step_size
         max_speed = 10
