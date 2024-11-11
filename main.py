@@ -269,9 +269,9 @@ def update_world():
             o.update(speed_Y, frame_time)  # player에 필요한 인자 전달
         elif isinstance(o, KFM):  # KFM 클래스의 enemy 객체인 경우
             if o == enemy[0]:
-                o.update(E_speed_Y[0])  # enemy[0]에 필요한 인자 전달
+                o.update(E_speed_Y[0], frame_time)  # enemy[0]에 필요한 인자 전달
             elif o == enemy[1]:
-                o.update(E_speed_Y[1])  # enemy[1]에 필요한 인자 전달
+                o.update(E_speed_Y[1], frame_time)  # enemy[1]에 필요한 인자 전달
         else:
             o.update()  # 다른 객체는 인자 없이 호출
 

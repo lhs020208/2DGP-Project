@@ -1,5 +1,8 @@
 from pico2d import load_image
 
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
 
 class KFM:
     image = None
@@ -23,75 +26,75 @@ class KFM:
 
         return self.framex, self.framey
 
-    def update(self, speed_Y):
+    def update(self, speed_Y, frame_time):
         if self.state == 'standing':
             self.image = load_image('kfm_sheet/kfm_stand.png')
-            self.framex, self.framey = self.find_frame_position(self.frame_step, 6, 1, 6)
-            self.frame_step += 1
-            if self.frame_step == 6:
+            self.framex, self.framey = self.find_frame_position(int(self.frame_step), 6, 1, 6)
+            self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
+            if int(self.frame_step) == 6:
                 self.frame_step = 0
         elif self.state == 'walk':
             self.image = load_image('kfm_sheet/kfm_walk.png')
-            self.framex,self.framey = self.find_frame_position(self.frame_step,4,2,8 )
-            self.frame_step += 1
-            if self.frame_step == 8:
+            self.framex,self.framey = self.find_frame_position(int(self.frame_step),4,2,8 )
+            self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
+            if int(self.frame_step) == 8:
                 self.frame_step = 0
         elif self.state == 'run':
             self.image = load_image('kfm_sheet/kfm_run.png')
-            self.framex, self.framey = self.find_frame_position(self.frame_step, 6, 1, 6)
-            self.frame_step += 1
-            if self.frame_step == 6:
+            self.framex, self.framey = self.find_frame_position(int(self.frame_step), 6, 1, 6)
+            self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
+            if int(self.frame_step) == 6:
                 self.frame_step = 0
         elif self.state == 'jump':
             self.image = load_image('kfm_sheet/kfm_jump.png')
-            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 1, 5)
-            self.frame_step += 1
-            if self.frame_step == 5:
+            self.framex, self.framey = self.find_frame_position(int(self.frame_step), 5, 1, 5)
+            self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
+            if int(self.frame_step) == 5:
                 self.frame_step = 4
         elif self.state == 'double jump':
             self.image = load_image('kfm_sheet/kfm_jump.png')
-            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 1, 5)
-            self.frame_step += 1
-            if self.frame_step == 5:
+            self.framex, self.framey = self.find_frame_position(int(self.frame_step), 5, 1, 5)
+            self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
+            if int(self.frame_step) == 5:
                 self.frame_step = 4
         elif self.state == 'normal_attack':
             self.image = load_image('kfm_sheet/kfm_normal_attack.png')
-            self.framex, self.framey = self.find_frame_position(self.frame_step, 6, 1, 6)
-            self.frame_step += 1
-            if self.frame_step == 6:
+            self.framex, self.framey = self.find_frame_position(int(self.frame_step), 6, 1, 6)
+            self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
+            if int(self.frame_step) == 6:
                 self.frame_step = 0
                 self.framex = 0
                 self.framey = 0
                 self.state = 'standing'
         elif self.state == 'special_attack':
             self.image = load_image('kfm_sheet/kfm_special_attack.png')
-            self.framex, self.framey = self.find_frame_position(self.frame_step, 6, 1, 6)
-            self.frame_step += 1
-            if self.frame_step == 6:
+            self.framex, self.framey = self.find_frame_position(int(self.frame_step), 6, 1, 6)
+            self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
+            if int(self.frame_step) == 6:
                 self.frame_step = 0
                 self.framex = 0
                 self.framey = 0
                 self.state = 'standing'
         elif self.state == 'hit':
             self.image = load_image('kfm_sheet/kfm_hit.png')
-            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 1, 5)
-            self.frame_step += 1
-            if self.frame_step == 5:
+            self.framex, self.framey = self.find_frame_position(int(self.frame_step), 5, 1, 5)
+            self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
+            if int(self.frame_step) == 5:
                 self.frame_step = 0
                 self.framex = 0
                 self.framey = 0
                 self.state = 'standing'
         elif self.state == 'thrown':
             self.image = load_image('kfm_sheet/kfm_thrown.png')
-            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 1, 5)
-            self.frame_step += 1
-            if self.frame_step == 5:
+            self.framex, self.framey = self.find_frame_position(int(self.frame_step), 5, 1, 5)
+            self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
+            if int(self.frame_step) == 5:
                 self.frame_step = 3
         elif self.state == 'fall':
             self.image = load_image('kfm_sheet/kfm_jump.png')
-            self.framex, self.framey = self.find_frame_position(self.frame_step, 5, 1, 5)
-            self.frame_step += 1
-            if self.frame_step == 5:
+            self.framex, self.framey = self.find_frame_position(int(self.frame_step), 5, 1, 5)
+            self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
+            if int(self.frame_step) == 5:
                 self.frame_step = 4
         if self.state in ['standing', 'walk', 'run','block','normal_attack','special_attack'] and speed_Y < 0:
             self.state = 'fall'
