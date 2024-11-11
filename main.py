@@ -266,7 +266,7 @@ def update_world():
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
-            o.update(speed_Y)  # player에 필요한 인자 전달
+            o.update(speed_Y, frame_time)  # player에 필요한 인자 전달
         elif isinstance(o, KFM):  # KFM 클래스의 enemy 객체인 경우
             if o == enemy[0]:
                 o.update(E_speed_Y[0])  # enemy[0]에 필요한 인자 전달
