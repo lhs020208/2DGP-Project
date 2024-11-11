@@ -6,7 +6,7 @@ class KFM:
     state = 'standing'
     def __init__(self):
         self.x = 450
-        self.y = 125
+        self.y = 140
         self.frame_step = 0
         self.framex = 0
         self.framey = 0
@@ -99,7 +99,7 @@ class KFM:
 
     def draw(self, player_x, player_y):
         offset_x = player_x - 400
-        offset_y = player_y - 120
+        offset_y = player_y - 200
         if self.direct == 1:
             self.image.clip_draw(self.framex * 140, self.framey * 140, 140, 140, self.x- offset_x, self.y- offset_y,150, 150)
         else:
@@ -107,7 +107,7 @@ class KFM:
 
     def get_normal_attack_hitbox(self, player_x, player_y):
         offset_x = player_x - 400
-        offset_y = player_y - 120
+        offset_y = player_y - 200
         pos_x = self.x - offset_x
         pos_y = self.y - offset_y
         if self.state == 'normal_attack' and self.frame_step in [3]:
@@ -135,7 +135,7 @@ class KFM:
 
     def get_special_attack_hitbox(self, player_x, player_y):
         offset_x = player_x - 400
-        offset_y = player_y - 120
+        offset_y = player_y - 200
         pos_x = self.x - offset_x
         pos_y = self.y - offset_y
         if self.state == 'special_attack' and self.frame_step in [2, 3]:

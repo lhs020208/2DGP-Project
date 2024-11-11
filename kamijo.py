@@ -5,7 +5,7 @@ class Kamijo:
     state = 'standing'
     def __init__(self):
         self.x = 400
-        self.y = 120
+        self.y = 200
         self.frame_step = 0
         self.framex = 0
         self.framey = 0
