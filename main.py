@@ -1,4 +1,5 @@
 from pico2d import *
+import time
 
 from background import BGP
 from decide_states import decide_state, decide_direct
@@ -20,6 +21,14 @@ def reset_frame():
 def move_x(state, walk, shift):
     global Player_x
     global speed
+
+    PIXEL_PER_METER = (11.0 / 16.0)
+    RUN_SPEED_KMPH = 20.0
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+
     if state in ['walk', 'run']:
         step_size = 2
         if shift: step_size = 4
@@ -57,7 +66,7 @@ def move_x(state, walk, shift):
     else:
         if speed < 0: speed += 1
         elif speed > 0: speed -=1
-    Player_x += speed
+    Player_x += speed * RUN_SPEED_PPS * frame_time * 5
 
 def check_floor(pos_x, pos_y, speed):
     fell_y = pos_y - speed
@@ -289,10 +298,16 @@ def render_world():
 open_canvas()
 reset_world()
 
+frame_time = 0.0
+current_time = time.time()
+
 while running:
     handle_events()
     update_world()
     render_world()
-    delay(0.05)
+    delay(0.03)
+    frame_time = time.time() - current_time
+    frame_rate = 1.0 / frame_time
+    current_time += frame_time
 
 close_canvas()
