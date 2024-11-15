@@ -10,6 +10,7 @@ from kfm import KFM
 from sky_grass import Sky_Grass
 
 from control import control
+from AI_control import ai_control, chage_ai_state
 
 def reset_frame():
     global player
