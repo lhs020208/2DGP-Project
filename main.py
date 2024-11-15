@@ -230,8 +230,8 @@ def update_world():
 
     global player_left, player_right, player_top, player_bottom
     global enemy_left, enemy_right, enemy_top, enemy_bottom
-    offset_x = player.x - 400
-    offset_y = player.y - 120
+    offset_x = Player_x - 400
+    offset_y = Player_y - 200
     player_left, player_right, player_top, player_bottom = calculate_player_hitbox(player)
     enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_hitbox(enemy, offset_x, offset_y)
 
@@ -285,14 +285,18 @@ def render_world():
         else:
             o.draw()
 
-    hitbox_point = [load_image('heatbox_point.png') for _ in range(8)]
+    hitbox_point = [load_image('heatbox_point.png') for _ in range(12)]
 
-    for i in range(3):
-        hitbox_point[2*i + 0].draw(sky_floor_L[i], sky_floor_T[i])
-        hitbox_point[2*i + 1].draw(sky_floor_R[i], sky_floor_T[i])
-    hitbox_point[6].draw(floor_L, floor_T)
-    hitbox_point[7].draw(floor_R, floor_T)
+    for i in range (2):
+        hitbox_point[i + 0].draw(enemy_left[i], enemy_top[i])
+        hitbox_point[i + 1].draw(enemy_left[i], enemy_bottom[i])
+        hitbox_point[i + 2].draw(enemy_right[i], enemy_top[i])
+        hitbox_point[i + 3].draw(enemy_right[i], enemy_bottom[i])
 
+    hitbox_point[8].draw(player_left, player_top)
+    hitbox_point[9].draw(player_left, player_bottom)
+    hitbox_point[10].draw(player_right, player_top)
+    hitbox_point[11].draw(player_right, player_bottom)
     update_canvas()
 
 open_canvas()
