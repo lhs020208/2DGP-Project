@@ -285,8 +285,8 @@ def update_world():
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "HIT")
                 player.stop_attack = 1
 
-        E_event[i], E_walk[i],  E_speed_Y[i], E_shift[i], E_moving[i] = (
-            ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_shift[i], E_moving[i]))
+        E_event[i], E_walk[i],  E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i] = (
+            ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i]))
 
         if enemy[i].state != "standing": print(enemy[i].state)
 

@@ -7,7 +7,7 @@ def chage_ai_state(enemy, event, after_event):
     event = after_event
     return event
 
-def ai_control(enemy, event, walk, speed_Y, shift, moving):
+def ai_control(enemy, event, walk, speed_Y, speed, shift, moving):
     #event는 문자열 저장
     #좌측이동 LEFT
     #좌측런 R_LEFT
@@ -19,6 +19,7 @@ def ai_control(enemy, event, walk, speed_Y, shift, moving):
     #강공 SA
     #약공받음 HIT
     #강공받음 THROWN
+
 
     if enemy.plz_standing == 1:
         enemy.state = 'standing'
@@ -64,7 +65,8 @@ def ai_control(enemy, event, walk, speed_Y, shift, moving):
         enemy.state = 'special_attack'
 
     elif event == "HIT": #약공 받음
-        speed_Y = 5.0
+        speed = -4.0 * enemy.direct
+        speed_Y = 4.0
         enemy.state = 'hit'
 
     elif event == "THROWN": #강공 받음
@@ -75,4 +77,4 @@ def ai_control(enemy, event, walk, speed_Y, shift, moving):
         enemy.plz_standing = 0
         event = 'standing'
 
-    return event, walk, speed_Y, shift, moving
+    return event, walk, speed_Y, speed, shift, moving
