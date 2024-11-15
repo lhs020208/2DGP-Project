@@ -283,8 +283,8 @@ def update_world():
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_shift[i], E_moving[i]))
 
         if (PNA):
-            if (enemy_left < PNA_right and enemy_right > PNA_left and
-                    enemy_top < PNA_bottom and enemy_bottom > PNA_top):
+            if (enemy_left[i] < PNA_right and enemy_right[i] > PNA_left and
+                    enemy_top[i] < PNA_bottom and enemy_bottom[i] > PNA_top):
                 chage_ai_state(enemy[i], E_event[i], "HIT")
 
     for o in world:
