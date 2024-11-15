@@ -63,6 +63,7 @@ def control(enemy, event, player, walk, speed_Y, shift, moving):
             player.frame_step = 0
             player.framex = 0
             player.framey = 0
+            player.stop_attack = 0
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_c:  # 강 공격
         if player.state in ['standing', 'run', 'walk', 'block', 'normal_attack']:
@@ -70,6 +71,7 @@ def control(enemy, event, player, walk, speed_Y, shift, moving):
             player.frame_step = 0
             player.framex = 0
             player.framey = 0
+            player.stop_attack = 0
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_a:  # 공격받음 // 테스트용
         player.state = 'hit'
