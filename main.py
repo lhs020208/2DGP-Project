@@ -279,13 +279,15 @@ def update_world():
     global E_moving
     global E_speed_Y
     for i in range (2):
+        if PNA == 1:
+            if (enemy_left[i] < PNA_right and enemy_right[i] > PNA_left and
+                    enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top):
+                chage_ai_state(enemy[i], E_event[i], "HIT")
+
         E_walk[i],  E_speed_Y[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_shift[i], E_moving[i]))
 
-        if (PNA):
-            if (enemy_left[i] < PNA_right and enemy_right[i] > PNA_left and
-                    enemy_top[i] < PNA_bottom and enemy_bottom[i] > PNA_top):
-                chage_ai_state(enemy[i], E_event[i], "HIT")
+        if enemy[i].state != "standing": print(enemy[i].state)
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
@@ -317,7 +319,6 @@ def render_world():
         hitbox_point[i*4 + 3].draw(enemy_right[i], enemy_bottom[i])
 
     if PNA == 1:
-        print ("aa")
         hitbox_point[8].draw(PNA_left, PNA_top)
         hitbox_point[9].draw(PNA_left, PNA_bottom)
         hitbox_point[10].draw(PNA_right, PNA_top)

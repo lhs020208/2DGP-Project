@@ -136,8 +136,8 @@ class Kamijo:
                 PNA_top = player_bottom + 93
                 PNA_bottom = player_bottom + 77
             else:
-                PNA_left = player_right - 40
-                PNA_right = player_right - 80
+                PNA_left = player_right - 80
+                PNA_right = player_right - 40
                 PNA_top = player_bottom + 93
                 PNA_bottom = player_bottom + 77
 
@@ -159,8 +159,8 @@ class Kamijo:
                 PSA_top = player_bottom + 45
                 PSA_bottom = player_bottom + 64
             else:
-                PSA_left = player_right - 50
-                PSA_right = player_right - 109
+                PSA_left = player_right - 109
+                PSA_right = player_right - 50
                 PSA_top = player_bottom + 45
                 PSA_bottom = player_bottom + 64
 
