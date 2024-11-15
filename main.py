@@ -282,6 +282,11 @@ def update_world():
         E_walk[i],  E_speed_Y[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_shift[i], E_moving[i]))
 
+        if (PNA):
+            if (enemy_left < PNA_right and enemy_right > PNA_left and
+                    enemy_top < PNA_bottom and enemy_bottom > PNA_top):
+                chage_ai_state(enemy[i], E_event[i], "HIT")
+
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
             o.update(speed_Y, frame_time)  # player에 필요한 인자 전달
