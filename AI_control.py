@@ -21,43 +21,50 @@ def ai_control(enemy, event, walk, speed_Y, shift, moving):
     #강공받음 THROWN
 
     if event == "LEFT":
+        enemy.state = 'walk'
         shift = 0
         walk -= 1
         enemy.direct = -1
         moving = 1
 
-    if event == "RIGHT":
+    elif event == "RIGHT":
+        enemy.state = 'walk'
         shift = 0
         walk += 1
         enemy.direct = 1
         moving = 1
 
-    if event == "R_LEFT":
+    elif event == "R_LEFT":
+        enemy.state = 'run'
         shift = 1
         walk -= 1
         enemy.direct = -1
         moving = 1
 
-    if event == "R_RIGHT":
+    elif event == "R_RIGHT":
+        enemy.state = 'run'
         shift = 1
         walk += 1
         enemy.direct = 1
         moving = 1
 
-    if event == "JUMP":  # 위키
+    elif event == "JUMP":  # 위키
         enemy.state = 'jump'
         speed_Y += 30
 
-    if event == "NA":  # 약 공격
+    elif event == "NA":  # 약 공격
         enemy.state = 'normal_attack'
 
-    if event == "SA":  # 약 공격
+    elif event == "SA":  # 약 공격
         enemy.state = 'special_attack'
 
-    if event == "HIT": #약공 받음
+    elif event == "HIT": #약공 받음
         enemy.state = 'hit'
 
-    if event == "THROWN": #강공 받음
+    elif event == "THROWN": #강공 받음
         enemy.state = 'thrown'
+
+    else:
+        enemy.state = 'standing'
 
     return walk, speed_Y, shift, moving

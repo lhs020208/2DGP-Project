@@ -199,6 +199,14 @@ def reset_world():
     global walk
     shift = 0
     walk = 0
+    global E_event
+    global E_shift
+    global E_walk
+    global E_moving
+    E_event = ['standing', 'standing']
+    E_shift = [0,0]
+    E_walk = [0,0]
+    E_moving = [0, 0]
 
     running = True
     world = []
@@ -264,6 +272,15 @@ def update_world():
     for i in range(3):
         hitbox = sky_grass[i].get_hitbox(player.x,player.y)
         sky_floor_L[i], sky_floor_R[i], sky_floor_T[i] = hitbox
+
+    global E_event
+    global E_shift
+    global E_walk
+    global E_moving
+    global E_speed_Y
+    for i in range (2):
+        E_walk[i],  E_speed_Y[i], E_shift[i], E_moving[i] = (
+            ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_shift[i], E_moving[i]))
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
