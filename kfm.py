@@ -113,7 +113,7 @@ class KFM:
         offset_y = player_y - 200
         pos_x = self.x - offset_x
         pos_y = self.y - offset_y
-        if self.state == 'normal_attack' and self.frame_step in [3]:
+        if self.state == 'normal_attack' and int(self.frame_step) in [3]:
 
             kfm_box = 140
             kfm_w = 95
@@ -141,7 +141,7 @@ class KFM:
         offset_y = player_y - 200
         pos_x = self.x - offset_x
         pos_y = self.y - offset_y
-        if self.state == 'special_attack' and self.frame_step in [2, 3]:
+        if self.state == 'special_attack' and int(self.frame_step) in [2, 3]:
 
             kfm_box = 140
             kfm_w = 93

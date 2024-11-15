@@ -123,7 +123,7 @@ class Kamijo:
         self.framey = 0
 
     def get_normal_attack_hitbox(self):
-        if self.state == 'normal_attack' and self.frame_step in [1, 2, 3]:
+        if self.state == 'normal_attack' and int(self.frame_step) in [1, 2, 3]:
             kamijo_box = 140
             kamijo_w = 81
             player_left = self.x - kamijo_w / 2
@@ -146,7 +146,7 @@ class Kamijo:
             return 0,0,0,0,0
 
     def get_special_attack_hitbox(self):
-        if self.state == 'special_attack' and self.frame_step in [1, 2, 3, 4]:
+        if self.state == 'special_attack' and int(self.frame_step) in [1, 2, 3, 4]:
             kamijo_box = 140
             kamijo_w = 109
             player_left = self.x - kamijo_w / 2

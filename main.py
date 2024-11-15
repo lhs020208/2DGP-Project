@@ -288,15 +288,18 @@ def render_world():
     hitbox_point = [load_image('heatbox_point.png') for _ in range(12)]
 
     for i in range (2):
-        hitbox_point[i + 0].draw(enemy_left[i], enemy_top[i])
-        hitbox_point[i + 1].draw(enemy_left[i], enemy_bottom[i])
-        hitbox_point[i + 2].draw(enemy_right[i], enemy_top[i])
-        hitbox_point[i + 3].draw(enemy_right[i], enemy_bottom[i])
+        hitbox_point[i*4 + 0].draw(enemy_left[i], enemy_top[i])
+        hitbox_point[i*4 + 1].draw(enemy_left[i], enemy_bottom[i])
+        hitbox_point[i*4 + 2].draw(enemy_right[i], enemy_top[i])
+        hitbox_point[i*4 + 3].draw(enemy_right[i], enemy_bottom[i])
 
-    hitbox_point[8].draw(player_left, player_top)
-    hitbox_point[9].draw(player_left, player_bottom)
-    hitbox_point[10].draw(player_right, player_top)
-    hitbox_point[11].draw(player_right, player_bottom)
+    if PNA == 1:
+        print ("aa")
+        hitbox_point[8].draw(PNA_left, PNA_top)
+        hitbox_point[9].draw(PNA_left, PNA_bottom)
+        hitbox_point[10].draw(PNA_right, PNA_top)
+        hitbox_point[11].draw(PNA_right, PNA_bottom)
+
     update_canvas()
 
 open_canvas()
