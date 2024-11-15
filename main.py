@@ -69,6 +69,56 @@ def move_x(state, walk, shift):
         elif speed > 0: speed -=1
     Player_x += speed * RUN_SPEED_PPS * frame_time * 5
 
+def E_move_x(enemy, state, walk, shift, i):
+    global E_speed
+
+    PIXEL_PER_METER = (11.0 / 16.0)
+    RUN_SPEED_KMPH = 20.0
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+
+    if state in ['walk', 'run']:
+        step_size = 2
+        if shift: step_size = 4
+
+        if walk < 0:
+            step_size = step_size * -1
+
+        E_speed[i] += step_size
+        max_speed = 5
+        if shift: max_speed = 10
+
+        if walk < 0:
+            if E_speed[i] < -1 * max_speed:
+                E_speed[i] = -1 * max_speed
+        elif walk > 0:
+            if E_speed[i] > max_speed:
+                E_speed[i] = max_speed
+    elif state in ['jump', 'double jump', 'fall'] and moving:
+        step_size = 1
+        if walk < 0:
+            step_size = step_size * -1
+        elif walk == 0:
+            step_size = 0
+
+        E_speed[i] += step_size
+        max_speed = 10
+
+        if walk < 0:
+            if E_speed[i] < -1 * max_speed:
+                E_speed[i] = -1 * max_speed
+        elif walk > 0:
+            if E_speed[i] > max_speed:
+                E_speed[i] = max_speed
+    elif state in ['standing']:
+        if E_speed[i] < 0: E_speed[i] += 1
+        elif E_speed[i] > 0: E_speed[i] -=1
+
+    enemy.x += E_speed[i] * RUN_SPEED_PPS * frame_time * 5
+
+
 def check_floor(pos_x, pos_y, speed):
     fell_y = pos_y - speed
 
@@ -230,31 +280,39 @@ def reset_world():
 def update_world():
     global player
     global enemy
+    global player_left, player_right, player_top, player_bottom
+    global enemy_left, enemy_right, enemy_top, enemy_bottom
+    global PNA, PNA_left, PNA_right, PNA_top, PNA_bottom
+    global PSA, PSA_left, PSA_right, PSA_top, PSA_bottom
+    global ENA, ENA_left, ENA_right, ENA_top, ENA_bottom
+    global ESA, ESA_left, ESA_right, ESA_top, ESA_bottom
+    global floor_L, floor_R, floor_T
+    global sky_floor_L, sky_floor_R, sky_floor_T
+    global E_event
+    global E_shift
+    global E_walk
+    global E_moving
+    global E_speed_Y
 
     if player.state in ['standing', 'walk', 'run']:
         player.state = decide_state(player.state, walk, shift)
         player.direct = decide_direct(player.state, player.direct, walk)
     move_x(player.state, walk, shift)
+    for i in range(2):
+        E_move_x(enemy[i], enemy[i].state, E_walk[i], E_shift[i], i)
     fall(player, enemy)
 
-    global player_left, player_right, player_top, player_bottom
-    global enemy_left, enemy_right, enemy_top, enemy_bottom
     offset_x = Player_x - 400
     offset_y = Player_y - 200
     player_left, player_right, player_top, player_bottom = calculate_player_hitbox(player)
     enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_hitbox(enemy, offset_x, offset_y)
 
-    global PNA, PNA_left, PNA_right, PNA_top, PNA_bottom
-    global PSA, PSA_left, PSA_right, PSA_top, PSA_bottom
     if player.state == 'normal_attack':
         hitbox = player.get_normal_attack_hitbox()
         PNA, PNA_left, PNA_right, PNA_top, PNA_bottom = hitbox
     elif player.state == 'special_attack':
         hitbox = player.get_special_attack_hitbox()
         PSA, PSA_left, PSA_right, PSA_top, PSA_bottom = hitbox
-
-    global ENA, ENA_left, ENA_right, ENA_top, ENA_bottom
-    global ESA, ESA_left, ESA_right, ESA_top, ESA_bottom
 
     for i in range(2):
         if enemy[i].state == 'normal_attack':
@@ -264,8 +322,6 @@ def update_world():
             hitbox = enemy[i].get_special_attack_hitbox(player.x,player.y)
             ESA[i], ESA_left[i], ESA_right[i], ESA_top[i], ESA_bottom[i] = hitbox
 
-    global floor_L, floor_R, floor_T
-    global sky_floor_L, sky_floor_R, sky_floor_T
 
     hitbox = grass.get_hitbox(player.x,player.y)
     floor_L, floor_R, floor_T = hitbox
@@ -273,11 +329,6 @@ def update_world():
         hitbox = sky_grass[i].get_hitbox(player.x,player.y)
         sky_floor_L[i], sky_floor_R[i], sky_floor_T[i] = hitbox
 
-    global E_event
-    global E_shift
-    global E_walk
-    global E_moving
-    global E_speed_Y
     for i in range (2):
         if PNA == 1:
             if (enemy_left[i] < PNA_right and enemy_right[i] > PNA_left and
