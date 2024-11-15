@@ -20,7 +20,12 @@ def ai_control(enemy, event, walk, speed_Y, shift, moving):
     #약공받음 HIT
     #강공받음 THROWN
 
-    if event == "LEFT":
+    if enemy.plz_standing == 1:
+        enemy.state = 'standing'
+        enemy.plz_standing = 0
+        event = 'standing'
+
+    elif event == "LEFT":
         enemy.state = 'walk'
         shift = 0
         walk -= 1
@@ -66,5 +71,7 @@ def ai_control(enemy, event, walk, speed_Y, shift, moving):
 
     else:
         enemy.state = 'standing'
+        enemy.plz_standing = 0
+        event = 'standing'
 
-    return walk, speed_Y, shift, moving
+    return event, walk, speed_Y, shift, moving

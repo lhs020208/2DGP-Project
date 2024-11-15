@@ -282,9 +282,9 @@ def update_world():
         if PNA == 1:
             if (enemy_left[i] < PNA_right and enemy_right[i] > PNA_left and
                     enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top):
-                chage_ai_state(enemy[i], E_event[i], "HIT")
+                E_event[i] = chage_ai_state(enemy[i], E_event[i], "HIT")
 
-        E_walk[i],  E_speed_Y[i], E_shift[i], E_moving[i] = (
+        E_event[i], E_walk[i],  E_speed_Y[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_shift[i], E_moving[i]))
 
         if enemy[i].state != "standing": print(enemy[i].state)

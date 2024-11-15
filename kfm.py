@@ -14,7 +14,7 @@ class KFM:
         self.framex = 0
         self.framey = 0
         self.direct = 1
-
+        self.plz_standing = 0
     def find_frame_position(self, frame_step, w, h, max_frame):
         frame_index = frame_step
 
@@ -66,6 +66,7 @@ class KFM:
                 self.framex = 0
                 self.framey = 0
                 self.state = 'standing'
+                self.plz_standing = 1
         elif self.state == 'special_attack':
             self.image = load_image('kfm_sheet/kfm_special_attack.png')
             self.framex, self.framey = self.find_frame_position(int(self.frame_step), 6, 1, 6)
@@ -75,6 +76,7 @@ class KFM:
                 self.framex = 0
                 self.framey = 0
                 self.state = 'standing'
+                self.plz_standing = 1
         elif self.state == 'hit':
             self.image = load_image('kfm_sheet/kfm_hit.png')
             self.framex, self.framey = self.find_frame_position(int(self.frame_step), 5, 1, 5)
@@ -84,6 +86,7 @@ class KFM:
                 self.framex = 0
                 self.framey = 0
                 self.state = 'standing'
+                self.plz_standing = 1
         elif self.state == 'thrown':
             self.image = load_image('kfm_sheet/kfm_thrown.png')
             self.framex, self.framey = self.find_frame_position(int(self.frame_step), 5, 1, 5)

@@ -74,7 +74,7 @@ def control(enemy, event, player, walk, speed_Y, shift, moving):
     if event.type == SDL_KEYDOWN and event.key == SDLK_a:  # 공격받음 // 테스트용
         player.state = 'hit'
         for i in range(2):
-            enemy[i].state = 'special_attack'
+            enemy[i].state = 'normal_attack'
             enemy[i].frame_step = 0
         player.frame_step = 0
         player.framex = 0
