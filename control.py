@@ -73,21 +73,6 @@ def control(enemy, event, player, walk, speed_Y, shift, moving):
             player.framey = 0
             player.stop_attack = 0
 
-    if event.type == SDL_KEYDOWN and event.key == SDLK_a:  # 공격받음 // 테스트용
-        player.state = 'hit'
-        for i in range(2):
-            enemy[i].state = 'normal_attack'
-            enemy[i].frame_step = 0
-        player.frame_step = 0
-        player.framex = 0
-        player.framey = 0
-
-    if event.type == SDL_KEYDOWN and event.key == SDLK_s:  # 날라감 // 테스트용
-        player.state = 'thrown'
-        player.frame_step = 0
-        player.framex = 0
-        player.framey = 0
-
     # 키를 뗐을 때 (KEYUP 이벤트)
     if event.type == SDL_KEYUP and event.key == SDLK_LEFT:  # 왼쪽키
         walk += 1

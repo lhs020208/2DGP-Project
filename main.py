@@ -122,7 +122,6 @@ def E_move_x(enemy, state, walk, shift, i):
 
     enemy.x += E_speed[i] * RUN_SPEED_PPS * frame_time * 5
 
-
 def check_floor(pos_x, pos_y, speed):
     fell_y = pos_y - speed
 
@@ -147,7 +146,6 @@ def check_floor(pos_x, pos_y, speed):
                 return sky_floor_T[i] + 70
 
     return -1
-
 
 def fall(player, enemy):
     global speed_Y, E_speed_Y
@@ -205,6 +203,12 @@ def handle_events():
             running = False
         walk, speed_Y, shift, moving = control(enemy, event, player, walk, speed_Y, shift, moving)
 
+        if event.type == SDL_KEYDOWN and event.key == SDLK_a:  # 공격받음 // 테스트용
+            for i in range(2):
+                E_event[i] = chage_ai_state(enemy[i], E_event[i], "NA")
+        if event.type == SDL_KEYDOWN and event.key == SDLK_s:  # 공격받음 // 테스트용
+            for i in range(2):
+                E_event[i] = chage_ai_state(enemy[i], E_event[i], "SA")
 
 def reset_world():
     global running
