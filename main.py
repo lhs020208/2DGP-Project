@@ -335,6 +335,12 @@ def update_world():
                     enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "HIT")
                 player.stop_attack = 1
+        if PSA == 1:
+            if (enemy_left[i] < PSA_right and enemy_right[i] > PSA_left and
+                    enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top):
+                E_event[i] = chage_ai_state(enemy[i], E_event[i], "THROWN")
+                player.stop_attack = 1
+
 
         E_event[i], E_walk[i],  E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i]))
