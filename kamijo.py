@@ -17,6 +17,7 @@ class Kamijo:
         self.direct = 1
         self.stop_attack = 0
         self.plz_standing = 0
+        self.stand_time = 0
 
     def find_frame_position(self, frame_step, w, h, max_frame):
         frame_index = frame_step
@@ -98,9 +99,14 @@ class Kamijo:
             self.image = load_image('kamijo_sheet/kamijo_thrown.png')
             self.framex, self.framey = self.find_frame_position(int(self.frame_step), 2, 1, 2)
             self.frame_step = (self.frame_step + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
-            # self.frame_step += 1
+            self.stand_time = (self.stand_time + FRAMES_PER_ACTION * ACTION_PER_TIME * frame_time)
             if int(self.frame_step) == 2:
                 self.frame_step = 0
+            if int(self.stand_time) >= 20 and speed_Y == 0:
+                self.reset_frame()
+                self.state = 'standing'
+
+
         elif self.state == 'fall':
             self.image = load_image('kamijo_sheet/kamijo_jump.png')
             self.framex, self.framey = self.find_frame_position(int(self.frame_step), 5, 2, 10)
