@@ -112,7 +112,7 @@ def E_move_x(enemy, state, walk, shift, i):
         elif walk > 0:
             if E_speed[i] > max_speed:
                 E_speed[i] = max_speed
-    elif state in ['standing']:
+    elif state in ['standing', 'hit']:
         if E_speed[i] < 0: E_speed[i] += 1
         elif E_speed[i] > 0: E_speed[i] -=1
     elif state == 'thrown' and E_speed_Y[i] == 0:
@@ -338,14 +338,14 @@ def update_world():
             if (enemy_left[i] < PNA_right and enemy_right[i] > PNA_left and
                     enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "HIT")
-                E_speed[i] = -4.0 * enemy[i].direct
+                E_speed[i] = 4.0 * player.direct
                 E_speed_Y[i] = 8.0
                 player.stop_attack = 1
         if PSA == 1:
             if (enemy_left[i] < PSA_right and enemy_right[i] > PSA_left and
                     enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "THROWN")
-                E_speed[i] = -10.0 * enemy[i].direct
+                E_speed[i] = 10.0 * player.direct
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
 
@@ -389,7 +389,6 @@ def render_world():
         hitbox_point[9].draw(PNA_left, PNA_bottom)
         hitbox_point[10].draw(PNA_right, PNA_top)
         hitbox_point[11].draw(PNA_right, PNA_bottom)
-
     update_canvas()
 
 open_canvas()

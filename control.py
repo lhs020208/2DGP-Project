@@ -12,7 +12,7 @@ def control(enemy, event, player, walk, speed_Y, shift, moving):
                 player.direct = -1
                 moving = 1
             elif walk == 0:
-                player.direct = 0
+                player.direct = 1
                 moving = 0
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT:  # 오른쪽키
@@ -26,7 +26,7 @@ def control(enemy, event, player, walk, speed_Y, shift, moving):
                 player.direct = 1
                 moving = 1
             elif walk == 0:
-                player.direct = 0
+                player.direct = -1
                 moving = 0
 
     if event.type == SDL_KEYDOWN and event.key == SDLK_UP:  # 위키
@@ -100,7 +100,7 @@ def control(enemy, event, player, walk, speed_Y, shift, moving):
                 player.direct = 1
                 moving = 1
             elif walk == 0:
-                player.direct = 0
+                player.direct = -1
                 moving = 0
 
     if event.type == SDL_KEYUP and event.key == SDLK_RIGHT:  # 오른쪽키
