@@ -16,6 +16,7 @@ class KFM:
         self.direct = 1
         self.plz_standing = 0
         self.stand_time = 0
+        self.stop_attack = 0
 
     def find_frame_position(self, frame_step, w, h, max_frame):
         frame_index = frame_step
@@ -127,7 +128,7 @@ class KFM:
         offset_y = player_y - 200
         pos_x = self.x - offset_x
         pos_y = self.y - offset_y
-        if self.state == 'normal_attack' and int(self.frame_step) in [3]:
+        if self.state == 'normal_attack' and int(self.frame_step) in [3] and self.stop_attack != 1:
 
             kfm_box = 140
             kfm_w = 95
@@ -155,7 +156,7 @@ class KFM:
         offset_y = player_y - 200
         pos_x = self.x - offset_x
         pos_y = self.y - offset_y
-        if self.state == 'special_attack' and int(self.frame_step) in [2, 3]:
+        if self.state == 'special_attack' and int(self.frame_step) in [2, 3] and self.stop_attack != 1:
 
             kfm_box = 140
             kfm_w = 93

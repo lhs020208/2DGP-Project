@@ -59,9 +59,11 @@ def ai_control(enemy, event, walk, speed_Y, speed, shift, moving):
         speed_Y += 30
 
     elif event == "NA":  # 약 공격
+        enemy.stop_attack = 0
         enemy.state = 'normal_attack'
 
-    elif event == "SA":  # 약 공격
+    elif event == "SA":  # 강 공격
+        enemy.stop_attack = 0
         enemy.state = 'special_attack'
 
     elif event == "HIT": #약공 받음

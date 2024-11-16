@@ -360,6 +360,7 @@ def update_world():
             if ENA[i] == 1:
                 if (player_left < ENA_right[i] and player_right > ENA_left[i] and
                         player_top > ENA_bottom[i] and player_bottom < ENA_top[i]):
+                    enemy[i].stop_attack = 1
                     print(i)
 
     for o in world:
