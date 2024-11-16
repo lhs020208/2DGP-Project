@@ -324,10 +324,10 @@ def update_world():
 
     for i in range(2):
         if enemy[i].state == 'normal_attack':
-            hitbox = enemy[i].get_normal_attack_hitbox(player.x,player.y)
+            hitbox = enemy[i].get_normal_attack_hitbox(Player_x,Player_y)
             ENA[i], ENA_left[i], ENA_right[i], ENA_top[i], ENA_bottom[i] = hitbox
         elif enemy[i].state == 'special_attack':
-            hitbox = enemy[i].get_special_attack_hitbox(player.x,player.y)
+            hitbox = enemy[i].get_special_attack_hitbox(Player_x,Player_y)
             ESA[i], ESA_left[i], ESA_right[i], ESA_top[i], ESA_bottom[i] = hitbox
 
 
@@ -383,16 +383,16 @@ def render_world():
     hitbox_point = [load_image('heatbox_point.png') for _ in range(12)]
 
     for i in range (2):
-        hitbox_point[i*4 + 0].draw(enemy_left[i], enemy_top[i])
-        hitbox_point[i*4 + 1].draw(enemy_left[i], enemy_bottom[i])
-        hitbox_point[i*4 + 2].draw(enemy_right[i], enemy_top[i])
-        hitbox_point[i*4 + 3].draw(enemy_right[i], enemy_bottom[i])
+        if ENA[i] == 1:
+            hitbox_point[i*4 + 0].draw(ENA_left[i], ENA_top[i])
+            hitbox_point[i*4 + 1].draw(ENA_left[i], ENA_bottom[i])
+            hitbox_point[i*4 + 2].draw(ENA_right[i], ENA_top[i])
+            hitbox_point[i*4 + 3].draw(ENA_right[i], ENA_bottom[i])
 
-    if PNA == 1:
-        hitbox_point[8].draw(PNA_left, PNA_top)
-        hitbox_point[9].draw(PNA_left, PNA_bottom)
-        hitbox_point[10].draw(PNA_right, PNA_top)
-        hitbox_point[11].draw(PNA_right, PNA_bottom)
+    hitbox_point[8].draw(player_left, player_top)
+    hitbox_point[9].draw(player_left, player_bottom)
+    hitbox_point[10].draw(player_right, player_top)
+    hitbox_point[11].draw(player_right, player_bottom)
     update_canvas()
 
 open_canvas()
