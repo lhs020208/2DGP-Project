@@ -353,11 +353,14 @@ def update_world():
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
 
-
         E_event[i], E_walk[i],  E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i]))
 
-        #if enemy[i].state != "standing": print(enemy[i].state)
+        for i in range(2):
+            if ENA[i] == 1:
+                if (player_left < ENA_right[i] and player_right > ENA_left[i] and
+                        player_top > ENA_bottom[i] and player_bottom < ENA_top[i]):
+                    print(i)
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
