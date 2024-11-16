@@ -98,7 +98,6 @@ class KFM:
             if int(self.frame_step) == 5:
                 self.frame_step = 3
             if int(self.stand_time) == 20:
-                print (int(self.stand_time))
                 self.frame_step = 0
                 self.framex = 0
                 self.framey = 0

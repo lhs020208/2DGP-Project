@@ -63,7 +63,8 @@ def move_x(state, walk, shift):
         elif walk > 0:
             if speed > max_speed:
                 speed = max_speed
-
+    elif state == 'thrown' and speed_Y != 0:
+        pass
     else:
         if speed < 0: speed += 1
         elif speed > 0: speed -=1
@@ -296,6 +297,7 @@ def update_world():
     global ESA, ESA_left, ESA_right, ESA_top, ESA_bottom
     global floor_L, floor_R, floor_T
     global sky_floor_L, sky_floor_R, sky_floor_T
+    global speed, speed_Y
     global E_event
     global E_shift
     global E_walk
@@ -345,6 +347,7 @@ def update_world():
                 E_speed[i] = 4.0 * player.direct
                 E_speed_Y[i] = 8.0
                 player.stop_attack = 1
+                print(i)
         if PSA == 1:
             if (enemy_left[i] < PSA_right and enemy_right[i] > PSA_left and
                     enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top):
@@ -352,6 +355,7 @@ def update_world():
                 E_speed[i] = 10.0 * player.direct
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
+                print(i)
 
         E_event[i], E_walk[i],  E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i]))
@@ -361,13 +365,23 @@ def update_world():
                 if (player_left < ENA_right[i] and player_right > ENA_left[i] and
                         player_top > ENA_bottom[i] and player_bottom < ENA_top[i]):
                     enemy[i].stop_attack = 1
-                    print(i)
-        for i in range(2):
-            if ESA[i] == 1 and enemy[i].stop_attack == 0:
+                    player.frame_step = 0
+                    player.framex = 0
+                    player.framey = 0
+                    player.state = 'hit'
+                    speed = 4.0 * enemy[i].direct
+                    speed_Y = 8.0
+
+            elif ESA[i] == 1 and enemy[i].stop_attack == 0:
                 if (player_left < ESA_right[i] and player_right > ESA_left[i] and
                         player_top > ESA_bottom[i] and player_bottom < ESA_top[i]):
                     enemy[i].stop_attack = 1
-                    print(i)
+                    player.frame_step = 0
+                    player.framex = 0
+                    player.framey = 0
+                    player.state = 'thrown'
+                    speed = 10.0 * enemy[i].direct
+                    speed_Y = 20.0
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
