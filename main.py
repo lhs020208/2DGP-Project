@@ -115,6 +115,10 @@ def E_move_x(enemy, state, walk, shift, i):
     elif state in ['standing']:
         if E_speed[i] < 0: E_speed[i] += 1
         elif E_speed[i] > 0: E_speed[i] -=1
+    elif state == 'thrown' and E_speed_Y[i] == 0:
+        if E_speed[i] < 0: E_speed[i] += 1
+        elif E_speed[i] > 0: E_speed[i] -=1
+
 
     enemy.x += E_speed[i] * RUN_SPEED_PPS * frame_time * 5
 
@@ -349,7 +353,7 @@ def update_world():
         E_event[i], E_walk[i],  E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i]))
 
-        if enemy[i].state != "standing": print(enemy[i].state)
+        #if enemy[i].state != "standing": print(enemy[i].state)
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
