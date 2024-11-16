@@ -334,11 +334,15 @@ def update_world():
             if (enemy_left[i] < PNA_right and enemy_right[i] > PNA_left and
                     enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "HIT")
+                E_speed[i] = -4.0 * enemy[i].direct
+                E_speed_Y[i] = 8.0
                 player.stop_attack = 1
         if PSA == 1:
             if (enemy_left[i] < PSA_right and enemy_right[i] > PSA_left and
                     enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "THROWN")
+                E_speed[i] = -10.0 * enemy[i].direct
+                E_speed_Y[i] = 20.0
                 player.stop_attack = 1
 
 

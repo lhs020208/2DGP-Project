@@ -65,13 +65,9 @@ def ai_control(enemy, event, walk, speed_Y, speed, shift, moving):
         enemy.state = 'special_attack'
 
     elif event == "HIT": #약공 받음
-        speed = -4.0 * enemy.direct
-        speed_Y = 4.0
         enemy.state = 'hit'
 
     elif event == "THROWN": #강공 받음
-        speed = -10.0 * enemy.direct
-        speed_Y = 10.0
         enemy.state = 'thrown'
 
     else:
