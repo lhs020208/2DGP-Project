@@ -317,6 +317,7 @@ def update_world():
     player_left, player_right, player_top, player_bottom = calculate_player_hitbox(player)
     enemy_left, enemy_right, enemy_top, enemy_bottom = calculate_enemy_hitbox(enemy, offset_x, offset_y)
 
+
     if player.state == 'normal_attack':
         hitbox = player.get_normal_attack_hitbox()
         PNA, PNA_left, PNA_right, PNA_top, PNA_bottom = hitbox
@@ -363,7 +364,8 @@ def update_world():
         for i in range(2):
             if ENA[i] == 1 and enemy[i].stop_attack == 0:
                 if (player_left < ENA_right[i] and player_right > ENA_left[i] and
-                        player_top > ENA_bottom[i] and player_bottom < ENA_top[i]):
+                        player_top > ENA_bottom[i] and player_bottom < ENA_top[i] and
+                    player.state != 'block'):
                     enemy[i].stop_attack = 1
                     player.frame_step = 0
                     player.framex = 0
@@ -374,7 +376,8 @@ def update_world():
 
             elif ESA[i] == 1 and enemy[i].stop_attack == 0:
                 if (player_left < ESA_right[i] and player_right > ESA_left[i] and
-                        player_top > ESA_bottom[i] and player_bottom < ESA_top[i]):
+                        player_top > ESA_bottom[i] and player_bottom < ESA_top[i] and
+                    player.state != 'block'):
                     enemy[i].stop_attack = 1
                     player.frame_step = 0
                     player.framex = 0
@@ -406,17 +409,17 @@ def render_world():
 
     hitbox_point = [load_image('heatbox_point.png') for _ in range(12)]
 
-    for i in range (2):
-        if ENA[i] == 1:
-            hitbox_point[i*4 + 0].draw(ENA_left[i], ENA_top[i])
-            hitbox_point[i*4 + 1].draw(ENA_left[i], ENA_bottom[i])
-            hitbox_point[i*4 + 2].draw(ENA_right[i], ENA_top[i])
-            hitbox_point[i*4 + 3].draw(ENA_right[i], ENA_bottom[i])
+    #for i in range (2):
+    #    if ENA[i] == 1:
+    #        hitbox_point[i*4 + 0].draw(ENA_left[i], ENA_top[i])
+    #        hitbox_point[i*4 + 1].draw(ENA_left[i], ENA_bottom[i])
+    #        hitbox_point[i*4 + 2].draw(ENA_right[i], ENA_top[i])
+    #        hitbox_point[i*4 + 3].draw(ENA_right[i], ENA_bottom[i])
 
-    hitbox_point[8].draw(player_left, player_top)
-    hitbox_point[9].draw(player_left, player_bottom)
-    hitbox_point[10].draw(player_right, player_top)
-    hitbox_point[11].draw(player_right, player_bottom)
+    #hitbox_point[8].draw(player_left, player_top)
+    #hitbox_point[9].draw(player_left, player_bottom)
+    #hitbox_point[10].draw(player_right, player_top)
+    #hitbox_point[11].draw(player_right, player_bottom)
     update_canvas()
 
 open_canvas()
