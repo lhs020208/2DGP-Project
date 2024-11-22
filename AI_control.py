@@ -56,7 +56,7 @@ def ai_control(enemy, event, walk, speed_Y, speed, shift, moving):
 
     elif event == "JUMP":  # 위키
         enemy.state = 'jump'
-        speed_Y = 30
+        #speed_Y = 30
 
     elif event == "NA":  # 약 공격
         enemy.stop_attack = 0

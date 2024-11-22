@@ -80,7 +80,7 @@ def E_move_x(enemy, state, walk, shift, i):
     RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
     RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
     RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
-
+    if i == 1: RUN_SPEED_PPS +=1
 
     if state in ['walk', 'run']:
         step_size = 2
@@ -153,6 +153,7 @@ def check_floor(pos_x, pos_y, speed):
 def fall(player, enemy):
     global speed_Y, E_speed_Y
     global Player_x, Player_y
+    global E_event
 
     # 플레이어 낙하 처리
     speed_Y -= gravity
@@ -182,7 +183,7 @@ def fall(player, enemy):
             E_speed_Y[i] = 0
             if enemy[i].state in ['fall', 'jump', 'double jump']:
                 enemy[i].y = stop_y
-                enemy[i].state = 'standing'
+                E_event[i] = chage_ai_state(enemy[i], E_event[i], "standing")
         else:
             # 충돌하지 않은 경우 계속 낙하
             enemy[i].y += E_speed_Y[i]
@@ -362,7 +363,7 @@ def update_world():
         if enemy[i].state in ['standing', 'walk', 'run']:
             if enemy[i].y < Player_y:
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "JUMP")
-                print("jump")
+                E_speed_Y[i] = 30.0
             if (enemy[i].x < Player_x) and Player_x - enemy[i].x > 100:
                 if (enemy[i].state == 'run' and enemy[i].direct != 1) or (enemy[i].state in ['standing', 'walk']):
                     E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_RIGHT")
