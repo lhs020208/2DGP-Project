@@ -163,9 +163,8 @@ def fall(player, enemy):
     stop_y = check_floor(Player_x, Player_y, speed_Y)
     if stop_y >= 0 and speed_Y < 0:
         speed_Y = 0
+        Player_y = stop_y
         if player.state in ['fall', 'jump', 'double jump']:
-            #player.y = stop_y
-            Player_y = stop_y  # Player_y 동기화
             player.state = 'standing'
             reset_frame()
     else:
@@ -181,8 +180,8 @@ def fall(player, enemy):
         if stop_y >= 0 and E_speed_Y[i] < 0:
             # 충돌한 경우 속도를 0으로 설정하고 위치 수정
             E_speed_Y[i] = 0
+            enemy[i].y = stop_y
             if enemy[i].state in ['fall', 'jump', 'double jump']:
-                enemy[i].y = stop_y
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "standing")
         else:
             # 충돌하지 않은 경우 계속 낙하
