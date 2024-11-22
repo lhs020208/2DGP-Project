@@ -43,14 +43,14 @@ def ai_control(enemy, event, walk, speed_Y, speed, shift, moving):
     elif event == "R_LEFT":
         enemy.state = 'run'
         shift = 1
-        walk -= 1
+        walk = -1
         enemy.direct = -1
         moving = 1
 
     elif event == "R_RIGHT":
         enemy.state = 'run'
         shift = 1
-        walk += 1
+        walk = 1
         enemy.direct = 1
         moving = 1
 

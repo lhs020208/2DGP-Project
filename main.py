@@ -1,6 +1,8 @@
 from pico2d import *
 import time
 
+from sdl2.examples.pong import Player
+
 from background import BGP
 from decide_states import decide_state, decide_direct
 from grass import Grass
@@ -357,6 +359,11 @@ def update_world():
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
                 print(i)
+        if enemy[i].state in ['standing', 'walk', 'run']:
+            if (enemy[i].x < Player_x) and  Player_x - enemy[i].x > 100:
+                E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_RIGHT")
+            elif (enemy[i].x > Player_x) and  enemy[i].x - Player_x > 100:
+                E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_LEFT")
 
         E_event[i], E_walk[i],  E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i]))
