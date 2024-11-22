@@ -359,6 +359,10 @@ def update_world():
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
                 print(i)
+        if enemy[i].state == 'jump':
+            if enemy[i].y < Player_y and E_speed_Y[i] == 0:
+                E_event[i] = chage_ai_state(enemy[i], E_event[i], "D_JUMP")
+                E_speed_Y[i] = 20.0
         if enemy[i].state in ['standing', 'walk', 'run']:
             if enemy[i].y < Player_y and Player_y - enemy[i].y > 20:
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "JUMP")
