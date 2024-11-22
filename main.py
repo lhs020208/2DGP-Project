@@ -360,10 +360,12 @@ def update_world():
                 player.stop_attack = 1
                 print(i)
         if enemy[i].state in ['standing', 'walk', 'run']:
-            if (enemy[i].x < Player_x) and  Player_x - enemy[i].x > 100:
-                E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_RIGHT")
-            elif (enemy[i].x > Player_x) and  enemy[i].x - Player_x > 100:
-                E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_LEFT")
+            if (enemy[i].x < Player_x) and Player_x - enemy[i].x > 100:
+                if (enemy[i].state == 'run' and enemy[i].direct != 1) or (enemy[i].state in ['standing', 'walk']):
+                    E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_RIGHT")
+            elif (enemy[i].x > Player_x) and enemy[i].x - Player_x > 100:
+                if (enemy[i].state == 'run' and enemy[i].direct != -1) or (enemy[i].state in ['standing', 'walk']):
+                    E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_LEFT")
 
         E_event[i], E_walk[i],  E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i]))
