@@ -117,7 +117,8 @@ class Kamijo:
         if self.state in ['standing', 'walk', 'run','block','normal_attack','special_attack'] and speed_Y < 0:
             self.state = 'fall'
             self.frame_step = 7
-
+        if self.state not in ['normal_attack','special_attack']:
+            self.stop_attack = 0
     def draw(self):
         if self.direct == 1:
             self.image.clip_draw(self.framex * 140, self.framey * 140, 140, 140, self.x, self.y,150, 150)

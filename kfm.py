@@ -113,6 +113,8 @@ class KFM:
         if self.state in ['standing', 'walk', 'run','block','normal_attack','special_attack'] and speed_Y < 0:
             self.state = 'fall'
             self.frame_step = 4
+        if self.state not in ['normal_attack','special_attack']:
+            self.stop_attack = 0
 
     def draw(self, player_x, player_y):
         offset_x = player_x - 400
