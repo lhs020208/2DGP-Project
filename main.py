@@ -206,13 +206,6 @@ def handle_events():
             running = False
         walk, speed_Y, shift, moving = control(enemy, event, player, walk, speed_Y, shift, moving)
 
-        if event.type == SDL_KEYDOWN and event.key == SDLK_a:  # 공격받음 // 테스트용
-            for i in range(2):
-                E_event[i] = chage_ai_state(enemy[i], E_event[i], "NA")
-        if event.type == SDL_KEYDOWN and event.key == SDLK_s:  # 공격받음 // 테스트용
-            for i in range(2):
-                E_event[i] = chage_ai_state(enemy[i], E_event[i], "SA")
-
 def reset_world():
     global running
     global grass
@@ -384,6 +377,13 @@ def update_world():
             elif (enemy[i].x > Player_x) and enemy[i].x - Player_x > 100:
                 if (enemy[i].state == 'run' and enemy[i].direct != -1) or (enemy[i].state in ['standing', 'walk']):
                     E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_LEFT")
+            else:
+                import random
+                if random.random() < 0.5:
+                    E_event[i] = chage_ai_state(enemy[i], E_event[i], "NA")
+                else:
+                    E_event[i] = chage_ai_state(enemy[i], E_event[i], "SA")
+
 
         E_event[i], E_walk[i],  E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i]))
