@@ -207,6 +207,9 @@ def handle_events():
         walk, speed_Y, shift, moving = control(enemy, event, player, walk, speed_Y, shift, moving)
 
 def reset_world():
+    global ai_on
+    ai_on = 0
+
     global running
     global grass
     global sky_grass
@@ -336,6 +339,7 @@ def update_world():
         sky_floor_L[i], sky_floor_R[i], sky_floor_T[i] = hitbox
 
     for i in range (2):
+
         if PNA == 1:
             if (enemy_left[i] < PNA_right and enemy_right[i] > PNA_left and
                     enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top):
@@ -354,37 +358,38 @@ def update_world():
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
                 print(i)
-        if enemy[i].state in ['jump', 'fall']:
-            if enemy[i].y < Player_y and E_speed_Y[i] == 0:
-                E_event[i] = chage_ai_state(enemy[i], E_event[i], "D_JUMP")
-                E_speed_Y[i] = 20.0
-        if enemy[i].state in ['jump', 'double jump', 'fall']:
-            if enemy[i].x < Player_x:
-                enemy[i].walk = 1
-                enemy[i].direct = 1
-                enemy[i].moving = 1
+        if ai_on:
+            if enemy[i].state in ['jump', 'fall']:
+                if enemy[i].y < Player_y and E_speed_Y[i] == 0:
+                    E_event[i] = chage_ai_state(enemy[i], E_event[i], "D_JUMP")
+                    E_speed_Y[i] = 20.0
+            if enemy[i].state in ['jump', 'double jump', 'fall']:
+                if enemy[i].x < Player_x:
+                    enemy[i].walk = 1
+                    enemy[i].direct = 1
+                    enemy[i].moving = 1
 
-            elif enemy[i].x > Player_x:
-                enemy[i].walk = -1
-                enemy[i].direct = -1
-                enemy[i].moving = 1
+                elif enemy[i].x > Player_x:
+                    enemy[i].walk = -1
+                    enemy[i].direct = -1
+                    enemy[i].moving = 1
 
-        if enemy[i].state in ['standing', 'walk', 'run']:
-            if enemy[i].y < Player_y and Player_y - enemy[i].y > 20:
-                E_event[i] = chage_ai_state(enemy[i], E_event[i], "JUMP")
-                E_speed_Y[i] = 30.0
-            elif (enemy[i].x < Player_x) and Player_x - enemy[i].x > 100:
-                if (enemy[i].state == 'run' and enemy[i].direct != 1) or (enemy[i].state in ['standing', 'walk']):
-                    E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_RIGHT")
-            elif (enemy[i].x > Player_x) and enemy[i].x - Player_x > 100:
-                if (enemy[i].state == 'run' and enemy[i].direct != -1) or (enemy[i].state in ['standing', 'walk']):
-                    E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_LEFT")
-            else:
-                import random
-                if random.random() < 0.5:
-                    E_event[i] = chage_ai_state(enemy[i], E_event[i], "NA")
+            if enemy[i].state in ['standing', 'walk', 'run']:
+                if enemy[i].y < Player_y and Player_y - enemy[i].y > 20:
+                    E_event[i] = chage_ai_state(enemy[i], E_event[i], "JUMP")
+                    E_speed_Y[i] = 30.0
+                elif (enemy[i].x < Player_x) and Player_x - enemy[i].x > 100:
+                    if (enemy[i].state == 'run' and enemy[i].direct != 1) or (enemy[i].state in ['standing', 'walk']):
+                        E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_RIGHT")
+                elif (enemy[i].x > Player_x) and enemy[i].x - Player_x > 100:
+                    if (enemy[i].state == 'run' and enemy[i].direct != -1) or (enemy[i].state in ['standing', 'walk']):
+                        E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_LEFT")
                 else:
-                    E_event[i] = chage_ai_state(enemy[i], E_event[i], "SA")
+                    import random
+                    if random.random() < 0.5:
+                        E_event[i] = chage_ai_state(enemy[i], E_event[i], "NA")
+                    else:
+                        E_event[i] = chage_ai_state(enemy[i], E_event[i], "SA")
 
 
         E_event[i], E_walk[i],  E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i] = (
