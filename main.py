@@ -342,22 +342,24 @@ def update_world():
 
         if PNA == 1:
             if (enemy_left[i] < PNA_right and enemy_right[i] > PNA_left and
-                    enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top):
+                    enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top
+                    and player.stop_attack != 1):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "HIT")
+                print(f'p > {i} : {player.stop_attack}')
                 enemy[i].damage += 10
                 E_speed[i] = 0.2 * player.direct * (enemy[i].damage / 20)
                 E_speed_Y[i] = 8.0
                 player.stop_attack = 1
-                print(i)
         if PSA == 1:
             if (enemy_left[i] < PSA_right and enemy_right[i] > PSA_left and
-                    enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top):
+                    enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top
+                    and player.stop_attack != 1):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "THROWN")
+                print(f'p > {i} : {player.stop_attack}')
                 enemy[i].damage += 50
                 E_speed[i] = 0.4 * player.direct * (enemy[i].damage / 20)
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
-                print(i)
         if ai_on:
             if enemy[i].state in ['jump', 'fall']:
                 if enemy[i].y < Player_y and E_speed_Y[i] == 0:
@@ -399,8 +401,7 @@ def update_world():
             if ENA[i] == 1 and enemy[i].stop_attack == 0:
                 if (player_left < ENA_right[i] and player_right > ENA_left[i] and
                         player_top > ENA_bottom[i] and player_bottom < ENA_top[i] and
-                    player.state != 'block'):
-                    enemy[i].stop_attack = 1
+                    player.state != 'block' and enemy[i].stop_attack != 1):
                     player.frame_step = 0
                     player.framex = 0
                     player.framey = 0
@@ -408,12 +409,13 @@ def update_world():
                     player.damage += 10
                     speed = 0.2 * enemy[i].direct * (player.damage / 20)
                     speed_Y = 8.0
+                    print(f'{i} > p : {enemy[i].stop_attack}')
+                    enemy[i].stop_attack = 1
 
             elif ESA[i] == 1 and enemy[i].stop_attack == 0:
                 if (player_left < ESA_right[i] and player_right > ESA_left[i] and
                         player_top > ESA_bottom[i] and player_bottom < ESA_top[i] and
-                    player.state != 'block'):
-                    enemy[i].stop_attack = 1
+                    player.state != 'block' and enemy[i].stop_attack != 1):
                     player.frame_step = 0
                     player.framex = 0
                     player.framey = 0
@@ -421,6 +423,8 @@ def update_world():
                     player.damage += 50
                     speed = 0.4 * enemy[i].direct * (player.damage / 20)
                     speed_Y = 20.0
+                    print(f'{i} > p : {enemy[i].stop_attack}')
+                    enemy[i].stop_attack = 1
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
