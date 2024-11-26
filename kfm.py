@@ -18,6 +18,9 @@ class KFM:
         self.stand_time = 0
         self.stop_attack = 0
 
+        self.life = 3
+        self.damage = 0
+
     def find_frame_position(self, frame_step, w, h, max_frame):
         frame_index = frame_step
 

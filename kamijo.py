@@ -19,6 +19,8 @@ class Kamijo:
         self.plz_standing = 0
         self.stand_time = 0
 
+        self.life = 3
+        self.damage = 0
     def find_frame_position(self, frame_step, w, h, max_frame):
         frame_index = frame_step
 
