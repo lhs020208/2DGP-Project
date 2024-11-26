@@ -342,6 +342,7 @@ def update_world():
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "HIT")
                 E_speed[i] = 4.0 * player.direct
                 E_speed_Y[i] = 8.0
+                enemy[i].damage += 10
                 player.stop_attack = 1
                 print(i)
         if PSA == 1:
@@ -350,6 +351,7 @@ def update_world():
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "THROWN")
                 E_speed[i] = 10.0 * player.direct
                 E_speed_Y[i] = 20.0
+                enemy[i].damage += 50
                 player.stop_attack = 1
                 print(i)
         if enemy[i].state in ['jump', 'fall']:
@@ -398,6 +400,7 @@ def update_world():
                     player.framex = 0
                     player.framey = 0
                     player.state = 'hit'
+                    player.damage += 10
                     speed = 4.0 * enemy[i].direct
                     speed_Y = 8.0
 
@@ -410,6 +413,7 @@ def update_world():
                     player.framex = 0
                     player.framey = 0
                     player.state = 'thrown'
+                    player.damage += 50
                     speed = 10.0 * enemy[i].direct
                     speed_Y = 20.0
 
