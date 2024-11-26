@@ -340,18 +340,18 @@ def update_world():
             if (enemy_left[i] < PNA_right and enemy_right[i] > PNA_left and
                     enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "HIT")
-                E_speed[i] = 4.0 * player.direct
-                E_speed_Y[i] = 8.0
                 enemy[i].damage += 10
+                E_speed[i] = 4.0 * player.direct * (enemy[i].damage / 10)
+                E_speed_Y[i] = 8.0
                 player.stop_attack = 1
                 print(i)
         if PSA == 1:
             if (enemy_left[i] < PSA_right and enemy_right[i] > PSA_left and
                     enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "THROWN")
-                E_speed[i] = 10.0 * player.direct
-                E_speed_Y[i] = 20.0
                 enemy[i].damage += 50
+                E_speed[i] = 10.0 * player.direct * (enemy[i].damage / 10)
+                E_speed_Y[i] = 20.0
                 player.stop_attack = 1
                 print(i)
         if enemy[i].state in ['jump', 'fall']:
@@ -401,7 +401,7 @@ def update_world():
                     player.framey = 0
                     player.state = 'hit'
                     player.damage += 10
-                    speed = 4.0 * enemy[i].direct
+                    speed = 4.0 * enemy[i].direct * (player.damage / 10)
                     speed_Y = 8.0
 
             elif ESA[i] == 1 and enemy[i].stop_attack == 0:
@@ -414,7 +414,7 @@ def update_world():
                     player.framey = 0
                     player.state = 'thrown'
                     player.damage += 50
-                    speed = 10.0 * enemy[i].direct
+                    speed = 10.0 * enemy[i].direct * (player.damage / 10)
                     speed_Y = 20.0
 
     for o in world:
