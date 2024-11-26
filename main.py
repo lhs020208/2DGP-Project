@@ -345,7 +345,7 @@ def update_world():
                     enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "HIT")
                 enemy[i].damage += 10
-                E_speed[i] = 4.0 * player.direct * (enemy[i].damage / 10)
+                E_speed[i] = 1.0 * player.direct * (enemy[i].damage / 20)
                 E_speed_Y[i] = 8.0
                 player.stop_attack = 1
                 print(i)
@@ -354,7 +354,7 @@ def update_world():
                     enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "THROWN")
                 enemy[i].damage += 50
-                E_speed[i] = 10.0 * player.direct * (enemy[i].damage / 10)
+                E_speed[i] = 2.0 * player.direct * (enemy[i].damage / 20)
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
                 print(i)
@@ -406,7 +406,7 @@ def update_world():
                     player.framey = 0
                     player.state = 'hit'
                     player.damage += 10
-                    speed = 4.0 * enemy[i].direct * (player.damage / 10)
+                    speed = 1.0 * enemy[i].direct * (player.damage / 20)
                     speed_Y = 8.0
 
             elif ESA[i] == 1 and enemy[i].stop_attack == 0:
@@ -419,7 +419,7 @@ def update_world():
                     player.framey = 0
                     player.state = 'thrown'
                     player.damage += 50
-                    speed = 10.0 * enemy[i].direct * (player.damage / 10)
+                    speed = 2.0 * enemy[i].direct * (player.damage / 20)
                     speed_Y = 20.0
 
     for o in world:
