@@ -474,6 +474,8 @@ def render_world():
     for o in world:
         if isinstance(o, (Grass, Sky_Grass, KFM)):
             o.draw(Player_x, Player_y)
+        elif isinstance(o, State_bar):
+            o.draw(player.damage, enemy[0].damage, enemy[1].damage)
         else:
             o.draw()
 
