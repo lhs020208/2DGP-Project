@@ -15,12 +15,15 @@ class State_bar:
 
         y, x = self.extract_digits(php)
         if php >= 1000: x,y = 0,10
+        elif php < 0: x,y = 1, 10
         self.dmg.clip_draw(10 + 98 * x, 10 + 60 * y, 100, 60, 120, 40, 100, 60)
         y, x = self.extract_digits(ehp0)
         if ehp0 >= 1000: x, y = 0, 10
+        elif ehp0 < 0: x, y = 1, 10
         self.dmg.clip_draw(10 + 98 * x, 10 + 60 * y, 100, 60, 490, 40, 100, 60)
         y, x = self.extract_digits(ehp1)
         if ehp1 >= 1000: x, y = 0, 10
+        elif ehp1 < 0:  x, y = 1, 10
         self.dmg.clip_draw(10 + 98 * x, 10 + 60 * y, 100, 60, 690, 40, 100, 60)
 
     def update(self):

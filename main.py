@@ -152,26 +152,27 @@ def check_floor(pos_x, pos_y, speed):
 
     return -1
 
-def fall(player, enemy):
+def fall(stop_control, player, enemy):
     global speed_Y, E_speed_Y
     global Player_x, Player_y
     global E_event
 
-    # 플레이어 낙하 처리
-    speed_Y -= gravity
-    if speed_Y <= -20: speed_Y = -20
+    if stop_control != 1:
+        # 플레이어 낙하 처리
+        speed_Y -= gravity
+        if speed_Y <= -20: speed_Y = -20
 
-    # 충돌 감지
-    stop_y = check_floor(Player_x, Player_y, speed_Y)
-    if stop_y >= 0 > speed_Y:
-        speed_Y = 0
-        Player_y = stop_y
-        if player.state in ['fall', 'jump', 'double jump']:
-            player.state = 'standing'
-            reset_frame()
-    else:
-        #player.y += speed_Y
-        Player_y += speed_Y  # Player_y 동기화
+        # 충돌 감지
+        stop_y = check_floor(Player_x, Player_y, speed_Y)
+        if stop_y >= 0 > speed_Y:
+            speed_Y = 0
+            Player_y = stop_y
+            if player.state in ['fall', 'jump', 'double jump']:
+                player.state = 'standing'
+                reset_frame()
+        else:
+            #player.y += speed_Y
+            Player_y += speed_Y  # Player_y 동기화
     # 적 낙하 처리
     for i in range(2):
         E_speed_Y[i] -= gravity
@@ -321,10 +322,11 @@ def update_world():
     if player.state in ['standing', 'walk', 'run']:
         player.state = decide_state(player.state, walk, shift)
         player.direct = decide_direct(player.state, player.direct, walk)
-    move_x(player.state, walk, shift)
+    if stop_control != 1:
+        move_x(player.state, walk, shift)
     for i in range(2):
         E_move_x(enemy[i], enemy[i].state, E_walk[i], E_shift[i], i)
-    fall(player, enemy)
+    fall(stop_control, player, enemy)
 
     offset_x = Player_x - 400
     offset_y = Player_y - 200
@@ -464,10 +466,12 @@ def update_world():
     if player.life <= 0:
         ai_on = 0
         stop_control = 1
+        player.damage = -1
         if player in world:
             world.remove(player)
     for i in range(2):
         if enemy[i].life <= 0:
+            enemy[i].damage = -1
             enemy[i].x = 400
             enemy[i].y = 10000
 
