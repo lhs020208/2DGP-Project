@@ -21,6 +21,7 @@ class Kamijo:
 
         self.life = 3
         self.damage = 0
+        self.state_bar = load_image('ui/kamijo_hp3.png')
     def find_frame_position(self, frame_step, w, h, max_frame):
         frame_index = frame_step
 
@@ -126,6 +127,8 @@ class Kamijo:
             self.image.clip_draw(self.framex * 140, self.framey * 140, 140, 140, self.x, self.y,150, 150)
         else:
             self.image.clip_composite_draw(self.framex * 140, self.framey * 140, 140, 140, 0, 'h', self.x, self.y, 150, 150)
+
+        self.state_bar.clip_draw(0, 0, 200, 104, 100, 52,200, 104)
 
     def reset_frame(self):
         """플레이어의 프레임 초기화"""

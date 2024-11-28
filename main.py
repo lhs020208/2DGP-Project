@@ -208,7 +208,7 @@ def handle_events():
 
 def reset_world():
     global ai_on
-    ai_on = 1
+    ai_on = 0
 
     global running
     global grass
@@ -441,8 +441,13 @@ def render_world():
     clear_canvas()
 
     for o in world:
-        if isinstance(o, (Grass, Sky_Grass, KFM)):
+        if isinstance(o, (Grass, Sky_Grass)):
             o.draw(Player_x, Player_y)
+        elif isinstance(o, KFM):
+            if o == enemy[0]:
+                o.draw(Player_x, Player_y, 0)  # enemy[0]의 경우
+            elif o == enemy[1]:
+                o.draw(Player_x, Player_y, 1)  # enemy[1]의 경우
         else:
             o.draw()
 

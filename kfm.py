@@ -20,7 +20,7 @@ class KFM:
 
         self.life = 3
         self.damage = 0
-
+        self.state_bar = load_image('ui/kfm_hp3.png')
     def find_frame_position(self, frame_step, w, h, max_frame):
         frame_index = frame_step
 
@@ -119,13 +119,18 @@ class KFM:
         if self.state not in ['normal_attack','special_attack']:
             self.stop_attack = 0
 
-    def draw(self, player_x, player_y):
+    def draw(self, player_x, player_y, i):
         offset_x = player_x - 400
         offset_y = player_y - 200
         if self.direct == 1:
             self.image.clip_draw(self.framex * 140, self.framey * 140, 140, 140, self.x- offset_x, self.y- offset_y,150, 150)
         else:
             self.image.clip_composite_draw(self.framex * 140, self.framey * 140, 140, 140, 0, 'h', self.x- offset_x, self.y- offset_y, 150, 150)
+
+        if i == 0:
+            self.state_bar.clip_draw(0, 0, 200, 104, 500, 52, 200, 104)
+        else:
+            self.state_bar.clip_draw(0, 0, 200, 104, 700, 52, 200, 104)
 
     def get_normal_attack_hitbox(self, player_x, player_y):
         offset_x = player_x - 400
