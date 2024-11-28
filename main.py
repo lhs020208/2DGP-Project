@@ -13,6 +13,8 @@ from sky_grass import Sky_Grass
 
 from control import control
 from AI_control import ai_control, chage_ai_state
+from state_bar import State_bar
+
 
 def reset_frame():
     global player
@@ -217,6 +219,7 @@ def reset_world():
     global enemy
     global world
     global background
+    global state_bar
 
     global Player_x
     global Player_y
@@ -283,6 +286,9 @@ def reset_world():
 
     player = Kamijo()
     world.append(player)
+
+    state_bar = State_bar()
+    world.append(state_bar)
 
 def update_world():
     global player
@@ -441,13 +447,8 @@ def render_world():
     clear_canvas()
 
     for o in world:
-        if isinstance(o, (Grass, Sky_Grass)):
+        if isinstance(o, (Grass, Sky_Grass, KFM)):
             o.draw(Player_x, Player_y)
-        elif isinstance(o, KFM):
-            if o == enemy[0]:
-                o.draw(Player_x, Player_y, 0)  # enemy[0]의 경우
-            elif o == enemy[1]:
-                o.draw(Player_x, Player_y, 1)  # enemy[1]의 경우
         else:
             o.draw()
 
