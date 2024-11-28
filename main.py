@@ -206,11 +206,14 @@ def handle_events():
             running = False
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
-        walk, speed_Y, shift, moving = control(enemy, event, player, walk, speed_Y, shift, moving)
+        if stop_control == 0:
+            walk, speed_Y, shift, moving = control(enemy, event, player, walk, speed_Y, shift, moving)
 
 def reset_world():
     global ai_on
-    ai_on = 0
+    global stop_control
+    ai_on = 1
+    stop_control = 0
 
     global running
     global grass
@@ -312,6 +315,8 @@ def update_world():
     global E_walk
     global E_moving
     global E_speed_Y, E_speed
+    global ai_on
+    global stop_control
 
     if player.state in ['standing', 'walk', 'run']:
         player.state = decide_state(player.state, walk, shift)
@@ -456,6 +461,11 @@ def update_world():
             E_speed_Y[i] = 0
             E_speed[i] = 0
             pass
+    if player.life <= 0:
+        ai_on = 0
+        stop_control = 1
+        if player in world:
+            world.remove(player)
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
