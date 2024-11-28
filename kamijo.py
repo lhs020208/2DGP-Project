@@ -178,3 +178,8 @@ class Kamijo:
             return 1, PSA_left, PSA_right, PSA_top, PSA_bottom # 공격 여부, L, R, T, B
         else:
             return 0,0,0,0,0
+
+    def shutdown_attack(self, na, sa):
+        if self.state not in ['special_attack', 'normal_attack']:
+            na, sa = 0, 0
+        return na, sa

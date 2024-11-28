@@ -135,17 +135,17 @@ def check_floor(pos_x, pos_y, speed):
     next_foot_bottom = fell_y - 70
 
     # floor_T와의 충돌 조건 강화
-    if pos_x < floor_R and pos_x > floor_L:
-        if (floor_T >= next_foot_bottom and floor_T <= next_foot_top) or \
-            (floor_T >= current_foot_bottom and floor_T <= current_foot_top) or \
-            (current_foot_bottom > floor_T and next_foot_bottom <= floor_T):
+    if floor_R > pos_x > floor_L:
+        if (next_foot_bottom <= floor_T <= next_foot_top) or \
+            (current_foot_bottom <= floor_T <= current_foot_top) or \
+            (current_foot_bottom > floor_T >= next_foot_bottom):
             return floor_T + 70
 
     for i in range(3):
-        if pos_x < sky_floor_R[i] and pos_x > sky_floor_L[i]:
-            if (sky_floor_T[i] >= next_foot_bottom and sky_floor_T[i] <= next_foot_top) or \
-                    (sky_floor_T[i] >= current_foot_bottom and sky_floor_T[i] <= current_foot_top) or \
-                    (current_foot_bottom > sky_floor_T[i] and next_foot_bottom <= sky_floor_T[i]):
+        if sky_floor_R[i] > pos_x > sky_floor_L[i]:
+            if (next_foot_bottom <= sky_floor_T[i] <= next_foot_top) or \
+                    (current_foot_bottom <= sky_floor_T[i] <= current_foot_top) or \
+                    (current_foot_bottom > sky_floor_T[i] >= next_foot_bottom):
                 return sky_floor_T[i] + 70
 
     return -1
@@ -161,7 +161,7 @@ def fall(player, enemy):
 
     # 충돌 감지
     stop_y = check_floor(Player_x, Player_y, speed_Y)
-    if stop_y >= 0 and speed_Y < 0:
+    if stop_y >= 0 > speed_Y:
         speed_Y = 0
         Player_y = stop_y
         if player.state in ['fall', 'jump', 'double jump']:
@@ -177,7 +177,7 @@ def fall(player, enemy):
 
         # 충돌 감지
         stop_y = check_floor(enemy[i].x, enemy[i].y, E_speed_Y[i])
-        if stop_y >= 0 and E_speed_Y[i] < 0:
+        if stop_y >= 0 > E_speed_Y[i]:
             # 충돌한 경우 속도를 0으로 설정하고 위치 수정
             E_speed_Y[i] = 0
             enemy[i].y = stop_y
@@ -345,7 +345,6 @@ def update_world():
                     enemy_top[i] > PNA_bottom and enemy_bottom[i] < PNA_top
                     and player.stop_attack != 1):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "HIT")
-                print(f'p > {i} : {player.stop_attack}')
                 enemy[i].damage += 10
                 E_speed[i] = 0.2 * player.direct * (enemy[i].damage / 20)
                 E_speed_Y[i] = 8.0
@@ -355,7 +354,6 @@ def update_world():
                     enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top
                     and player.stop_attack != 1):
                 E_event[i] = chage_ai_state(enemy[i], E_event[i], "THROWN")
-                print(f'p > {i} : {player.stop_attack}')
                 enemy[i].damage += 50
                 E_speed[i] = 0.4 * player.direct * (enemy[i].damage / 20)
                 E_speed_Y[i] = 20.0
@@ -409,7 +407,6 @@ def update_world():
                     player.damage += 10
                     speed = 0.2 * enemy[i].direct * (player.damage / 20)
                     speed_Y = 8.0
-                    print(f'{i} > p : {enemy[i].stop_attack}')
                     enemy[i].stop_attack = 1
 
             elif ESA[i] == 1 and enemy[i].stop_attack == 0:
@@ -423,17 +420,19 @@ def update_world():
                     player.damage += 50
                     speed = 0.4 * enemy[i].direct * (player.damage / 20)
                     speed_Y = 20.0
-                    print(f'{i} > p : {enemy[i].stop_attack}')
                     enemy[i].stop_attack = 1
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
             o.update(speed_Y, frame_time)  # player에 필요한 인자 전달
+            PNA, PSA =player.shutdown_attack(PNA, PSA)
         elif isinstance(o, KFM):  # KFM 클래스의 enemy 객체인 경우
             if o == enemy[0]:
                 o.update(E_speed_Y[0], frame_time)  # enemy[0]에 필요한 인자 전달
+                ENA[0], ENA[0] = enemy[0].shutdown_attack( ENA[0], ENA[0])
             elif o == enemy[1]:
                 o.update(E_speed_Y[1], frame_time)  # enemy[1]에 필요한 인자 전달
+                ENA[1], ENA[1] = enemy[1].shutdown_attack(ENA[1], ENA[1])
         else:
             o.update()  # 다른 객체는 인자 없이 호출
 
@@ -447,7 +446,7 @@ def render_world():
         else:
             o.draw()
 
-    hitbox_point = [load_image('heatbox_point.png') for _ in range(12)]
+    #hitbox_point = [load_image('heatbox_point.png') for _ in range(12)]
 
     #for i in range (2):
     #    if ENA[i] == 1:
@@ -455,6 +454,11 @@ def render_world():
     #        hitbox_point[i*4 + 1].draw(ENA_left[i], ENA_bottom[i])
     #        hitbox_point[i*4 + 2].draw(ENA_right[i], ENA_top[i])
     #        hitbox_point[i*4 + 3].draw(ENA_right[i], ENA_bottom[i])
+    #    elif ESA[i] == 1:
+    #        hitbox_point[i*4 + 0].draw(ESA_left[i], ESA_top[i])
+    #        hitbox_point[i*4 + 1].draw(ESA_left[i], ESA_bottom[i])
+    #        hitbox_point[i*4 + 2].draw(ESA_right[i], ESA_top[i])
+    #        hitbox_point[i*4 + 3].draw(ESA_right[i], ESA_bottom[i])
 
     #hitbox_point[8].draw(player_left, player_top)
     #hitbox_point[9].draw(player_left, player_bottom)

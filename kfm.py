@@ -182,3 +182,7 @@ class KFM:
             return 1, ENA_left, ENA_right, ENA_top, ENA_bottom # 공격 여부, L, R, T, B
         else:
             return 0,0,0,0,0
+    def shutdown_attack(self, na, sa):
+        if self.state not in ['special_attack', 'normal_attack']:
+            na, sa = 0, 0
+        return na, sa
