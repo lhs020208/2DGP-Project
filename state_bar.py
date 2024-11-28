@@ -16,10 +16,11 @@ class State_bar:
         pass
 
     def minus_hp(self, object, hp):
+        hp -= 1
         if object == 'P':
-            pass
+            self.enemy0_sb = load_image(f'ui/kfm_hp{hp}.png')
         elif object == 'E1':
-            pass
+            self.enemy1_sb = load_image(f'ui/kfm_hp{hp}.png')
         elif object == 'E2':
-            pass
-        pass
+            self.player_sb = load_image(f'ui/kamijo_hp{hp}.png')
+        return hp
