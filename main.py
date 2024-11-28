@@ -311,7 +311,7 @@ def update_world():
     global E_shift
     global E_walk
     global E_moving
-    global E_speed_Y
+    global E_speed_Y, E_speed
 
     if player.state in ['standing', 'walk', 'run']:
         player.state = decide_state(player.state, walk, shift)
@@ -437,13 +437,16 @@ def update_world():
 
     if (Player_x < -1000) or (Player_x > 1800) or (Player_y < -500):
         player.life = state_bar.minus_hp('P', player.life)
+        player.damage = 0
         Player_x = 400
         Player_y = 125
         speed_Y = 0
+        speed = 0
         pass
     for i in range(2):
         if (enemy[i].x < -1000) or (enemy[i].x > 1800) or (enemy[i].y < -500):
             enemy[i].life = state_bar.minus_hp(f'E{i}', enemy[i].life)
+            enemy[i].damage = 0
             if i == 0:
                 enemy[0].x = -100
                 enemy[0].y = 350
@@ -451,6 +454,7 @@ def update_world():
                 enemy[1].x = 900
                 enemy[1].y = 350
             E_speed_Y[i] = 0
+            E_speed[i] = 0
             pass
 
     for o in world:
