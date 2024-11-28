@@ -281,7 +281,10 @@ def reset_world():
     world += sky_grass
 
     enemy = [KFM() for i in range(2)]
-    enemy[1].x -= 100
+    enemy[0].x = -100
+    enemy[0].y = 350
+    enemy[1].x = 900
+    enemy[1].y = 350
     world += enemy
 
     player = Kamijo()
@@ -293,6 +296,8 @@ def reset_world():
 def update_world():
     global player
     global enemy
+    global Player_x
+    global Player_y
     global player_left, player_right, player_top, player_bottom
     global enemy_left, enemy_right, enemy_top, enemy_bottom
     global PNA, PNA_left, PNA_right, PNA_top, PNA_bottom
@@ -427,6 +432,25 @@ def update_world():
                     speed = 0.4 * enemy[i].direct * (player.damage / 20)
                     speed_Y = 20.0
                     enemy[i].stop_attack = 1
+
+    print (f'{Player_x}, {Player_y}')
+    if (Player_x < -1000) or (Player_x > 1800) or (Player_y < -500):
+        player.life = state_bar.minus_hp('P', player.life)
+        Player_x = 400
+        Player_y = 125
+        speed_Y = 0
+        pass
+    for i in range(2):
+        if (enemy[i].x < -1000) or (enemy[i].x > 1800) or (enemy[i].y < -500):
+            enemy[i].life = state_bar.minus_hp(f'E{i}', enemy[i].life)
+            if i == 0:
+                enemy[0].x = -100
+                enemy[0].y = 350
+            else:
+                enemy[1].x = 900
+                enemy[1].y = 350
+            E_speed_Y[i] = 0
+            pass
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
