@@ -466,6 +466,10 @@ def update_world():
         stop_control = 1
         if player in world:
             world.remove(player)
+    for i in range(2):
+        if enemy[i].life <= 0:
+            enemy[i].x = 400
+            enemy[i].y = 10000
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
