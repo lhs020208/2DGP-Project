@@ -17,7 +17,6 @@ class State_bar:
 
     def minus_hp(self, object, hp):
         hp -= 1
-        print (object)
         if object == 'E0':
             self.enemy0_sb = load_image(f'ui/kfm_hp{hp}.png')
 

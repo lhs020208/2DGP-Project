@@ -360,6 +360,7 @@ def update_world():
                 E_speed[i] = 0.2 * player.direct * (enemy[i].damage / 20)
                 E_speed_Y[i] = 8.0
                 player.stop_attack = 1
+                enemy[i].stand_time = 0
         if PSA == 1:
             if (enemy_left[i] < PSA_right and enemy_right[i] > PSA_left and
                     enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top
@@ -369,6 +370,7 @@ def update_world():
                 E_speed[i] = 0.4 * player.direct * (enemy[i].damage / 20)
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
+                enemy[i].stand_time = 0
         if ai_on:
             if enemy[i].state in ['jump', 'fall']:
                 if enemy[i].y < Player_y and E_speed_Y[i] == 0:
@@ -433,7 +435,6 @@ def update_world():
                     speed_Y = 20.0
                     enemy[i].stop_attack = 1
 
-    print (f'{Player_x}, {Player_y}')
     if (Player_x < -1000) or (Player_x > 1800) or (Player_y < -500):
         player.life = state_bar.minus_hp('P', player.life)
         Player_x = 400
