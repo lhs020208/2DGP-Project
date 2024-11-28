@@ -14,3 +14,12 @@ class State_bar:
 
     def update(self):
         pass
+
+    def minus_hp(self, object, hp):
+        if object == 'P':
+            pass
+        elif object == 'E1':
+            pass
+        elif object == 'E2':
+            pass
+        pass
