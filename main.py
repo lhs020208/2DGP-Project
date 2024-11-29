@@ -201,8 +201,16 @@ def handle_events():
     global walk
     global moving
 
+    global ai_on
+    global stop_control
+    global start
+
     events = get_events()
     for event in events:
+        if  event.type == SDL_KEYDOWN and start == 0:
+            start = 1
+            ai_on = 1
+            stop_control = 0
         if event.type == SDL_QUIT:
             running = False
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
@@ -213,8 +221,13 @@ def handle_events():
 def reset_world():
     global ai_on
     global stop_control
-    ai_on = 1
-    stop_control = 0
+    global start
+    global loading
+
+    ai_on = 0
+    stop_control = 1
+    start = 0
+    loading = load_image('UI/start_screen.png')
 
     global running
     global grass
@@ -529,8 +542,13 @@ current_time = time.time()
 
 while running:
     handle_events()
-    update_world()
-    render_world()
+    if start:
+        update_world()
+        render_world()
+    else:
+        clear_canvas()
+        loading.draw(400,300)
+        update_canvas()
     delay(0.03)
     frame_time = time.time() - current_time
     frame_rate = 1.0 / frame_time
