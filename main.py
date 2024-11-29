@@ -5,6 +5,7 @@ from sdl2.examples.pong import Player
 
 from background import BGP
 from decide_states import decide_state, decide_direct
+from game_end import GAME_END
 from grass import Grass
 from hitbox_cal import calculate_player_hitbox, calculate_enemy_hitbox
 from kamijo import Kamijo
@@ -237,6 +238,7 @@ def reset_world():
     global world
     global background
     global state_bar
+    global ge
 
     global Player_x
     global Player_y
@@ -309,6 +311,9 @@ def reset_world():
 
     state_bar = State_bar()
     world.append(state_bar)
+
+    ge = GAME_END()
+    world.append(ge)
 
 def update_world():
     global player
@@ -480,6 +485,7 @@ def update_world():
         ai_on = 0
         stop_control = 1
         player.damage = -1
+        ge.change_image(1)
         if player in world:
             world.remove(player)
     for i in range(2):
@@ -487,6 +493,8 @@ def update_world():
             enemy[i].damage = -1
             enemy[i].x = 400
             enemy[i].y = 10000
+    if  (enemy[0].life <= 0) and (enemy[1].life <= 0):
+        ge.change_image(2)
 
     for o in world:
         if isinstance(o, Kamijo):  # Kamijo 클래스의 player 객체인 경우
