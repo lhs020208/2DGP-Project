@@ -211,7 +211,7 @@ def handle_events():
     for event in events:
         if  event.type == SDL_KEYDOWN and start == 0:
             start = 1
-            ai_on = 1
+            ai_on = 0
             stop_control = 0
 
         if event.type == SDL_QUIT:
@@ -312,14 +312,15 @@ def reset_world():
     player = Kamijo()
     world.append(player)
 
+    eff = [EFFECT() for i in range(3)]
+    world += eff
+
     state_bar = State_bar()
     world.append(state_bar)
 
     ge = GAME_END()
     world.append(ge)
 
-    eff = [EFFECT() for i in range(3)]
-    world += eff
 
 def update_world():
     global player
@@ -393,6 +394,7 @@ def update_world():
                 player.stop_attack = 1
                 enemy[i].stand_time = 0
                 eff[i].play_nh_sound()
+                eff[i].set_image('nh', PNA_left, PNA_top, PNA_right, PNA_bottom)
         if PSA == 1:
             if (enemy_left[i] < PSA_right and enemy_right[i] > PSA_left and
                     enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top
@@ -404,6 +406,7 @@ def update_world():
                 player.stop_attack = 1
                 enemy[i].stand_time = 0
                 eff[i].play_sh_sound()
+                eff[i].set_image('sh', PSA_left, PSA_top, PSA_right, PSA_bottom)
         if ai_on:
             if enemy[i].state in ['jump', 'fall']:
                 if enemy[i].y < Player_y and E_speed_Y[i] == 0:
@@ -456,6 +459,7 @@ def update_world():
                     enemy[i].stop_attack = 1
                     ENA[i] = 0
                     eff[2].play_nh_sound()
+                    eff[2].set_image('nh', ENA_left[i], ENA_top[i], ENA_right[i], ENA_bottom[i])
                     break
 
             elif ESA[i] == 1 and enemy[i].stop_attack == 0:
@@ -472,19 +476,23 @@ def update_world():
                     enemy[i].stop_attack = 1
                     ESA[i] = 0
                     eff[2].play_sh_sound()
+                    eff[2].set_image('sh', ESA_left[i], ESA_top[i], ESA_right[i], ESA_bottom[i])
                     break
 
     if (Player_x < -1000) or (Player_x > 1800) or (Player_y < -500):
+        eff[2].play_dead_sound()
+        eff[2].set_image('die',Player_x,Player_y,Player_x,Player_y)
         player.life = state_bar.minus_hp('P', player.life)
         player.damage = 0
         Player_x = 400
         Player_y = 125
         speed_Y = 0
         speed = 0
-        eff[2].play_dead_sound()
         pass
     for i in range(2):
         if (enemy[i].x < -1000) or (enemy[i].x > 1800) or (enemy[i].y < -500):
+            eff[i].play_dead_sound()
+            eff[i].set_image('die',enemy[i].x, enemy[i].y,enemy[i].x,enemy[i].y)
             enemy[i].life = state_bar.minus_hp(f'E{i}', enemy[i].life)
             enemy[i].damage = 0
             if i == 0:
@@ -495,7 +503,6 @@ def update_world():
                 enemy[1].y = 350
             E_speed_Y[i] = 0
             E_speed[i] = 0
-            eff[i].play_dead_sound()
             pass
     if player.life <= 0:
         ai_on = 0
@@ -523,6 +530,8 @@ def update_world():
             elif o == enemy[1]:
                 o.update(E_speed_Y[1], frame_time)  # enemy[1]에 필요한 인자 전달
                 ENA[1], ENA[1] = enemy[1].shutdown_attack(ENA[1], ENA[1])
+        elif isinstance(o, EFFECT):
+            o.update(frame_time)
         else:
             o.update()  # 다른 객체는 인자 없이 호출
 
@@ -531,7 +540,7 @@ def render_world():
     clear_canvas()
 
     for o in world:
-        if isinstance(o, (Grass, Sky_Grass, KFM)):
+        if isinstance(o, (Grass, Sky_Grass, KFM, EFFECT)):
             o.draw(Player_x, Player_y)
         elif isinstance(o, State_bar):
             o.draw(player.damage, enemy[0].damage, enemy[1].damage)
