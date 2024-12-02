@@ -5,6 +5,7 @@ from sdl2.examples.pong import Player
 
 from background import BGP
 from decide_states import decide_state, decide_direct
+from effect import EFFECT
 from game_end import GAME_END
 from grass import Grass
 from hitbox_cal import calculate_player_hitbox, calculate_enemy_hitbox
@@ -240,6 +241,7 @@ def reset_world():
     global background
     global state_bar
     global ge
+    global eff
 
     global Player_x
     global Player_y
@@ -316,6 +318,9 @@ def reset_world():
     ge = GAME_END()
     world.append(ge)
 
+    eff = EFFECT()
+    world.append(eff)
+
 def update_world():
     global player
     global enemy
@@ -387,6 +392,7 @@ def update_world():
                 E_speed_Y[i] = 8.0
                 player.stop_attack = 1
                 enemy[i].stand_time = 0
+                eff.play_nh_sound()
         if PSA == 1:
             if (enemy_left[i] < PSA_right and enemy_right[i] > PSA_left and
                     enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top
@@ -397,6 +403,7 @@ def update_world():
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
                 enemy[i].stand_time = 0
+                eff.play_sh_sound()
         if ai_on:
             if enemy[i].state in ['jump', 'fall']:
                 if enemy[i].y < Player_y and E_speed_Y[i] == 0:
@@ -448,6 +455,7 @@ def update_world():
                     speed_Y = 8.0
                     enemy[i].stop_attack = 1
                     ENA[i] = 0
+                    eff.play_nh_sound()
                     break
 
             elif ESA[i] == 1 and enemy[i].stop_attack == 0:
@@ -463,6 +471,7 @@ def update_world():
                     speed_Y = 20.0
                     enemy[i].stop_attack = 1
                     ESA[i] = 0
+                    eff.play_sh_sound()
                     break
 
     if (Player_x < -1000) or (Player_x > 1800) or (Player_y < -500):
@@ -526,45 +535,6 @@ def render_world():
             o.draw(player.damage, enemy[0].damage, enemy[1].damage)
         else:
             o.draw()
-
-    #hitbox_point = [load_image('heatbox_point.png') for _ in range(12)]
-
-    #for i in range (2):
-    #    if ENA[i] == 1:
-    #        hitbox_point[i*4 + 0].draw(ENA_left[i], ENA_top[i])
-    #        hitbox_point[i*4 + 1].draw(ENA_left[i], ENA_bottom[i])
-    #        hitbox_point[i*4 + 2].draw(ENA_right[i], ENA_top[i])
-    #        hitbox_point[i*4 + 3].draw(ENA_right[i], ENA_bottom[i])
-    #    elif ESA[i] == 1:
-    #        hitbox_point[i*4 + 0].draw(ESA_left[i], ESA_top[i])
-    #        hitbox_point[i*4 + 1].draw(ESA_left[i], ESA_bottom[i])
-    #        hitbox_point[i*4 + 2].draw(ESA_right[i], ESA_top[i])
-    #        hitbox_point[i*4 + 3].draw(ESA_right[i], ESA_bottom[i])
-
-    #hitbox_point[8].draw(player_left, player_top)
-    #hitbox_point[9].draw(player_left, player_bottom)
-    #hitbox_point[10].draw(player_right, player_top)
-    #hitbox_point[11].draw(player_right, player_bottom)
     update_canvas()
 
-#open_canvas()
-#reset_world()
-
 frame_time = 0.0
-#current_time = time.time()
-
-#while running:
-#    handle_events()
-#    if start:
-#        update_world()
-#        render_world()
-#    else:
-#        clear_canvas()
-#        loading.draw(400,300)
-#        update_canvas()
-#    delay(0.03)
-#    frame_time = time.time() - current_time
-#    frame_rate = 1.0 / frame_time
-#    current_time += frame_time
-
-#close_canvas()
