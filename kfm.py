@@ -146,8 +146,8 @@ class KFM:
                 ENA_top = kfm_bottom + 61
                 ENA_bottom = kfm_bottom + 88
             else:
-                ENA_left = kfm_right
-                ENA_right = kfm_right - 94
+                ENA_right = kfm_right
+                ENA_left = kfm_right - 94
                 ENA_top = kfm_bottom + 61
                 ENA_bottom = kfm_bottom + 88
 
@@ -174,8 +174,8 @@ class KFM:
                 ENA_top = kfm_bottom + 52
                 ENA_bottom = kfm_bottom + 67
             else:
-                ENA_left = kfm_right - 31
-                ENA_right = kfm_right - 92
+                ENA_right = kfm_right - 31
+                ENA_left = kfm_right - 92
                 ENA_top = kfm_bottom + 52
                 ENA_bottom = kfm_bottom + 67
 
