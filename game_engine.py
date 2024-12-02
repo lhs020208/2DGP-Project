@@ -318,8 +318,8 @@ def reset_world():
     ge = GAME_END()
     world.append(ge)
 
-    eff = EFFECT()
-    world.append(eff)
+    eff = [EFFECT() for i in range(3)]
+    world += eff
 
 def update_world():
     global player
@@ -392,7 +392,7 @@ def update_world():
                 E_speed_Y[i] = 8.0
                 player.stop_attack = 1
                 enemy[i].stand_time = 0
-                eff.play_nh_sound()
+                eff[i].play_nh_sound()
         if PSA == 1:
             if (enemy_left[i] < PSA_right and enemy_right[i] > PSA_left and
                     enemy_top[i] > PSA_bottom and enemy_bottom[i] < PSA_top
@@ -403,7 +403,7 @@ def update_world():
                 E_speed_Y[i] = 20.0
                 player.stop_attack = 1
                 enemy[i].stand_time = 0
-                eff.play_sh_sound()
+                eff[i].play_sh_sound()
         if ai_on:
             if enemy[i].state in ['jump', 'fall']:
                 if enemy[i].y < Player_y and E_speed_Y[i] == 0:
@@ -455,7 +455,7 @@ def update_world():
                     speed_Y = 8.0
                     enemy[i].stop_attack = 1
                     ENA[i] = 0
-                    eff.play_nh_sound()
+                    eff[2].play_nh_sound()
                     break
 
             elif ESA[i] == 1 and enemy[i].stop_attack == 0:
@@ -471,7 +471,7 @@ def update_world():
                     speed_Y = 20.0
                     enemy[i].stop_attack = 1
                     ESA[i] = 0
-                    eff.play_sh_sound()
+                    eff[2].play_sh_sound()
                     break
 
     if (Player_x < -1000) or (Player_x > 1800) or (Player_y < -500):
@@ -481,6 +481,7 @@ def update_world():
         Player_y = 125
         speed_Y = 0
         speed = 0
+        eff[2].play_dead_sound()
         pass
     for i in range(2):
         if (enemy[i].x < -1000) or (enemy[i].x > 1800) or (enemy[i].y < -500):
@@ -494,6 +495,7 @@ def update_world():
                 enemy[1].y = 350
             E_speed_Y[i] = 0
             E_speed[i] = 0
+            eff[i].play_dead_sound()
             pass
     if player.life <= 0:
         ai_on = 0
