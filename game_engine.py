@@ -446,6 +446,7 @@ def update_world():
                     speed = 0.2 * enemy[i].direct * (player.damage / 20)
                     speed_Y = 8.0
                     enemy[i].stop_attack = 1
+                    break
 
             elif ESA[i] == 1 and enemy[i].stop_attack == 0:
                 if (player_left < ESA_right[i] and player_right > ESA_left[i] and
@@ -459,6 +460,7 @@ def update_world():
                     speed = 0.4 * enemy[i].direct * (player.damage / 20)
                     speed_Y = 20.0
                     enemy[i].stop_attack = 1
+                    break
 
     if (Player_x < -1000) or (Player_x > 1800) or (Player_y < -500):
         player.life = state_bar.minus_hp('P', player.life)
