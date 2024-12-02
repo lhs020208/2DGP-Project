@@ -212,6 +212,7 @@ def handle_events():
             start = 1
             ai_on = 1
             stop_control = 0
+
         if event.type == SDL_QUIT:
             running = False
         if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
@@ -526,24 +527,24 @@ def render_world():
         else:
             o.draw()
 
-    hitbox_point = [load_image('heatbox_point.png') for _ in range(12)]
+    #hitbox_point = [load_image('heatbox_point.png') for _ in range(12)]
 
-    for i in range (2):
-        if ENA[i] == 1:
-            hitbox_point[i*4 + 0].draw(ENA_left[i], ENA_top[i])
-            hitbox_point[i*4 + 1].draw(ENA_left[i], ENA_bottom[i])
-            hitbox_point[i*4 + 2].draw(ENA_right[i], ENA_top[i])
-            hitbox_point[i*4 + 3].draw(ENA_right[i], ENA_bottom[i])
-        elif ESA[i] == 1:
-            hitbox_point[i*4 + 0].draw(ESA_left[i], ESA_top[i])
-            hitbox_point[i*4 + 1].draw(ESA_left[i], ESA_bottom[i])
-            hitbox_point[i*4 + 2].draw(ESA_right[i], ESA_top[i])
-            hitbox_point[i*4 + 3].draw(ESA_right[i], ESA_bottom[i])
+    #for i in range (2):
+    #    if ENA[i] == 1:
+    #        hitbox_point[i*4 + 0].draw(ENA_left[i], ENA_top[i])
+    #        hitbox_point[i*4 + 1].draw(ENA_left[i], ENA_bottom[i])
+    #        hitbox_point[i*4 + 2].draw(ENA_right[i], ENA_top[i])
+    #        hitbox_point[i*4 + 3].draw(ENA_right[i], ENA_bottom[i])
+    #    elif ESA[i] == 1:
+    #        hitbox_point[i*4 + 0].draw(ESA_left[i], ESA_top[i])
+    #        hitbox_point[i*4 + 1].draw(ESA_left[i], ESA_bottom[i])
+    #        hitbox_point[i*4 + 2].draw(ESA_right[i], ESA_top[i])
+    #        hitbox_point[i*4 + 3].draw(ESA_right[i], ESA_bottom[i])
 
-    hitbox_point[8].draw(player_left, player_top)
-    hitbox_point[9].draw(player_left, player_bottom)
-    hitbox_point[10].draw(player_right, player_top)
-    hitbox_point[11].draw(player_right, player_bottom)
+    #hitbox_point[8].draw(player_left, player_top)
+    #hitbox_point[9].draw(player_left, player_bottom)
+    #hitbox_point[10].draw(player_right, player_top)
+    #hitbox_point[11].draw(player_right, player_bottom)
     update_canvas()
 
 #open_canvas()
