@@ -433,7 +433,7 @@ def update_world():
         E_event[i], E_walk[i],  E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i] = (
             ai_control(enemy[i], E_event[i], E_walk[i], E_speed_Y[i], E_speed[i], E_shift[i], E_moving[i]))
 
-        for i in range(2):
+    for i in range(2):
             if ENA[i] == 1 and enemy[i].stop_attack == 0:
                 if (player_left < ENA_right[i] and player_right > ENA_left[i] and
                         player_top > ENA_bottom[i] and player_bottom < ENA_top[i] and
