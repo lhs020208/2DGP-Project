@@ -427,10 +427,10 @@ def update_world():
                 if enemy[i].y < Player_y and Player_y - enemy[i].y > 20:
                     E_event[i] = chage_ai_state(enemy[i], E_event[i], "JUMP")
                     E_speed_Y[i] = 30.0
-                elif (enemy[i].x < Player_x) and Player_x - enemy[i].x > 100:
+                elif (enemy[i].x < Player_x) and Player_x - enemy[i].x > 30:
                     if (enemy[i].state == 'run' and enemy[i].direct != 1) or (enemy[i].state in ['standing', 'walk']):
                         E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_RIGHT")
-                elif (enemy[i].x > Player_x) and enemy[i].x - Player_x > 100:
+                elif (enemy[i].x > Player_x) and enemy[i].x - Player_x > 30:
                     if (enemy[i].state == 'run' and enemy[i].direct != -1) or (enemy[i].state in ['standing', 'walk']):
                         E_event[i] = chage_ai_state(enemy[i], E_event[i], "R_LEFT")
                 else:
