@@ -211,7 +211,7 @@ def handle_events():
     for event in events:
         if  event.type == SDL_KEYDOWN and start == 0:
             start = 1
-            ai_on = 0
+            ai_on = 1
             stop_control = 0
 
         if event.type == SDL_QUIT:
